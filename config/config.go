@@ -128,8 +128,8 @@ func LoadServer() {
         log.Fatalf("Cfg.MapTo ServerSetting err: %v", err)
     }
 
-    ServerSetting.ReadTimeout = time.Duration(sec.Key("READ_TIMEOUT").MustInt(60)) * time.Second
-    ServerSetting.WriteTimeout =  time.Duration(sec.Key("WRITE_TIMEOUT").MustInt(60)) * time.Second 
+    ServerSetting.ReadTimeout = time.Duration(sec.Key("ReadTimeout").MustInt(60)) * time.Second
+    ServerSetting.WriteTimeout =  time.Duration(sec.Key("WriteTimeout").MustInt(60)) * time.Second 
 }
 
 //加载数据库配置
