@@ -1,19 +1,17 @@
 package tests
 
 import (
-    "testing"
+	"testing"
 	"fmt"
 	"os"
-
+	
 	"github.com/gin-gonic/gin"
+	
 	"go-api/config"
 )
 
-
 func setup() {
 	gin.SetMode(gin.TestMode)
-	config.SetConfigMode("test")
-	config.InitConfig()
 	fmt.Println(config.AppSetting.JwtSecret);
 	fmt.Println("Before all tests")
 }

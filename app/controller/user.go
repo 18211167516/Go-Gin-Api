@@ -3,6 +3,7 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	_ "go-api/config"
+	_ "go-api/app/models"
 )
 
 func GetUsers(c *gin.Context) {

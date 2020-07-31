@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"os"
 	"time"
+	"errors"
+	"runtime"
 )
 
 //app struct
@@ -44,45 +46,29 @@ var MysqlSetting = &Mysql{}
 var (
 	Cfg *ini.File
 	RunMode string
+	configPathError = errors.New("Can not get current file info")
+	currentPath string = currentFile()
 )
-
-const (
-	// AppMode indicates config mode is AppMode.
-	AppMode = "app"
-	// TestMode indicates config mode is test.
-	TestMode = "test"
-)
-
-var modeName = AppMode
-
-//set config Mode
-func SetConfigMode(value string) {
-	switch value {
-	case AppMode,"":
-		modeName = AppMode
-	case TestMode:
-		modeName = value
-	default:
-		panic("config mode unknown: " + value)
-	}
-}
 
 //get config path Single
-func getConfigPath() (path string){
-	var pwd,_ = os.Getwd()
-	switch modeName {
-		case AppMode:
-			path = fmt.Sprintf("%s/%s",pwd,"config/app.ini");
-		case TestMode:
-			path = fmt.Sprintf("%s/../%s",pwd,"config/app.ini");
-		default:
-			panic("config path unknown")
+func getConfigPath(path string) (file string){
+	return fmt.Sprintf("%s/%s",path,"app.ini")
+}
+
+func init(){
+	InitConfig()
+}
+
+func currentFile() string {
+	_, file, _, ok := runtime.Caller(1)
+	if !ok {
+		panic(configPathError)
 	}
-	return
+	return fmt.Sprintf("%s/..",file)
 }
 
 func InitConfig() {
-	iniPath := getConfigPath()
+	iniPath := getConfigPath(currentPath)
 	var err error
 	Cfg, err = ini.Load(iniPath)
     if err != nil {
