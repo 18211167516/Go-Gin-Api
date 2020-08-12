@@ -9,26 +9,24 @@ import (
 	"go-api/config"
 )
 
-var R *gin.Engine;//定义全局变量
-
 //init router
 func InitRouter() *gin.Engine{
-    initGin()
-	loadRoute()
-	return R;
+    r := initGin()
+	loadRoute(r)
+	return r;
 }
 
 // init Gin
-func initGin(){
+func initGin() *gin.Engine{
 	//设置gin模式
 	gin.SetMode(config.RunMode)
-    R = gin.Default()
+    return gin.Default()
 }
 
 // 加载路由
-func loadRoute(){
-	TestRoute()
-	ApiRoute()
+func loadRoute(r *gin.Engine){
+	testRoute(r)
+	apiRoute(r)
 }
 
 //启动服务器

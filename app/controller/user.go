@@ -2,7 +2,6 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
-	_ "go-api/config"
 	"go-api/app/models"
 )
 
@@ -10,7 +9,7 @@ func GetUsers(c *gin.Context) {
 	maps := make(map[string]interface{})
     data := make(map[string]interface{})
 	data["total"] = models.GetUserTotal(maps)
-	data["state"] = models.State()
+	data["list"]  = models.GetUsers(0,10,maps)
 	c.JSON(200, gin.H{
 		"status":  "200",
 		"message": "查询成功",
