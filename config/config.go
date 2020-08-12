@@ -39,6 +39,7 @@ type Mysql struct {
 	MysqlHost string
 	MysqlName string
 	MysqlPrefix string
+	MaxLifetime time.Duration
 }
 
 var MysqlSetting = &Mysql{}
@@ -129,6 +130,8 @@ func LoadDatabase() {
 	if err != nil {
         log.Fatalf("Cfg.MapTo MysqlSetting err: %v", err)
 	}
+
+	MysqlSetting.MaxLifetime = time.Duration(sec.Key("MaxLifetime").MustInt(60)) * time.Second
 }
 
 

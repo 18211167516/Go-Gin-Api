@@ -19,6 +19,7 @@ type mysqlConfig struct{
 	dbHost string
 	dbTablePrefix string
 	LogMode bool
+	MaxLifetime time.Duration
 } 
 
 var (
@@ -30,6 +31,7 @@ var (
 		dbPassword:config.MysqlSetting.MysqlPassword,
 		dbHost:config.MysqlSetting.MysqlHost,
 		dbTablePrefix:config.MysqlSetting.MysqlPrefix,
+		MaxLifetime:config.MysqlSetting.MaxLifetime,
 	}
 )
 
@@ -49,18 +51,24 @@ func init() {
 		dbConfig.dbHost,  
         dbConfig.dbName))
 
-    if err != nil {
-        log.Println(err)
-    }
+		if err != nil {
+			log.Println(err)
+		}
+		
+		gorm.DefaultTableNameHandler = func (db *gorm.DB, defaultTableName string) string  {
+			return dbConfig.dbTablePrefix + defaultTableName;
+		}
+		
+		db.SingularTable(true)//全局禁用表名复数
+		db.LogMode(dbConfig.LogMode)//true  打印Log
+		db.DB().SetMaxIdleConns(10)//最大空闲连接
+		db.DB().SetMaxOpenConns(100)//最大数据库链接
+		db.DB().SetConnMaxLifetime(dbConfig.MaxLifetime)//数据库链接最大生存时间
+		//
+}
 
-    gorm.DefaultTableNameHandler = func (db *gorm.DB, defaultTableName string) string  {
-        return dbConfig.dbTablePrefix + defaultTableName;
-    }
-
-    db.SingularTable(true)
-    db.LogMode(dbConfig.LogMode)
-    db.DB().SetMaxIdleConns(10)
-    db.DB().SetMaxOpenConns(100)
+func State() string{
+	return fmt.Sprintf("%+v",db.DB().Stats())
 }
 
 func CloseDB() {
