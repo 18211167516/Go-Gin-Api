@@ -69,3 +69,4 @@ func EditUser(id int, data interface{}) (bool, error) {
 	}
 	return true, nil
 }
+

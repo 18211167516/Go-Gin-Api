@@ -25,7 +25,7 @@ type mysqlConfig struct {
 var (
 	db       *gorm.DB
 	dbConfig = &mysqlConfig{
-		LogMode:       true,
+		LogMode:       config.MysqlSetting.LogMode,
 		dbType:        "mysql",
 		dbName:        config.MysqlSetting.MysqlName,
 		dbUser:        config.MysqlSetting.MysqlUser,
@@ -79,6 +79,13 @@ func State() string {
 
 func CloseDB() {
 	defer db.Close()
+}
+
+func Exec(sql string) error {
+	if err := db.Exec(sql).Error; err != nil {
+		return err
+	}
+	return nil
 }
 
 func (model *Model) BeforeCreate(scope *gorm.Scope) error {

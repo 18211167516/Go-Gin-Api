@@ -34,6 +34,7 @@ var ServerSetting = &Server{}
 
 //Mysql struct
 type Mysql struct {
+	LogMode       bool
 	MysqlUser     string
 	MysqlPassword string
 	MysqlHost     string

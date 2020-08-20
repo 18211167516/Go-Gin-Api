@@ -2,6 +2,7 @@ package main
 
 import (
     "go-api/routes"
+    _ "go-api/app/request"
 )
 
 func main() {

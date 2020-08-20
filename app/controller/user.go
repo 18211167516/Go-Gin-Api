@@ -3,120 +3,119 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 
-	"fmt"
 	"go-api/app/models"
+	"go-api/app/request"
 	"go-api/tool"
 )
+
+type user struct {
+	Name      string `json:"name" xml:"name" form:"name" binding:"required"`
+	CreatedBy string `json:"created_by" xml:"created_by" form:"created_by" binding:"lowercase"`
+}
+type userId struct {
+	ID int `uri:"id" binding:"required"`
+}
 
 func GetUsers(c *gin.Context) {
 	maps := make(map[string]interface{})
 	data := make(map[string]interface{})
 	data["total"] = models.GetUserTotal(maps)
 	data["list"] = models.GetUsers(tool.DefaultGetOffset(c), 10, maps)
-	c.JSONP(200, gin.H{"error_code": 0, "msg": tool.GetMsg(0, "查询成功"), "data": data})
+	tool.JSONP(c, 0, "查询成功", data)
 }
 
 func GetUser(c *gin.Context) {
-	id := c.Param("id")
-
-	res, err := models.GetUser(tool.StringToInt(id))
-	if err != nil {
-		c.JSONP(200, gin.H{"error_code": 40001, "msg": tool.GetMsg(40001, "暂无数据"), "err": fmt.Sprint(err)})
-	} else {
-		c.JSONP(200, gin.H{"error_code": 0, "msg": tool.GetMsg(0, "查询成功"), "data": res})
+	user := new(userId)
+	if err := c.ShouldBindUri(user); err != nil {
+		tool.JSONP(c, 40001, request.GetError(err), nil)
+		return
 	}
+	res, err := models.GetUser(user.ID)
+	if err != nil {
+		tool.JSONP(c, 40001, "暂无数据", nil)
+		return
+	}
+	tool.JSONP(c, 0, "查询成功", res)
 }
 
 func AddUser(c *gin.Context) {
-	name := c.PostForm("name")
-	created_by := c.PostForm("created_by")
-	data := make(map[string]interface{})
-	maps := make(map[string]interface{})
-	if name == "" {
-		c.JSONP(200, gin.H{"error_code": 40001, "msg": tool.GetMsg(40001, "名称不能为空")})
-	} else {
-		data["Name"] = name
-		maps["Name"] = name
-		data["CreatedBy"] = created_by
 
-		if !models.ExistUserByMaps(maps) {
-			res := models.AddUser(data)
-			if res {
-				c.JSONP(200, gin.H{"error_code": 0, "msg": tool.GetMsg(0, "创建成功"), "data": data})
-			} else {
-				c.JSONP(200, gin.H{"error_code": 40001, "msg": tool.GetMsg(40001, "创建失败")})
-			}
-		} else {
-			c.JSONP(200, gin.H{"error_code": 40001, "msg": tool.GetMsg(40001, "该名称已存在"), "map": maps})
-		}
+	user := new(user)
+	if err := c.ShouldBind(user); err != nil {
+		tool.JSONP(c, 400, request.GetError(err), nil)
+		return
 	}
 
+	maps := make(map[string]interface{})
+	maps["Name"] = user.Name
+
+	if models.ExistUserByMaps(maps) {
+		tool.JSONP(c, 40001, "该名称已存在", maps)
+		return
+	}
+
+	data := make(map[string]interface{})
+	data["Name"] = user.Name
+	data["CreatedBy"] = user.CreatedBy
+
+	res := models.AddUser(data)
+	if !res {
+		tool.JSONP(c, 40001, "创建失败", data)
+		return
+	}
+	tool.JSONP(c, 0, "创建成功", nil)
 }
 
 func EditUser(c *gin.Context) {
-	id := tool.StringToInt(c.Param("id"))
-	name := c.PostForm("name")
-	created_by := c.PostForm("created_by")
-
-	if !models.ExistTagByID(id) {
-		c.JSONP(200, gin.H{
-			"error_code": 40001,
-			"msg":        tool.GetMsg(40001, "ID不存在"),
-		})
-	} else {
-		data := make(map[string]interface{})
-		data["name"] = name
-		data["created_by"] = created_by
-		res, err := models.EditUser(id, data)
-		if res {
-			c.JSONP(200, gin.H{
-				"error_code": 0,
-				"msg":        tool.GetMsg(40001, "编辑成功"),
-			})
-		} else {
-			c.JSONP(200, gin.H{
-				"error_code": 40001,
-				"msg":        tool.GetMsg(40001, "编辑失败"),
-				"err":        err,
-			})
-		}
+	userid := new(userId)
+	if err := c.ShouldBindUri(userid); err != nil {
+		tool.JSONP(c, 400, request.GetError(err), nil)
+		return
 	}
+
+	user := new(user)
+	if err := c.ShouldBind(user); err != nil {
+		tool.JSONP(c, 400, request.GetError(err), nil)
+		return
+	}
+
+	data := make(map[string]interface{})
+	data["name"] = user.Name
+	data["created_by"] = user.CreatedBy
+	//先查id是否有记录
+	if !models.ExistTagByID(userid.ID) {
+		tool.JSONP(c, 40001, "ID记录不存在", nil)
+		return
+	}
+	res, err := models.EditUser(userid.ID, data)
+	if !res {
+		tool.JSONP(c, 40001, "编辑失败", err)
+		return
+	}
+	tool.JSONP(c, 0, "编辑成功", nil)
 }
 
 func DeleteUser(c *gin.Context) {
-	id := tool.StringToInt(c.Param("id"))
 
-	if id <= 0 {
-		c.JSONP(200, gin.H{
-			"error_code": 40001,
-			"msg":        tool.GetMsg(40001, "ID不存在"),
-		})
-	} else {
-
-		if models.ExistTagByID(id) {
-			maps := make(map[string]interface{})
-
-			maps["id"] = id
-			res, err := models.DeleteUser(maps)
-			if res {
-				c.JSONP(200, gin.H{
-					"error_code": 0,
-					"msg":        tool.GetMsg(40001, "删除成功"),
-					"err":        err,
-				})
-			} else {
-				c.JSONP(200, gin.H{
-					"error_code": 40001,
-					"msg":        tool.GetMsg(40001, "删除失败"),
-					"err":        err,
-				})
-			}
-		} else {
-			c.JSONP(200, gin.H{
-				"error_code": 40001,
-				"msg":        tool.GetMsg(40001, "信息不存在"),
-			})
-		}
-
+	userid := new(userId)
+	if err := c.ShouldBindUri(userid); err != nil {
+		tool.JSONP(c, 400, request.GetError(err), nil)
+		return
 	}
+
+	if !models.ExistTagByID(userid.ID) {
+		tool.JSONP(c, 40001, "ID记录不存在", nil)
+		return
+	}
+
+	maps := make(map[string]interface{})
+	maps["id"] = userid.ID
+
+	res, _ := models.DeleteUser(maps)
+	if !res {
+		tool.JSONP(c, 40001, "删除成功", nil)
+		return
+	}
+
+	tool.JSONP(c, 0, "删除成功", nil)
 }
