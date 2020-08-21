@@ -27,6 +27,7 @@ func initGin() *gin.Engine{
 func loadRoute(r *gin.Engine){
 	testRoute(r)
 	apiRoute(r)
+	swagRoute(r)
 }
 
 //启动服务器

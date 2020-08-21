@@ -8,6 +8,11 @@ type User struct {
 	ModifiedBy string `json:"modified_by"`
 }
 
+type UserSwagger struct {
+	Lists []*User
+	Total int
+}
+
 func GetUsers(pageNum int, pageSize int, maps interface{}) (users []User) {
 	db.Where(maps).Offset(pageNum).Limit(pageSize).Find(&users)
 
@@ -76,4 +81,3 @@ func EditUser(id int, data interface{}) (bool, error) {
 	}
 	return true, nil
 }
-

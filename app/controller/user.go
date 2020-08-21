@@ -22,6 +22,15 @@ func init() {
 	UserService = &services.UserService{}
 }
 
+// @Summary 用户列表
+// @Produce  json
+// @Failure 400 {object} tool.JSONRET "参数错误"
+// @Failure 20001 {object} tool.JSONRET "Token鉴权失败"
+// @Failure 20002 {object} tool.JSONRET "Token已超时"
+// @Failure 20004 {object} tool.JSONRET "Token错误"
+// @Failure 20005 {object} tool.JSONRET "Token参数不能为空"
+// @Success 0 {object} models.UserSwagger "查询成功"
+// @Router /api/v1/users [get]
 func GetUsers(c *gin.Context) {
 	maps := make(map[string]interface{})
 
