@@ -4,6 +4,7 @@ go 1.14
 
 require (
 	github.com/18211167516/Go-Gin-Api v0.0.0-20200729035550-5a4623b1adad // indirect
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-playground/locales v0.13.0
 	github.com/go-playground/universal-translator v0.17.0
