@@ -14,7 +14,14 @@ func GetUsers(pageNum int, pageSize int, maps interface{}) (users []User) {
 	return
 }
 
-func GetUser(id int) (user User, err error) {
+func GetUser(maps interface{}) (user User, err error) {
+	if err := db.Where(maps).First(&user).Error; err != nil {
+		return user, err
+	}
+	return user, nil
+}
+
+func GetUserByID(id int) (user User, err error) {
 	if err := db.First(&user, id).Error; err != nil {
 		return user, err
 	}

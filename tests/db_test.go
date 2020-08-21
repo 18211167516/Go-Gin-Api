@@ -30,3 +30,11 @@ func TestDb(t *testing.T) {
 	data, _ := xml.MarshalIndent(&bs, "", "  ")
 	fmt.Println(string(data))
 }
+
+func TestAb(T *testing.T) {
+	fmt.Println("132123")
+}
+
+func TestBc(T *testing.T) {
+	fmt.Println("bchchdf")
+}

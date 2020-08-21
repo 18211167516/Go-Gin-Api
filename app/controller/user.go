@@ -3,8 +3,8 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 
-	"go-api/app/models"
 	"go-api/app/request"
+	"go-api/app/services"
 	"go-api/tool"
 )
 
@@ -16,12 +16,21 @@ type userId struct {
 	ID int `uri:"id" binding:"required"`
 }
 
+var UserService services.UserContract
+
+func init() {
+	UserService = &services.UserService{}
+}
+
 func GetUsers(c *gin.Context) {
 	maps := make(map[string]interface{})
-	data := make(map[string]interface{})
-	data["total"] = models.GetUserTotal(maps)
-	data["list"] = models.GetUsers(tool.DefaultGetOffset(c), 10, maps)
-	tool.JSONP(c, 0, "查询成功", data)
+
+	ret := UserService.GetUserList(maps, tool.DefaultGetOffset(c), 10)
+	if !ret.GetStatus() {
+		tool.JSONP(c, 40001, ret.GetMsg(), ret["data"])
+		return
+	}
+	tool.JSONP(c, 0, "查询成功", ret["data"])
 }
 
 func GetUser(c *gin.Context) {
@@ -30,12 +39,14 @@ func GetUser(c *gin.Context) {
 		tool.JSONP(c, 40001, request.GetError(err), nil)
 		return
 	}
-	res, err := models.GetUser(user.ID)
-	if err != nil {
-		tool.JSONP(c, 40001, "暂无数据", nil)
+
+	ret := UserService.GetUserByID(user.ID)
+
+	if !ret.GetStatus() {
+		tool.JSONP(c, 40001, ret.GetMsg(), ret["data"])
 		return
 	}
-	tool.JSONP(c, 0, "查询成功", res)
+	tool.JSONP(c, 0, ret.GetMsg(), ret["data"])
 }
 
 func AddUser(c *gin.Context) {
@@ -49,21 +60,17 @@ func AddUser(c *gin.Context) {
 	maps := make(map[string]interface{})
 	maps["Name"] = user.Name
 
-	if models.ExistUserByMaps(maps) {
-		tool.JSONP(c, 40001, "该名称已存在", maps)
-		return
-	}
-
 	data := make(map[string]interface{})
 	data["Name"] = user.Name
 	data["CreatedBy"] = user.CreatedBy
+	ret := UserService.AddUser(maps, data)
 
-	res := models.AddUser(data)
-	if !res {
-		tool.JSONP(c, 40001, "创建失败", data)
+	if !ret.GetStatus() {
+		tool.JSONP(c, 40001, ret.GetMsg(), ret["data"])
 		return
 	}
-	tool.JSONP(c, 0, "创建成功", nil)
+	tool.JSONP(c, 0, ret.GetMsg(), ret["data"])
+
 }
 
 func EditUser(c *gin.Context) {
@@ -82,17 +89,14 @@ func EditUser(c *gin.Context) {
 	data := make(map[string]interface{})
 	data["name"] = user.Name
 	data["created_by"] = user.CreatedBy
-	//先查id是否有记录
-	if !models.ExistTagByID(userid.ID) {
-		tool.JSONP(c, 40001, "ID记录不存在", nil)
+
+	ret := UserService.EditUser(userid.ID, data)
+
+	if !ret.GetStatus() {
+		tool.JSONP(c, 40001, ret.GetMsg(), nil)
 		return
 	}
-	res, err := models.EditUser(userid.ID, data)
-	if !res {
-		tool.JSONP(c, 40001, "编辑失败", err)
-		return
-	}
-	tool.JSONP(c, 0, "编辑成功", nil)
+	tool.JSONP(c, 0, ret.GetMsg(), nil)
 }
 
 func DeleteUser(c *gin.Context) {
@@ -103,19 +107,14 @@ func DeleteUser(c *gin.Context) {
 		return
 	}
 
-	if !models.ExistTagByID(userid.ID) {
-		tool.JSONP(c, 40001, "ID记录不存在", nil)
-		return
-	}
-
 	maps := make(map[string]interface{})
 	maps["id"] = userid.ID
 
-	res, _ := models.DeleteUser(maps)
-	if !res {
-		tool.JSONP(c, 40001, "删除成功", nil)
+	ret := UserService.DeleteUser(maps)
+
+	if !ret.GetStatus() {
+		tool.JSONP(c, 40001, ret.GetMsg(), nil)
 		return
 	}
-
-	tool.JSONP(c, 0, "删除成功", nil)
+	tool.JSONP(c, 0, ret.GetMsg(), nil)
 }

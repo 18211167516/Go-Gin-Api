@@ -239,9 +239,9 @@ func testDeleteUsers(t *testing.T) {
 		{
 			code:         40001,
 			param:        ``,
-			errMsg:       `ID记录不存在`,
+			errMsg:       `记录不存在`,
 			method:       "DELETE",
-			desc:         "验证ID记录不存在",
+			desc:         "验证记录不存在",
 			showBody:     true,
 			url:          "/api/v1/users/10000",
 			content_type: "application/x-www-form-urlencoded",
