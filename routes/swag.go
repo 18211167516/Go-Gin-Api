@@ -1,12 +1,13 @@
 package routes
 
 import (
+	_ "go-api/docs"
+
 	"github.com/gin-gonic/gin"
-	"github.com/swaggo/gin-swagger"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
-	_"go-api/docs"
 )
 
-func swagRoute(r *gin.Engine){
+func swagRoute(r *gin.Engine) {
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }
