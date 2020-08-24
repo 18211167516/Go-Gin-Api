@@ -13,15 +13,142 @@
     },
     "host": "127.0.0.1:8080",
     "paths": {
-        "/api/v1/users": {
+        "/api/v1/user/{id}": {
             "get": {
+                "description": "获取单个用户",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "用户信息"
+                ],
+                "summary": "单个用户",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "0": {
+                        "description": "查询成功",
+                        "schema": {
+                            "$ref": "#/definitions/models.UserSwagger"
+                        }
+                    },
+                    "20001": {
+                        "description": "Token鉴权失败",
+                        "schema": {
+                            "$ref": "#/definitions/tool.JSONRET"
+                        }
+                    },
+                    "20002": {
+                        "description": "Token已超时",
+                        "schema": {
+                            "$ref": "#/definitions/tool.JSONRET"
+                        }
+                    },
+                    "20004": {
+                        "description": "Token错误",
+                        "schema": {
+                            "$ref": "#/definitions/tool.JSONRET"
+                        }
+                    },
+                    "20005": {
+                        "description": "Token参数不能为空",
+                        "schema": {
+                            "$ref": "#/definitions/tool.JSONRET"
+                        }
+                    },
+                    "400": {
+                        "description": "参数错误",
+                        "schema": {
+                            "$ref": "#/definitions/tool.JSONRET"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/users": {
+            "get": {
+                "description": "获取用户列表",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户信息"
                 ],
                 "summary": "用户列表",
                 "responses": {
                     "0": {
                         "description": "查询成功",
+                        "schema": {
+                            "$ref": "#/definitions/models.UserSwagger"
+                        }
+                    },
+                    "20001": {
+                        "description": "Token鉴权失败",
+                        "schema": {
+                            "$ref": "#/definitions/tool.JSONRET"
+                        }
+                    },
+                    "20002": {
+                        "description": "Token已超时",
+                        "schema": {
+                            "$ref": "#/definitions/tool.JSONRET"
+                        }
+                    },
+                    "20004": {
+                        "description": "Token错误",
+                        "schema": {
+                            "$ref": "#/definitions/tool.JSONRET"
+                        }
+                    },
+                    "20005": {
+                        "description": "Token参数不能为空",
+                        "schema": {
+                            "$ref": "#/definitions/tool.JSONRET"
+                        }
+                    },
+                    "400": {
+                        "description": "参数错误",
+                        "schema": {
+                            "$ref": "#/definitions/tool.JSONRET"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "新增用户",
+                "consumes": [
+                    "multipart/form-data*"
+                ],
+                "tags": [
+                    "用户信息"
+                ],
+                "summary": "新增用户",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Name",
+                        "name": "name",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "CreatedBy",
+                        "name": "created_by",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "0": {
+                        "description": "创建成功",
                         "schema": {
                             "$ref": "#/definitions/models.UserSwagger"
                         }

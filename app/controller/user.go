@@ -23,6 +23,8 @@ func init() {
 }
 
 // @Summary 用户列表
+// @Description  获取用户列表
+// @Tags 用户信息
 // @Produce  json
 // @Failure 400 {object} tool.JSONRET "参数错误"
 // @Failure 20001 {object} tool.JSONRET "Token鉴权失败"
@@ -42,6 +44,18 @@ func GetUsers(c *gin.Context) {
 	tool.JSONP(c, 0, "查询成功", ret["data"])
 }
 
+// @Summary 单个用户
+// @Description  获取单个用户
+// @Param id path int true "ID"
+// @Tags 用户信息
+// @Produce  json
+// @Failure 400 {object} tool.JSONRET "参数错误"
+// @Failure 20001 {object} tool.JSONRET "Token鉴权失败"
+// @Failure 20002 {object} tool.JSONRET "Token已超时"
+// @Failure 20004 {object} tool.JSONRET "Token错误"
+// @Failure 20005 {object} tool.JSONRET "Token参数不能为空"
+// @Success 0 {object} models.UserSwagger "查询成功"
+// @Router /api/v1/user/{id} [get]
 func GetUser(c *gin.Context) {
 	user := new(userId)
 	if err := c.ShouldBindUri(user); err != nil {
@@ -58,6 +72,19 @@ func GetUser(c *gin.Context) {
 	tool.JSONP(c, 0, ret.GetMsg(), ret["data"])
 }
 
+// @Summary 新增用户
+// @Description  新增用户
+// @Accept multipart/form-data*
+// @Param name formData string true "Name"
+// @Param created_by formData string true "CreatedBy"
+// @Tags 用户信息
+// @Failure 400 {object} tool.JSONRET "参数错误"
+// @Failure 20001 {object} tool.JSONRET "Token鉴权失败"
+// @Failure 20002 {object} tool.JSONRET "Token已超时"
+// @Failure 20004 {object} tool.JSONRET "Token错误"
+// @Failure 20005 {object} tool.JSONRET "Token参数不能为空"
+// @Success 0 {object} models.UserSwagger "创建成功"
+// @Router /api/v1/users [post]
 func AddUser(c *gin.Context) {
 
 	user := new(user)

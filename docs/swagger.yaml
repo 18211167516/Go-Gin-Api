@@ -45,8 +45,48 @@ info:
   title: go-api 框架
   version: "1.0"
 paths:
+  /api/v1/user/{id}:
+    get:
+      description: 获取单个用户
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "0":
+          description: 查询成功
+          schema:
+            $ref: '#/definitions/models.UserSwagger'
+        "400":
+          description: 参数错误
+          schema:
+            $ref: '#/definitions/tool.JSONRET'
+        "20001":
+          description: Token鉴权失败
+          schema:
+            $ref: '#/definitions/tool.JSONRET'
+        "20002":
+          description: Token已超时
+          schema:
+            $ref: '#/definitions/tool.JSONRET'
+        "20004":
+          description: Token错误
+          schema:
+            $ref: '#/definitions/tool.JSONRET'
+        "20005":
+          description: Token参数不能为空
+          schema:
+            $ref: '#/definitions/tool.JSONRET'
+      summary: 单个用户
+      tags:
+      - 用户信息
   /api/v1/users:
     get:
+      description: 获取用户列表
       produces:
       - application/json
       responses:
@@ -75,4 +115,49 @@ paths:
           schema:
             $ref: '#/definitions/tool.JSONRET'
       summary: 用户列表
+      tags:
+      - 用户信息
+    post:
+      consumes:
+      - multipart/form-data*
+      description: 新增用户
+      parameters:
+      - description: Name
+        in: formData
+        name: name
+        required: true
+        type: string
+      - description: CreatedBy
+        in: formData
+        name: created_by
+        required: true
+        type: string
+      responses:
+        "0":
+          description: 创建成功
+          schema:
+            $ref: '#/definitions/models.UserSwagger'
+        "400":
+          description: 参数错误
+          schema:
+            $ref: '#/definitions/tool.JSONRET'
+        "20001":
+          description: Token鉴权失败
+          schema:
+            $ref: '#/definitions/tool.JSONRET'
+        "20002":
+          description: Token已超时
+          schema:
+            $ref: '#/definitions/tool.JSONRET'
+        "20004":
+          description: Token错误
+          schema:
+            $ref: '#/definitions/tool.JSONRET'
+        "20005":
+          description: Token参数不能为空
+          schema:
+            $ref: '#/definitions/tool.JSONRET'
+      summary: 新增用户
+      tags:
+      - 用户信息
 swagger: "2.0"
