@@ -3,10 +3,14 @@ package tool
 import "fmt"
 
 const (
-	SUCCESS        = 0
-	ERROR          = 500
+	// SUCCESS code
+	SUCCESS = 0
+	// ERROR code
+	ERROR = 500
+	// INVALID_PARAMS code
 	INVALID_PARAMS = 400
-	CUSTOM_ERROR   = 40001
+	// CUSTOM_ERROR code
+	CUSTOM_ERROR = 40001
 
 	ERROR_AUTH_CHECK_TOKEN_FAIL    = 20001
 	ERROR_AUTH_CHECK_TOKEN_TIMEOUT = 20002

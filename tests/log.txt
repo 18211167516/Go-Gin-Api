@@ -1,0 +1,2 @@
+{"Hook":"test","file":"C:/Users/baibai/go/www/src/Go-Gin-Api/tests/log_test.go:45","func":"command-line-arguments.TestLogMysql","level":"error","msg":"error msg","time":"2020-08-26 11:55:19","topic":"mysql"}
+{"Hook":"test","file":"C:/Users/baibai/go/www/src/Go-Gin-Api/tests/log_test.go:46","func":"command-line-arguments.TestLogMysql","level":"panic","msg":"panic msg","time":"2020-08-26 11:55:19","topic":"mysql"}

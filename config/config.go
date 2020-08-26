@@ -20,8 +20,6 @@ type App struct {
 	SigningMethod string
 }
 
-var AppSetting = &App{}
-
 //server struct
 type Server struct {
 	HttpAddress  string
@@ -29,8 +27,6 @@ type Server struct {
 	ReadTimeout  time.Duration
 	WriteTimeout time.Duration
 }
-
-var ServerSetting = &Server{}
 
 //Mysql struct
 type Mysql struct {
@@ -43,13 +39,21 @@ type Mysql struct {
 	MaxLifetime   time.Duration
 }
 
-var MysqlSetting = &Mysql{}
+type Log struct {
+	Level        string
+	Formatter    string
+	ReportCaller bool
+}
 
 var (
 	Cfg             *ini.File
 	RunMode         string
-	configPathError        = errors.New("Can not get current file info")
-	currentPath     string = currentFile()
+	configPathError = errors.New("Can not get current file info")
+	currentPath     = currentFile()
+	AppSetting      = &App{}
+	ServerSetting   = &Server{}
+	MysqlSetting    = &Mysql{}
+	LogSetting      = &Log{}
 )
 
 //get config path Single
@@ -82,6 +86,7 @@ func InitConfig() {
 	LoadApp()
 	LoadServer()
 	LoadDatabase()
+	loadLog()
 }
 
 //加载基础配置
@@ -133,4 +138,17 @@ func LoadDatabase() {
 	}
 
 	MysqlSetting.MaxLifetime = time.Duration(sec.Key("MaxLifetime").MustInt(60)) * time.Second
+}
+
+func loadLog() {
+	sec, err := Cfg.GetSection("log")
+	if err != nil {
+		log.Fatalf("Fail to get section 'log': %v", err)
+	}
+
+	err = sec.MapTo(LogSetting)
+	if err != nil {
+		log.Fatalf("Cfg.MapTo LogSetting err: %v", err)
+	}
+
 }
