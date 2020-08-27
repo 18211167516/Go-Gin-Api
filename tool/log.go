@@ -61,7 +61,7 @@ func init() {
 	defaultReportCaller()
 	defaultFormatter()
 	defaultLevel()
-	log.AddHook(&inLog.TestHook{})
+	//log.AddHook(&inLog.TestHook{})
 }
 
 func apiLog() *log.Entry {

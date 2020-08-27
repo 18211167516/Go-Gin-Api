@@ -2,6 +2,7 @@ package routes
 
 import (
 	"go-api/app/controller"
+	"go-api/app/middleware"
 	"go-api/tool"
 
 	"github.com/gin-gonic/gin"
@@ -18,7 +19,7 @@ func apiRoute(r *gin.Engine) {
 		tool.JSONP(c, 0, "成功", token)
 	})
 
-	apiv1 := r.Group("/api/v1")
+	apiv1 := r.Group("/api/v1", middleware.ApiLogger())
 	{
 		//获取用户列表
 		apiv1.GET("/users", controller.GetUsers)
