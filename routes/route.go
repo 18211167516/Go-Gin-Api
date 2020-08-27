@@ -22,7 +22,7 @@ func initGin() *gin.Engine {
 	//设置gin模式
 	gin.SetMode(config.RunMode)
 	engine := gin.New()
-	engine.Use(middleware.Logger(), gin.Recovery())
+	engine.Use(middleware.Logger(), middleware.Recovery())
 	return engine
 }
 

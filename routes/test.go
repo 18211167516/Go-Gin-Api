@@ -17,6 +17,10 @@ func testRoute(r *gin.Engine) {
 		})
 	})
 
+	r.GET("/panic", func(c *gin.Context) {
+		panic("panic")
+	})
+
 	r.GET("/someXML", func(c *gin.Context) {
 		c.Writer.Write([]byte(`<?xml version="1.0" encoding="UTF-8"?>`))
 		c.XML(200, root{ID: 1, Name: "baibai", Age: 16})
