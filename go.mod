@@ -4,8 +4,10 @@ go 1.14
 
 require (
 	github.com/18211167516/Go-Gin-Api v0.0.0-20200729035550-5a4623b1adad // indirect
+	github.com/18211167516/hotstart v1.5.0
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+	github.com/fvbock/endless v0.0.0-20170109170031-447134032cb6
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-openapi/spec v0.19.9 // indirect
 	github.com/go-openapi/swag v0.19.9 // indirect

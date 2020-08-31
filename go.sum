@@ -1,6 +1,10 @@
 cloud.google.com/go v0.26.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
 github.com/18211167516/Go-Gin-Api v0.0.0-20200729035550-5a4623b1adad h1:VZ8epWnR8kvMAfJBXJxCT7+X/30/lYqZOHhNeA+ZDoM=
 github.com/18211167516/Go-Gin-Api v0.0.0-20200729035550-5a4623b1adad/go.mod h1:lvGPyVOgxNCYG0RpQNITpDVyX1gaYTfvxywmwCdZqak=
+github.com/18211167516/hotstart v1.3.1 h1:lPLIwayIxPlIbtftA8R6ZijVnhIE1H/VOlCvuUgIMwQ=
+github.com/18211167516/hotstart v1.3.1/go.mod h1:2BHjjagxna4XLlSgDwSjRssBqyeq7NRsbhBcvvVe/bY=
+github.com/18211167516/hotstart v1.5.0 h1:D+0E9sokgjvCBJbs19iB1bSa2n0CezbmgEje10nsIGk=
+github.com/18211167516/hotstart v1.5.0/go.mod h1:2BHjjagxna4XLlSgDwSjRssBqyeq7NRsbhBcvvVe/bY=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/KyleBanks/depth v1.2.1 h1:5h8fQADFrWtarTdtDudMmGsC7GPbOAu6RVB3ffsVFHc=
 github.com/KyleBanks/depth v1.2.1/go.mod h1:jzSb9d0L43HxTQfT+oSA1EEp2q+ne2uh6XgeJcm8brE=
@@ -30,6 +34,8 @@ github.com/envoyproxy/go-control-plane v0.9.1-0.20191026205805-5f8ba28d4473/go.m
 github.com/envoyproxy/protoc-gen-validate v0.1.0/go.mod h1:iSmxcyjqTsJpI2R4NaDN7+kN2VEUnK/pcBlmesArF7c=
 github.com/erikstmartin/go-testdb v0.0.0-20160219214506-8d10e4a1bae5 h1:Yzb9+7DPaBjB8zlTR87/ElzFsnQfuHnVUVqpZZIcV5Y=
 github.com/erikstmartin/go-testdb v0.0.0-20160219214506-8d10e4a1bae5/go.mod h1:a2zkGnVExMxdzMo3M0Hi/3sEU+cWnZpSni0O6/Yb/P0=
+github.com/fvbock/endless v0.0.0-20170109170031-447134032cb6 h1:6VSn3hB5U5GeA6kQw4TwWIWbOhtvR2hmbBJnTOtqTWc=
+github.com/fvbock/endless v0.0.0-20170109170031-447134032cb6/go.mod h1:YxOVT5+yHzKvwhsiSIWmbAYM3Dr9AEEbER2dVayfBkg=
 github.com/ghodss/yaml v1.0.0 h1:wQHKEahhL6wmXdzwWG11gIVCkOv05bNOh+Rxn0yngAk=
 github.com/ghodss/yaml v1.0.0/go.mod h1:4dBDuWmgqj2HViK6kFavaiC9ZROes6MMH2rRYeMEF04=
 github.com/gin-contrib/gzip v0.0.1 h1:ezvKOL6jH+jlzdHNE4h9h8q8uMpDQjyl0NN0Jd7jozc=
