@@ -1,7 +1,7 @@
 package main
 
 import (
-	"go-api/routes"
+	"go-api/core"
 )
 
 // @title go-api 框架
@@ -13,5 +13,5 @@ import (
 // @host 127.0.0.1:8080
 func main() {
 	//启动服务器
-	routes.Run()
+	core.RunServer()
 }

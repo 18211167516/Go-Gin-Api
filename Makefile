@@ -10,9 +10,15 @@ all: version test build
 
 version:
 		@echo version: ${VERSION}
-build:
+
+linux-build:
+
+		@echo version: ${VERSION} date: ${DATE} os: linux
+		CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ${BINARY_UNIX}
+
+windows-build:
 		@echo version: ${VERSION} date: ${DATE} os: windows
-		@go build -o $(BINARY_NAME) -v -race
+		CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o ${BINARY_NAME}.exe	
 test:
 		go test tests/* -count=1
 clean:
@@ -23,7 +29,3 @@ run:
 		go build -o $(BINARY_NAME) -v ./...
 		./$(BINARY_NAME)
 
-# Cross compilation
-build-linux:
-		@echo version: ${VERSION} date: ${DATE} os: linux-centOS
-		CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o $(BINARY_UNIX) -v
