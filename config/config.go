@@ -74,7 +74,7 @@ func currentFile() string {
 }
 
 func InitConfig() {
-	iniPath := getConfigPath(currentPath)
+	iniPath := getConfigPath("./")
 	var err error
 	Cfg, err = ini.Load(iniPath)
 	if err != nil {

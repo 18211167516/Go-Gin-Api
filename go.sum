@@ -5,6 +5,7 @@ github.com/18211167516/hotstart v1.3.1 h1:lPLIwayIxPlIbtftA8R6ZijVnhIE1H/VOlCvuU
 github.com/18211167516/hotstart v1.3.1/go.mod h1:2BHjjagxna4XLlSgDwSjRssBqyeq7NRsbhBcvvVe/bY=
 github.com/18211167516/hotstart v1.5.0 h1:D+0E9sokgjvCBJbs19iB1bSa2n0CezbmgEje10nsIGk=
 github.com/18211167516/hotstart v1.5.0/go.mod h1:2BHjjagxna4XLlSgDwSjRssBqyeq7NRsbhBcvvVe/bY=
+github.com/18211167516/hotstart v1.6.0 h1:U3lGEvNWK0UcHgj5ynAqBMa92joJIfXDGzc904ik9U4=
 github.com/18211167516/hotstart v1.6.0/go.mod h1:2BHjjagxna4XLlSgDwSjRssBqyeq7NRsbhBcvvVe/bY=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/KyleBanks/depth v1.2.1 h1:5h8fQADFrWtarTdtDudMmGsC7GPbOAu6RVB3ffsVFHc=

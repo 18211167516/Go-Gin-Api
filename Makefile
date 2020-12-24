@@ -1,5 +1,5 @@
 # Go parameters
-BINARY_NAME=go-api
+BINARY_NAME=api
 BINARY_UNIX=$(BINARY_NAME)_unix
 VERSION="v0.0.1"
 DATE= `date +%Y%m%d%H%M%S`
