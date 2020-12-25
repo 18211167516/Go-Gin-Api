@@ -19,7 +19,7 @@
 
 - 使用git克隆本项目
 ```git
-    git clone https://github.com/18211167516/Go-Gin-Api
+    git clone https://github.com/18211167516/Go-Gin-Api.git
 ```
 ### 2.1 swagger自动化API文档
 
