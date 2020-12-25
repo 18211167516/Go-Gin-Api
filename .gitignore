@@ -3,4 +3,5 @@ config/app.ini
 .vscode
 .api
 go-api_unix
+gga
 
