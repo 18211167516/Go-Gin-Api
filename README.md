@@ -48,7 +48,7 @@ swag init
 - 数据库：采用`MySql`(5.6.44)版本，使用`gorm`实现对数据库的基本操作。
 - API文档：使用`Swagger`构建自动化文档。
 - 热重启`HotStart`,我自己写的一个
-- 配置文件`ini`(考虑后期替换成`viper`)
+- 配置文件 使用`viper`解析
 - 日志：使用`logrus`实现日志记录。
 
 ## 4. 项目架构
@@ -63,6 +63,8 @@ swag init
     |  ├─services          （服务层）
     ├─config         （配置包）
     ├─core  	        （內核）
+    ├─global            （全局变量）
+    ├─initialize       (初始化)  
     ├─docs  	        （swagger文档目录）
     ├─routes         （路由）
     ├─tests          （测试）
