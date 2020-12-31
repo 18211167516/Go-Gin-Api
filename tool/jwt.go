@@ -5,13 +5,13 @@ import (
 
 	jwt "github.com/dgrijalva/jwt-go"
 
-	"go-api/config"
+	"go-api/global"
 )
 
 var (
-	JwtSecret     = []byte(config.AppSetting.JwtSecret)
-	JwtExpiresAt  = config.AppSetting.JwtExpiresAt
-	SigningMethod = config.AppSetting.SigningMethod
+	JwtSecret     = []byte(global.CF.App.JwtSecret)
+	JwtExpiresAt  = global.CF.App.JwtExpiresAt
+	SigningMethod = global.CF.App.SigningMethod
 )
 
 type Claims struct {

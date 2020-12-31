@@ -7,6 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
+	"go-api/global"
 	. "go-api/tool"
 )
 
@@ -30,7 +31,7 @@ func Recovery() gin.HandlerFunc {
 		defer func() {
 			if err := recover(); err != nil {
 				message := fmt.Sprintf("%s", err)
-				AccessLog.Error(trace(message))
+				global.LOG.Error(trace(message))
 				c.JSONP(500, JSONRET{
 					Error_code: 500,
 					Msg:        "Internal Server Error",

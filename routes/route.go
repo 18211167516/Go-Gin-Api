@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"go-api/app/middleware"
-	"go-api/config"
+	"go-api/global"
 )
 
 //init router
@@ -17,7 +17,7 @@ func InitRouter() *gin.Engine {
 // init Gin
 func initGin() *gin.Engine {
 	//设置gin模式
-	gin.SetMode(config.RunMode)
+	gin.SetMode(global.CF.RunMode)
 	engine := gin.New()
 	engine.Use(middleware.Logger(), middleware.Recovery())
 	return engine
@@ -26,6 +26,6 @@ func initGin() *gin.Engine {
 // 加载路由
 func loadRoute(r *gin.Engine) {
 	testRoute(r)
-	//apiRoute(r)
+	apiRoute(r)
 	swagRoute(r)
 }

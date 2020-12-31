@@ -1,9 +1,10 @@
 package log
 
 import (
-	log "github.com/sirupsen/logrus"
 	"bytes"
 	"fmt"
+
+	log "github.com/sirupsen/logrus"
 )
 
 type TestFormatter struct {

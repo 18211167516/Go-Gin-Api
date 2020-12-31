@@ -3,7 +3,7 @@ package tool
 import (
 	"github.com/gin-gonic/gin"
 
-	"go-api/config"
+	"go-api/global"
 )
 
 //get Offset  limit Optional
@@ -15,7 +15,7 @@ func GetOffset(c *gin.Context, limit int) int {
 //get Offset limit default
 func DefaultGetOffset(c *gin.Context) int {
 	page := StringToInt(c.DefaultQuery("page", "0"))
-	return getOffset(page, config.AppSetting.PageSize)
+	return getOffset(page, global.CF.App.PageSize)
 }
 
 func getOffset(page int, limit int) int {

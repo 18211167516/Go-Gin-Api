@@ -3,12 +3,11 @@ package middleware
 import (
 	"bytes"
 	"fmt"
+	"go-api/global"
 	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
-
-	. "go-api/tool"
 )
 
 type LogParams struct {
@@ -69,13 +68,16 @@ var defaultLogFormatter = func(param LogParams) string {
 }
 
 var defaultLog = func(params LogParams, f LogFormatter) {
-	AccessLog.Info(f(params))
+	global.LOG.WithFields(global.LOGF{
+		"topic": "[GO-GIN]",
+	}).Info(f(params))
 }
 
 var apiLog = func(params LogParams, f LogFormatter) {
 
-	ApiLog.WithFields(F{
-		"start_time": params.Start.Format("2006/01/02 - 15:04:05"),
+	global.LOG.WithFields(global.LOGF{
+		"topic":      "[API]",
+		"start_time": params.Start.Format("2006/01/02-15:04:05"),
 		"exec_time":  fmt.Sprintf("%13v", params.Latency),
 		"http_code":  params.StatusCode,
 		"ip":         params.ClientIP,

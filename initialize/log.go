@@ -1,10 +1,9 @@
-package tool
+package initialize
 
 import (
 	"fmt"
-
-	"go-api/config"
-	inLog "go-api/tool/internal/log"
+	"go-api/global"
+	inLog "go-api/initialize/internal/log"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -16,25 +15,18 @@ var (
 		"text": &log.TextFormatter{TimestampFormat: "2006-01-02 15:04:05"},
 		"test": &inLog.TestFormatter{TimestampFormat: "2006-01-02 15:04:05"},
 	}
-
-	Log       = log.StandardLogger()
-	ApiLog    = apiLog()
-	MysqlLog  = mysqlLog()
-	AccessLog = accessLog()
 )
 
-type F = log.Fields
-
 func defaultFormatter() {
-	SetFormatter(config.LogSetting.Formatter)
+	SetFormatter(global.CF.Log.Formatter)
 }
 
 func defaultLevel() {
-	SetLevel(config.LogSetting.Level)
+	SetLevel(global.CF.Log.Level)
 }
 
 func defaultReportCaller() {
-	SetReportCaller(config.LogSetting.ReportCaller)
+	SetReportCaller(global.CF.Log.ReportCaller)
 }
 
 func SetReportCaller(b bool) {
@@ -43,7 +35,7 @@ func SetReportCaller(b bool) {
 
 func SetFormatter(formatter string) {
 	if Formatter, ok := Formatter[formatter]; !ok {
-		panic(fmt.Errorf("Log Formatter %s", "unkonm"))
+		panic(fmt.Errorf("Log Formatter %s", formatter))
 	} else {
 		log.SetFormatter(Formatter)
 	}
@@ -57,20 +49,11 @@ func SetLevel(level string) {
 	}
 }
 
-func init() {
+func Logrus() *log.Logger {
+	logger := log.StandardLogger()
 	defaultReportCaller()
 	defaultFormatter()
 	defaultLevel()
 	//log.AddHook(&inLog.TestHook{})
-}
-
-func apiLog() *log.Entry {
-	return log.WithFields(F{"topic": "api"})
-}
-
-func mysqlLog() *log.Entry {
-	return log.WithFields(F{"topic": "mysql"})
-}
-func accessLog() *log.Entry {
-	return log.WithFields(F{"topic": "access"})
+	return logger
 }

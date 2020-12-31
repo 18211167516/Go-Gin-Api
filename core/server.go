@@ -2,8 +2,8 @@ package core
 
 import (
 	"fmt"
-	"go-api/config"
-	"go-api/routes"
+	"go-api/global"
+	"go-api/initialize"
 	"log"
 )
 
@@ -12,8 +12,9 @@ type server interface {
 }
 
 func RunServer() {
-	r := routes.InitRouter()
-	s := initServer(fmt.Sprintf("%s:%d", config.ServerSetting.HttpAddress, config.ServerSetting.HttpPort), r)
+	//初始化路由
+	r := initialize.Routers()
+	s := initServer(fmt.Sprintf("%s:%d", global.CF.Server.HttpAddress, global.CF.Server.HttpPort), r)
 	err := s.ListenAndServe()
-	log.Printf("Listen: %s\n", err)
+	log.Printf("Listen:%s:%s %s\n", global.CF.Server.HttpAddress, global.CF.Server.HttpPort, err)
 }

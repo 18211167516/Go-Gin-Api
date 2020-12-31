@@ -2,6 +2,8 @@ package main
 
 import (
 	"go-api/core"
+	"go-api/global"
+	"go-api/initialize"
 )
 
 // @title go-api 框架
@@ -12,6 +14,15 @@ import (
 // @contact.email 18211167516@163.com
 // @host 127.0.0.1:8080
 func main() {
+	//初始化配置
+	global.VP = core.Viper()
+	//初始化日志
+	global.LOG = initialize.Logrus()
+	//初始化DB
+	global.DB = initialize.Gorm()
+	//主进程结束前关闭数据库链接
+	sqlDB, _ := global.DB.DB()
+	defer sqlDB.Close()
 	//启动服务器
 	core.RunServer()
 }

@@ -8,6 +8,7 @@ require (
 	github.com/18211167516/hotstart v1.6.0
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+	github.com/fsnotify/fsnotify v1.4.7
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-openapi/spec v0.19.9 // indirect
 	github.com/go-openapi/swag v0.19.9 // indirect
@@ -22,15 +23,19 @@ require (
 	github.com/mailru/easyjson v0.7.6 // indirect
 	github.com/sirupsen/logrus v1.6.0
 	github.com/smartystreets/goconvey v1.6.4 // indirect
+	github.com/spf13/viper v1.7.1
 	github.com/stretchr/testify v1.4.0
 	github.com/swaggo/gin-swagger v1.2.0
 	github.com/swaggo/swag v1.6.7
+	go.uber.org/zap v1.10.0
 	golang.org/x/lint v0.0.0-20200302205851-738671d3881b // indirect
 	golang.org/x/net v0.0.0-20200813134508-3edf25e44fcc // indirect
 	golang.org/x/sys v0.0.0-20200820212457-1fb795427249 // indirect
 	golang.org/x/tools v0.0.0-20200820180210-c8f393745106 // indirect
 	google.golang.org/protobuf v1.25.0 // indirect
 	gopkg.in/go-playground/validator.v9 v9.31.0 // indirect
-	gopkg.in/ini.v1 v1.57.0
+	gopkg.in/ini.v1 v1.51.0
 	gopkg.in/yaml.v2 v2.3.0 // indirect
+	gorm.io/driver/mysql v1.0.3
+	gorm.io/gorm v1.20.9
 )
