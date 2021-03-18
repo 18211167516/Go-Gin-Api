@@ -13,6 +13,13 @@ var (
 	VP  *viper.Viper
 	DB  *gorm.DB
 	LOG *logrus.Logger
+	SER Server
 )
 
 type LOGF = logrus.Fields
+
+type Server interface {
+	ListenAndServe() error
+	Restart() error
+	Shutdown()
+}

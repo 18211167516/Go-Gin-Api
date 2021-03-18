@@ -1,12 +1,15 @@
 #debug or release
 RUN_MODE = "debug"
 
+[casbin]
+    ModelPath = './rbac_model.conf'
+    
 [app]
     Template = "view/**/*"
     PageSize = 10
     JwtSecret = "23347$040412"
     SigningMethod = "HS256" 
-    JwtExpiresAt = 5
+    JwtExpiresAt = "6h"
 
 [log]
     Level = "trace"

@@ -1,44 +1,55 @@
 package tool
 
 import (
-	"time"
-
 	jwt "github.com/dgrijalva/jwt-go"
 
 	"go-api/global"
 )
 
-var (
-	JwtSecret     = []byte(global.CF.App.JwtSecret)
-	JwtExpiresAt  = global.CF.App.JwtExpiresAt
-	SigningMethod = global.CF.App.SigningMethod
-)
+var JwtSecret = []byte(global.CF.App.JwtSecret)
 
 type Claims struct {
-	Appkey    string `json:"app_key"`
-	AppSecret string `json:"app_secret"`
-	jwt.StandardClaims
+	ID             uint   //用户ID
+	Username       string //用户名称
+	RuleID         string //角色ID 可能存在多个角色
+	RuleName       string //角色名称 可能存在多个角色名
+	StandardClaims jwt.StandardClaims
 }
 
-func GenerateToken(appkey, app_secret string) (string, error) {
-	nowTime := time.Now()
-	expireTime := nowTime.Add(JwtExpiresAt)
-
-	claims := Claims{
-		appkey,     //可以考虑加密
-		app_secret, //可以考虑加密
-		jwt.StandardClaims{
-			ExpiresAt: expireTime.Unix(),
-			Issuer:    "go-api",
-		},
-	}
-
-	tokenClaims := jwt.NewWithClaims(jwt.GetSigningMethod(SigningMethod), claims)
-	token, err := tokenClaims.SignedString(JwtSecret)
-
-	return token, err
+/*实现接口*/
+func (c Claims) Valid() error {
+	return c.StandardClaims.Valid()
 }
 
+/*获取自定义载荷用户ID*/
+func (c Claims) GetID() uint {
+	return c.ID
+}
+
+/*获取自定义载荷用户名称*/
+func (c Claims) GetUsername() string {
+	return c.Username
+}
+
+/*获取自定义载荷用户角色ID*/
+func (c Claims) GetRuleID() string {
+	return c.RuleID
+}
+
+/*获取自定义载荷用户角色名称*/
+func (c Claims) GetRuleName() string {
+	return c.RuleName
+}
+
+/*生成jwt-token*/
+func GenerateToken(claims Claims) (string, error) {
+
+	token := jwt.NewWithClaims(jwt.GetSigningMethod(global.CF.App.SigningMethod), claims)
+
+	return token.SignedString(JwtSecret)
+}
+
+/*简析jwt-token*/
 func ParseToken(token string) (*Claims, error) {
 	tokenClaims, err := jwt.ParseWithClaims(token, &Claims{}, func(token *jwt.Token) (interface{}, error) {
 		return JwtSecret, nil

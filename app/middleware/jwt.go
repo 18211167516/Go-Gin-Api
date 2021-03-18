@@ -24,7 +24,7 @@ func JWT() gin.HandlerFunc {
 		if token == "" {
 			code = tool.ERROR_AUTH_CHECK_TOKEN_EMPTY
 		} else {
-			_, err := tool.ParseToken(token)
+			claims, err := tool.ParseToken(token)
 			if err != nil {
 				switch err.(*jwt.ValidationError).Errors {
 				case jwt.ValidationErrorExpired:
@@ -33,13 +33,15 @@ func JWT() gin.HandlerFunc {
 					code = tool.ERROR_AUTH_CHECK_TOKEN_FAIL
 				}
 			}
+
+			c.Set("claims", claims)
 		}
 
 		if code != tool.SUCCESS {
 			c.JSON(http.StatusUnauthorized, gin.H{
 				"code": code,
 				"msg":  tool.GetMsg(code),
-				"data": nil,
+				"data": c.Request.URL.RequestURI(),
 			})
 
 			c.Abort()

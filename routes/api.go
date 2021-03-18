@@ -3,15 +3,30 @@ package routes
 import (
 	"go-api/app/controller"
 	"go-api/app/middleware"
+	"go-api/global"
 	"go-api/tool"
+	"time"
 
+	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )
 
 func apiRoute(r *gin.Engine) {
-	r.GET("/auth/:key", func(c *gin.Context) {
-		appkey := c.Param("key")
-		token, err := tool.GenerateToken(appkey, "12312323")
+	r.GET("/authToken", func(c *gin.Context) {
+		p, _ := time.ParseDuration(global.CF.App.JwtExpiresAt)
+		expireTime := time.Now().Add(p).Unix()
+
+		claims := tool.Claims{
+			ID:       1,
+			Username: "白葱花",
+			RuleID:   "888",
+			RuleName: "超级管理员",
+			StandardClaims: jwt.StandardClaims{
+				ExpiresAt: expireTime, //过期时间
+				Issuer:    "go-api",   //签发人
+			},
+		}
+		token, err := tool.GenerateToken(claims)
 		if err != nil {
 			tool.JSONP(c, tool.ERROR_AUTH_TOKEN, "", nil)
 			return
@@ -19,7 +34,7 @@ func apiRoute(r *gin.Engine) {
 		tool.JSONP(c, 0, "成功", token)
 	})
 
-	apiv1 := r.Group("/api/v1", middleware.ApiLogger())
+	apiv1 := r.Group("/api/v1", middleware.ApiLogger(), middleware.JWT(), middleware.Casbin_rbac())
 	{
 		//获取用户列表
 		apiv1.GET("/users", controller.GetUsers)

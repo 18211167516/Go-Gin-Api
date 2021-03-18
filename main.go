@@ -23,6 +23,7 @@ func main() {
 	//主进程结束前关闭数据库链接
 	sqlDB, _ := global.DB.DB()
 	defer sqlDB.Close()
+	core.CmdRun()
 	//启动服务器
-	core.RunServer()
+	//core.RunServer()
 }
