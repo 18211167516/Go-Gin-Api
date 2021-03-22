@@ -10,7 +10,7 @@ RUN_MODE = "debug"
     JwtSecret = "23347$040412"
     SigningMethod = "HS256" 
     JwtExpiresAt = "6h"
-
+    PidPath = "./pid.lock"
 [log]
     Level = "trace"
     ReportCaller = false

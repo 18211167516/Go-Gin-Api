@@ -6,4 +6,5 @@ type App struct {
 	JwtSecret     string
 	JwtExpiresAt  string
 	SigningMethod string
+	PidPath       string
 }

@@ -27,7 +27,6 @@ func (srv *WinServer) Shutdown() {
 		global.LOG.Errorf("HTTP server shutdown error: %v", err)
 	} else {
 		global.LOG.Info("HTTP server shutdown success.")
-		srv.shutdownChan <- true
 	}
 }
 

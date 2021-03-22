@@ -24,6 +24,7 @@ require (
 	github.com/jinzhu/gorm v1.9.15 // indirect
 	github.com/json-iterator/go v1.1.10 // indirect
 	github.com/mailru/easyjson v0.7.6 // indirect
+	github.com/mitchellh/go-homedir v1.1.0
 	github.com/sirupsen/logrus v1.6.0
 	github.com/smartystreets/goconvey v1.6.4 // indirect
 	github.com/spf13/cobra v1.1.1 // indirect
