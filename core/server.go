@@ -28,6 +28,7 @@ PID :%d
 	//写入lock文件
 }
 
+//解决非后台运行启动时 window下 ctrl c关闭信号
 func handleSignals() {
 	sysType := runtime.GOOS
 	if sysType == "windows" {

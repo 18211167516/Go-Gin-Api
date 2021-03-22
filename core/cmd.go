@@ -27,18 +27,9 @@ func CmdRun() {
 }
 
 func Daemon() {
-
 	cmd := exec.Command(os.Args[0])
 	cmd.Start()
-	fmt.Println("[PID]", cmd.Process.Pid)
-	//C:/Users/baibai/go/www/src/Go-Gin-Api/app.bsv
-	/* cmd := exec.Command("cmd", "/C", "app.bsv")
-	output, err := cmd.Output()
-	if err != nil {
-		fmt.Printf("%s failed with error:%s", cmd, err.Error())
-		return
-	}
-	fmt.Printf("%s finished with output:\n%s", cmd, string(output)) */
+	fmt.Println("后台运行：[PID]", cmd.Process.Pid)
 }
 
 func Start() {
@@ -63,10 +54,22 @@ func Rstart() {
 func Stop() {
 	if pid := ReadPid(global.CF.App.PidPath); pid != "" {
 		fmt.Println("服务关闭 pid：", pid)
-		Shutdown()
+		KillProcess()
 	} else {
 		fmt.Println("服务未启动不需要关闭")
 	}
+}
+
+func KillProcess() error {
+	global.LOG.Info("Killing browser process")
+	kill := exec.Command("taskkill", "/T", "/F", "/PID", ReadPid(global.CF.App.PidPath))
+	err := kill.Run()
+	if err != nil {
+		global.LOG.WithError(err).Error("Error killing chromium process")
+	}
+	global.LOG.Info("Browser process was killed")
+	DelPid(global.CF.App.PidPath)
+	return err
 }
 
 func CreatePid(fileName string, pid string) {

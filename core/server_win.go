@@ -32,6 +32,7 @@ func (srv *WinServer) Shutdown() {
 
 // start new process to handle HTTP Connection
 func (srv *WinServer) Restart() (err error) {
+	global.LOG.Infoln("windows 下不支持restart")
 	return nil
 }
 

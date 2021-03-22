@@ -4,4 +4,4 @@ config/app.ini
 .api
 go-api_unix
 gga
-
+pid.lock
