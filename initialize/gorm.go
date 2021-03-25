@@ -3,7 +3,6 @@ package initialize
 //https://gorm.io/docs/gorm_config.html
 import (
 	"go-api/global"
-	"log"
 	"os"
 	"time"
 
@@ -59,9 +58,10 @@ func getGromLogger() logger.Interface {
 	if global.CF.Mysql.LogMode {
 		LogLevel = logger.Info
 	}
-	newLogger := logger.New(
-		log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer
 
+	//log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer
+	newLogger := logger.New(
+		global.LOG,
 		logger.Config{
 			SlowThreshold: time.Second, // Slow SQL threshold
 			LogLevel:      LogLevel,    // Log level
