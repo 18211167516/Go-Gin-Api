@@ -23,7 +23,7 @@ RUN_MODE = "debug"
     WriteTimeout = 6
 
 [mysql]
-    LogMode = false
+    LogMode = true
     MysqlUser = "root"
     Config = "charset=utf8mb4&parseTime=True&loc=Local"
     MysqlPassword = "123456"

@@ -8,20 +8,6 @@ import (
 	"go-api/tool"
 )
 
-type user struct {
-	Name      string `json:"name" xml:"name" form:"name" binding:"required"`
-	CreatedBy string `json:"created_by" xml:"created_by" form:"created_by" binding:"lowercase"`
-}
-type userId struct {
-	ID int `uri:"id" binding:"required"`
-}
-
-var UserService services.UserContract
-
-func init() {
-	UserService = &services.UserService{}
-}
-
 // @Summary 用户列表
 // @Description  获取用户列表
 // @Tags 用户信息
@@ -36,7 +22,7 @@ func init() {
 func GetUsers(c *gin.Context) {
 	maps := make(map[string]interface{})
 
-	ret := UserService.GetUserList(maps, tool.DefaultGetOffset(c), 10)
+	ret := services.GetUserList(maps, tool.DefaultGetOffset(c), 10)
 	if !ret.GetStatus() {
 		tool.JSONP(c, 40001, ret.GetMsg(), ret["data"])
 		return
@@ -57,13 +43,13 @@ func GetUsers(c *gin.Context) {
 // @Success 0 {object} models.UserSwagger "查询成功"
 // @Router /api/v1/user/{id} [get]
 func GetUser(c *gin.Context) {
-	user := new(userId)
+	user := new(request.UserId)
 	if err := c.ShouldBindUri(user); err != nil {
 		tool.JSONP(c, 40001, request.GetError(err), nil)
 		return
 	}
 
-	ret := UserService.GetUserByID(user.ID)
+	ret := services.GetUserByID(user.ID)
 
 	if !ret.GetStatus() {
 		tool.JSONP(c, 40001, ret.GetMsg(), ret["data"])
@@ -87,7 +73,7 @@ func GetUser(c *gin.Context) {
 // @Router /api/v1/users [post]
 func AddUser(c *gin.Context) {
 
-	user := new(user)
+	user := new(request.User)
 	if err := c.ShouldBind(user); err != nil {
 		tool.JSONP(c, 400, request.GetError(err), nil)
 		return
@@ -99,7 +85,7 @@ func AddUser(c *gin.Context) {
 	data := make(map[string]interface{})
 	data["Name"] = user.Name
 	data["CreatedBy"] = user.CreatedBy
-	ret := UserService.AddUser(maps, data)
+	ret := services.AddUser(maps, data)
 
 	if !ret.GetStatus() {
 		tool.JSONP(c, 40001, ret.GetMsg(), ret["data"])
@@ -110,13 +96,13 @@ func AddUser(c *gin.Context) {
 }
 
 func EditUser(c *gin.Context) {
-	userid := new(userId)
+	userid := new(request.UserId)
 	if err := c.ShouldBindUri(userid); err != nil {
 		tool.JSONP(c, 400, request.GetError(err), nil)
 		return
 	}
 
-	user := new(user)
+	user := new(request.User)
 	if err := c.ShouldBind(user); err != nil {
 		tool.JSONP(c, 400, request.GetError(err), nil)
 		return
@@ -126,7 +112,7 @@ func EditUser(c *gin.Context) {
 	data["name"] = user.Name
 	data["created_by"] = user.CreatedBy
 
-	ret := UserService.EditUser(userid.ID, data)
+	ret := services.EditUser(userid.ID, data)
 
 	if !ret.GetStatus() {
 		tool.JSONP(c, 40001, ret.GetMsg(), nil)
@@ -137,7 +123,7 @@ func EditUser(c *gin.Context) {
 
 func DeleteUser(c *gin.Context) {
 
-	userid := new(userId)
+	userid := new(request.UserId)
 	if err := c.ShouldBindUri(userid); err != nil {
 		tool.JSONP(c, 400, request.GetError(err), nil)
 		return
@@ -146,7 +132,7 @@ func DeleteUser(c *gin.Context) {
 	maps := make(map[string]interface{})
 	maps["id"] = userid.ID
 
-	ret := UserService.DeleteUser(maps)
+	ret := services.DeleteUser(maps)
 
 	if !ret.GetStatus() {
 		tool.JSONP(c, 40001, ret.GetMsg(), nil)

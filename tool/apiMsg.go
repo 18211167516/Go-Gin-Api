@@ -11,7 +11,7 @@ const (
 	INVALID_PARAMS = 400
 	// CUSTOM_ERROR code
 	CUSTOM_ERROR = 40001
-	
+
 	ERROR_AUTH_CHECK_TOKEN_FAIL    = 20001
 	ERROR_AUTH_CHECK_TOKEN_TIMEOUT = 20002
 	ERROR_AUTH_TOKEN               = 20003
@@ -22,7 +22,7 @@ const (
 var MsgFlags = map[int]string{
 	SUCCESS:                        "%s",
 	ERROR:                          "%s",
-	INVALID_PARAMS:                 "参数%s错误",
+	INVALID_PARAMS:                 "参数%s",
 	CUSTOM_ERROR:                   "%s",
 	ERROR_AUTH_CHECK_TOKEN_FAIL:    "Token鉴权失败",
 	ERROR_AUTH_CHECK_TOKEN_TIMEOUT: "Token已超时",

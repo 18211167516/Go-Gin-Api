@@ -46,5 +46,19 @@ func apiRoute(r *gin.Engine) {
 		apiv1.PUT("/users/:id", controller.EditUser)
 		//删除指定用户
 		apiv1.DELETE("/users/:id", controller.DeleteUser)
+
+		//获取角色列表
+		apiv1.POST("/getRules", controller.GetRules)
+		//创建角色
+		apiv1.POST("/createRule", controller.CreateRule)
+		//更新指定角色
+		apiv1.POST("/updateRule", controller.UpdateRule)
+		//获取角色信息
+		apiv1.GET("/getRule/:id", controller.GetUser)
+		//删除指定角色
+		apiv1.DELETE("/deleteRule/:id", controller.DeleteRule)
+		//设置角色权限
+		apiv1.POST("/setRuleAuthority", controller.AddUser)
 	}
+
 }

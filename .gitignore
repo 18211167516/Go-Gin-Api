@@ -5,3 +5,4 @@ config/app.ini
 go-api_unix
 gga
 pid.lock
+log.*

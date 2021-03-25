@@ -7,10 +7,10 @@ import (
 )
 
 type Model struct {
-	ID         int `gorm:"primary_key" json:"id"`
-	CreatedOn  int `json:"created_on"`
-	ModifiedOn int `json:"modified_on"`
-	DeletedAt  int `json:"deleted_at" gorm:"-"`
+	ID         int   `gorm:"primary_key" json:"id"`
+	CreatedOn  int64 `json:"created_on"`
+	ModifiedOn int64 `json:"modified_on"`
+	DeletedAt  int   `json:"deleted_at" gorm:"-"`
 }
 
 func State() string {
@@ -25,14 +25,3 @@ func Exec(sql string) error {
 	}
 	return nil
 }
-
-/* func (model *Model) BeforeCreate(scope *gorm.Scope) error {
-	scope.SetColumn("CreatedOn", time.Now().Unix())
-
-	return nil
-}
-
-func (model *Model) BeforeUpdate(scope *gorm.Scope) error {
-	scope.SetColumn("ModifiedOn", time.Now().Unix())
-	return nil
-} */

@@ -54,6 +54,6 @@ func Logrus() *log.Logger {
 	defaultReportCaller()
 	defaultFormatter()
 	defaultLevel()
-	//log.AddHook(&inLog.TestHook{})
+	log.AddHook(&inLog.TestHook{})
 	return logger
 }

@@ -10,7 +10,6 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
-	"gorm.io/gorm/schema"
 )
 
 func Gorm() *gorm.DB {
@@ -43,25 +42,30 @@ func GormMysql() *gorm.DB {
 }
 
 func GromConfig() *gorm.Config {
-	m := global.CF.Mysql
+	//m := global.CF.Mysql
 	c := &gorm.Config{
 		DisableForeignKeyConstraintWhenMigrating: true,
 		Logger:                                   getGromLogger(),
-		NamingStrategy: schema.NamingStrategy{
+		/* NamingStrategy: schema.NamingStrategy{
 			TablePrefix:   m.MysqlPrefix, // 表前缀
 			SingularTable: true,          // 使用单数表名
-		},
+		}, */
 	}
 	return c
 }
 
 func getGromLogger() logger.Interface {
+	LogLevel := logger.Silent
+	if global.CF.Mysql.LogMode {
+		LogLevel = logger.Info
+	}
 	newLogger := logger.New(
 		log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer
+
 		logger.Config{
-			SlowThreshold: time.Second,   // Slow SQL threshold
-			LogLevel:      logger.Silent, // Log level
-			Colorful:      false,         // Disable color
+			SlowThreshold: time.Second, // Slow SQL threshold
+			LogLevel:      LogLevel,    // Log level
+			Colorful:      false,       // Disable color
 		},
 	)
 

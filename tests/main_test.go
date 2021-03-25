@@ -7,7 +7,6 @@ import (
 
 	"go-api/core"
 	"go-api/global"
-	"go-api/initialize"
 
 	"github.com/gin-gonic/gin"
 )
@@ -16,7 +15,7 @@ func setup() {
 	global.VP = core.Viper("../app.toml")
 	//初始化日志
 	//初始化DB
-	global.DB = initialize.Gorm()
+	//global.DB = initialize.Gorm()
 	gin.SetMode(gin.TestMode)
 	fmt.Println("Before all tests")
 }

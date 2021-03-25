@@ -10,11 +10,12 @@ type TestHook struct {
 }
 
 func (t *TestHook) Levels() []log.Level {
-	return []log.Level{
+	/* return []log.Level{
 		log.ErrorLevel,
 		log.FatalLevel,
 		log.PanicLevel,
-	}
+	} */
+	return log.AllLevels
 }
 
 func (t *TestHook) Fire(entry *log.Entry) error {
@@ -23,7 +24,6 @@ func (t *TestHook) Fire(entry *log.Entry) error {
 		log.Fatalf("create file log.txt failed: %v", err)
 	}
 
-	entry.Data["Hook"] = "test"
 	line, _ := entry.String()
 
 	file.Write([]byte(line))
