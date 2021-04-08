@@ -1,6 +1,7 @@
 package global
 
 import (
+	"embed"
 	"go-api/config"
 
 	"github.com/go-playground/validator/v10"
@@ -16,6 +17,7 @@ var (
 	LOG    *logrus.Logger
 	SER    Server
 	Verify *validator.Validate
+	FS    embed.FS
 )
 
 type LOGF = logrus.Fields

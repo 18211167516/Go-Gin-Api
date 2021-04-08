@@ -2,7 +2,7 @@
 RUN_MODE = "debug"
 
 [casbin]
-    ModelPath = './rbac_model.conf'
+    ModelPath = 'static/config/rbac_model.conf'
     
 [app]
     Template = "view/**/*"

@@ -4,13 +4,15 @@ import (
 	"fmt"
 
 	"go-api/global"
+
+	"gorm.io/gorm"
 )
 
 type Model struct {
-	ID         int   `gorm:"primary_key" json:"id"`
-	CreatedOn  int64 `json:"created_on"`
-	ModifiedOn int64 `json:"modified_on"`
-	DeletedAt  int   `json:"deleted_at" gorm:"-"`
+	ID         int            `gorm:"primary_key" json:"id"`
+	CreatedOn  int64          `json:"created_on"`
+	ModifiedOn int64          `json:"modified_on"`
+	DeletedAt  gorm.DeletedAt `json:"deleted_at" gorm:"-"`
 }
 
 func State() string {

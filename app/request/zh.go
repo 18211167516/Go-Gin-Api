@@ -2,7 +2,6 @@ package request
 
 import (
 	"errors"
-	"fmt"
 	"go-api/global"
 	"reflect"
 	"strings"
@@ -89,7 +88,6 @@ func Verify(st interface{}, r Rules) error {
 		v := val.Field(i).Interface()
 
 		if err := va.Var(v, verify); err != nil {
-			fmt.Println(GetError(err))
 			var b strings.Builder
 			if tag != "" {
 				b.WriteString(tag)

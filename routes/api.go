@@ -59,6 +59,17 @@ func apiRoute(r *gin.Engine) {
 		apiv1.DELETE("/deleteRule/:id", controller.DeleteRule)
 		//设置角色权限
 		apiv1.POST("/setRuleAuthority", controller.AddUser)
+
+		//获取全部菜单数据
+		apiv1.POST("/getMenuList", controller.GetMenus)
+		//创建菜单
+		apiv1.POST("/createMenu", controller.CreateMenu)
+		//获取某个菜单信息
+		apiv1.GET("/getMenu/:id", controller.GetMenu)
+		//更新菜单信息
+		apiv1.POST("/updateMenu", controller.UpdateMenu)
+		//删除菜单
+		apiv1.DELETE("deleteMenu", controller.DeleteMenu)
 	}
 
 }

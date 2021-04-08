@@ -1,6 +1,7 @@
 package core
 
 import (
+	"bytes"
 	"flag"
 	"fmt"
 	"go-api/global"
@@ -15,8 +16,8 @@ func Viper(path ...string) *viper.Viper {
 		flag.StringVar(&config, "c", "", "choose config file.")
 		flag.Parse()
 		if config == "" { // 优先级: 命令行 > 环境变量 > 默认值
-			config = "app.toml"
-			fmt.Printf("您正在使用config的默认值,config的路径为%v\n", "app.toml")
+			config = "static/config/app.toml"
+			fmt.Printf("您正在使用config的默认值,config的路径为%v\n", config)
 		} else {
 			fmt.Printf("您正在使用命令行的-c参数传递的值,config的路径为%v\n", config)
 		}
@@ -27,10 +28,16 @@ func Viper(path ...string) *viper.Viper {
 
 	v := viper.New()
 	v.SetConfigFile(config)
-	err := v.ReadInConfig()
+	file, err := global.FS.ReadFile(config)
+
 	if err != nil {
 		panic(fmt.Errorf("Fatal error config file: %s \n", err))
 	}
+
+	if err := v.ReadConfig(bytes.NewReader(file)); err != nil {
+		panic(fmt.Errorf("Fatal error config file: %s \n", err))
+	}
+
 	v.WatchConfig()
 
 	//监听文件修改
@@ -42,7 +49,7 @@ func Viper(path ...string) *viper.Viper {
 	})
 
 	if err := v.Unmarshal(&global.CF); err != nil {
-		fmt.Println(err)
+		fmt.Println("config Unmarshal err:", err)
 	}
 
 	return v

@@ -9,6 +9,7 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
+	"gorm.io/plugin/dbresolver"
 )
 
 func Gorm() *gorm.DB {
@@ -31,10 +32,27 @@ func GormMysql() *gorm.DB {
 		os.Exit(0)
 		return nil
 	} else {
-		sqlDB, _ := db.DB()
-		sqlDB.SetMaxIdleConns(10)               //最大空闲连接
-		sqlDB.SetMaxOpenConns(100)              //最大数据库链接
-		sqlDB.SetConnMaxLifetime(m.MaxLifetime) //数据库链接最大生存时间             //true  打印Log
+		db.Use(dbresolver.Register(dbresolver.Config{
+			Sources: []gorm.Dialector{
+				mysql.Open("root:123456@tcp(192.168.99.100:3306)/test"),
+			},
+			Replicas: []gorm.Dialector{
+				mysql.Open("root:123456@tcp(192.168.99.100:3306)/test2"),
+				mysql.Open("root:123456@tcp(192.168.99.100:3306)/test3"),
+			},
+			// sources/replicas 负载均衡策略
+			Policy: dbresolver.RandomPolicy{},
+		}).SetConnMaxIdleTime(10).
+			SetConnMaxLifetime(m.MaxLifetime).
+			SetMaxOpenConns(10).
+			SetMaxIdleConns(2),
+		)
+
+		db.Clauses(dbresolver.Read)
+		//sqlDB, _ := db.DB()
+		//sqlDB.SetMaxIdleConns(10)               //最大空闲连接数
+		//sqlDB.SetMaxOpenConns(100)              //最大数据库链接数
+		//sqlDB.SetConnMaxLifetime(m.MaxLifetime) //数据库链接最大生存时间             //true  打印Log
 		return db
 	}
 

@@ -19,7 +19,7 @@ func initGin() *gin.Engine {
 	//设置gin模式
 	gin.SetMode(global.CF.RunMode)
 	engine := gin.New()
-	engine.Use(middleware.Logger(), middleware.Recovery())
+	engine.Use(middleware.ApiLogger(), middleware.Recovery())
 	return engine
 }
 
@@ -28,4 +28,5 @@ func loadRoute(r *gin.Engine) {
 	testRoute(r)
 	apiRoute(r)
 	swagRoute(r)
+	fileRoute(r)
 }
