@@ -1,0 +1,302 @@
+{{define "menu/menu_list.html"}}
+{{template "common/header" .}}
+<link href="/public/static/js/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+<link href="/public/static/js/jquery-treegrid/jquery.treegrid.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container-fluid p-t-15">
+  <div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+          <header class="card-header"><div class="card-title">菜单管理</div></header>
+          <div class="card-body">
+            <button id="btn_add" type="button" class="btn btn-primary m-r-5" onclick="addBase()">
+                <span class="mdi mdi-plus" aria-hidden="true"></span>新增
+            </button>
+            <table class="tree-table"></table>
+          </div>
+        </div>
+      </div>
+  </div>
+  <div class="modal fade" tabindex="-1" role="dialog" id="model">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title" id="modal-title">创建菜单</h6>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form class="form-horizontal needs-validation ajax-form" name="addBaseUrl" id="addBaseUrl" novalidate action="{{.addBaseUrl}}">
+          <div class="modal-body">
+            <div class="form-group row">
+              <label for="name" class="control-label col-sm-3 col-form-label">菜单名称</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" name="name" required>
+                <div class="invalid-feedback">
+                  菜单名称不能为空
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="path" class="control-label col-sm-3 col-form-label">路由地址</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" name="path" required>
+                <div class="invalid-feedback">
+                  路由路径不能为空
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="is_view" class="control-label col-sm-3 col-form-label">视图</label>
+              <div class="col-sm-8">
+                <select name="is_view" class="form-control" id="status">
+                  <option value="1">是</option>
+                  <option value="0">否</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="sort" class="control-label col-sm-3 col-form-label">排序</label>
+              <div class="col-sm-8">
+                <input type="number" class="form-control" name="sort" value="0" min="0" max="100">
+              </div>
+            </div>
+          </div>
+          <input type="reset" name="reset" style="display: none;" />
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="submit" class="btn btn-primary">确定</button>
+          </div>
+        </form>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div>
+</div>
+
+{{template "common/footer"}}
+
+<script src="/public/static/js/jquery-treegrid/jquery.treegrid.min.js"></script>
+<script src="/public/static/js/bootstrap-table/extensions/treegrid/bootstrap-table-treegrid.min.js"></script>
+<script>
+// tree-grid使用
+data = "{{.list}}"
+var $treeTable = $('.tree-table');
+$treeTable.bootstrapTable({
+    data: JSON.parse(data),
+    idField: 'id',
+    uniqueId: 'id',
+    dataType: 'jsonp',
+    toolbar: '#toolbar2',
+    columns: [
+        {
+            field: 'check',
+            checkbox: true
+        },
+        {
+            field: 'id',
+            title: 'ID'
+        },
+        {
+            field: 'name',
+            title: '菜单名称'
+        },
+        {
+            field: 'parent_id',
+            title: '父菜单ID'
+        },
+        {
+            field: 'hidden',
+            title: '状态',
+            /*
+             * 可以选择采用开关来处理状态显示
+             * 或者采用上个示例的处理方式
+             */
+            formatter: function (value, row, index) {
+                is_checked = '';
+                if (row.hidden == 0){
+                    is_checked = 'checked=true';
+                }
+                result = '<div class="custom-control custom-switch"><input type="checkbox" class="custom-control-input" id="customSwitch'+ row.id +'" '+ is_checked +'><label class="custom-control-label" for="customSwitch'+ row.id +'" onClick="updateStatus('+ row.id +', '+ value +')"></label></div>';
+            
+                return result;
+            },
+        },
+        {
+            field: 'path',
+            title: '路由路径'
+        },
+        {
+            field: 'is_view',
+            title: '视图',
+            formatter:function(value, row, index){ 
+			var value="";
+			if (row.is_view == '0') {
+				value = '<span class="badge badge-danger">否</span>';
+			} else if(row.is_view == '1') {
+				value = '<span class="badge badge-success">是</span>';
+			}else {
+				value = row.pType ;
+			}
+			return value;
+        }},
+        {
+            field: 'operate',
+            title: '操作',
+            align: 'center',
+            events : {
+                'click .role-add': function (e, value, row, index) {
+                    add(row);
+                },
+                /* 'click .role-delete': function (e, value, row, index) {
+                    del(row);
+                }, */
+                'click .role-edit': function (e, value, row, index) {
+                    update(row);
+                }
+            },
+            formatter: operateFormatter
+        }
+    ],
+    
+    treeShowField: 'name',
+    parentIdField: 'parent_id',
+    pagination: true,                    // 是否显示分页
+    sidePagination: "client",            // 分页方式：client客户端分页，server服务端分页
+    pageNumber: 1,                       // 初始化加载第一页，默认第一页
+    pageSize: 20,                        // 每页的记录行数
+    pageList: [10, 25, 50, 100],  
+    onResetView: function(data) {
+        $treeTable.treegrid({
+            initialState: 'collapsed', // 所有节点都折叠
+            treeColumn: 1,
+            //expanderExpandedClass: 'mdi mdi-folder-open',  // 可自定义图标样式
+            //expanderCollapsedClass: 'mdi mdi-folder',
+        });
+        
+        // 只展开树形的第一集节点
+        $treeTable.treegrid('getRootNodes').treegrid('expand');
+    },
+    onCheck: function(row) {
+        var datas = $treeTable.bootstrapTable('getData');
+        
+        selectChilds(datas, row, 'id', 'parent_id', true); // 选择子类
+        
+        selectParentChecked(datas, row, 'id', 'parent_id'); // 选择父类
+        
+        $treeTable.bootstrapTable('load', datas);
+    },
+    
+    onUncheck: function(row) {
+        var datas = $treeTable.bootstrapTable('getData');
+        selectChilds(datas, row, 'id', 'parent_id', false);
+        $treeTable.bootstrapTable('load', datas);
+    },
+});
+  
+// 操作按钮
+function operateFormatter(value, row, index) {
+    delUrl = "{{.delUrl}}";
+    delUrl = delUrl.replace(/(:\w+)/,row.id)
+    return [
+        '<a type="button" class="role-add btn btn-xs btn-default m-r-5" title="添加子菜单" data-toggle="tooltip"><i class="mdi mdi-plus"></i></a>',
+        '<a type="button" class="role-edit btn btn-xs btn-default m-r-5" title="修改菜单" data-toggle="tooltip"><i class="mdi mdi-pencil"></i></a>',
+        '<a href="'+delUrl+'" class="role-delete btn btn-xs btn-default ajax-post confirm" data-tips="确认删除吗" title="删除菜单"><i class="mdi mdi-delete"></i></a>'
+    ].join('');
+}
+
+/**
+ * 选中父项时，同时选中子项
+ * @param datas 所有的数据
+ * @param row 当前数据
+ * @param id id 字段名
+ * @param pid 父id字段名
+ */
+function selectChilds(datas,row,id,pid,checked) {
+    for(var i in datas){
+        if(datas[i][pid] == row[id]){
+          console.log(pid,id,"我们匹配上了")
+            datas[i].check=checked;
+            selectChilds(datas,datas[i],id,pid,checked);
+        };
+    }
+}
+
+function selectParentChecked(datas,row,id,pid){
+    for(var i in datas){
+        if(datas[i][id] == row[pid]){
+          console.log(pid,id,"我们父级匹配上了")
+            datas[i].check=true;
+            selectParentChecked(datas,datas[i],id,pid);
+        };
+    }
+}
+
+function addBase() { 
+    url = "{{.addBaseUrl}}";
+    console.log(url)
+    $("#model").find('#modal-title').text("创建菜单")
+    $('#model').find('input[type="reset"]').trigger("click")
+    $('#model').find('form').attr('action',url);
+    $('#model').modal({show:true})
+}
+
+//添加子菜单
+function add(row) {
+    url = "{{.addChildUrl}}";
+    url = url.replace(/(:\w+)/,row.id)
+    console.log(url)
+    $("#model").find('#modal-title').text("创建子菜单")
+    $('#model').find('input[type="reset"]').trigger("click")
+    $('#model').find('form').attr('action',url);
+    $('#model').modal({show:true})
+}
+
+//编辑菜单
+function update(row) {
+    url = "{{.editUrl}}";
+    url = url.replace(/(:\w+)/,row.id)
+    console.log(url)
+    name = row.name;
+    path = row.path;
+    is_view = row.is_view;
+    sort = row.sort
+    $("#model").find('#modal-title').text("编辑菜单")
+    $('#model').find('input[type="reset"]').trigger("click")
+    $('#model').find('form').attr('action',url);
+    $('#model').find('input[name="name"]').val(name);
+    $('#model').find('input[name="path"]').val(path);
+    $('#model').find('input[name="sort"]').val(sort);
+    $('#model').find('select[name="is_view"]').val(is_view);
+    $('#model').modal({show:true})
+}
+
+//更新隐藏状态
+function updateStatus(id, state) {
+    var newstate = (state == 1) ? 0 : 1; // 发送参数值跟当前参数值相反
+    url = "{{.editUrl}}";
+    url = url.replace(/(:\w+)/,id)
+    console.log(url)
+    $.ajax({
+        type: "post",
+        url: url,
+        data: {hidden: newstate},
+        dataType: 'json',
+        success: function (data, status) {
+            if (data.error_code == 0) {
+                $treeTable.bootstrapTable('updateCellByUniqueId', {id: id, field: 'hidden', value: newstate});
+            } else {
+                alert(data.msg);
+                $treeTable.bootstrapTable('updateCellByUniqueId', {id: id, field: 'hidden', value: state}); // 因开关点击后样式是变的，失败也重置下
+            }
+        },
+        error: function () {
+            alert('修改失败，请稍后再试');
+        }
+    });
+}
+
+</script>
+</body>
+</html>
+{{end}}

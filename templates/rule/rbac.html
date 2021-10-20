@@ -1,0 +1,127 @@
+{{define "rule/rbac.html"}}
+{{template "common/header" .}}
+</head>
+  
+<body>
+<div class="container-fluid p-t-15">
+  
+  <div class="row">
+    
+    <div class="col-lg-12">
+      <div class="card">
+        <header class="card-header"><div class="card-title">设置权限</div></header>
+        <div class="card-body">
+          
+          <form action="{{.editUrl}}" name="frm1" method="post">
+            <div class="form-group">
+              <label for="example-text-input">角色名称</label>
+              <input class="form-control" value ="{{.rule.Role_name}}" readonly type="text"  placeholder="角色名称">
+              <input type="hidden" name="rule_id" value="{{.rule.ID}}"/>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="check-all">
+                        <label class="custom-control-label" for="check-all">全选</label>
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{range $index,$row := .list}}
+                    <tr>
+                      <td>
+                        <div class="custom-control custom-checkbox">
+                          <input {{if $row.Checked}}checked="true"{{end}} type="checkbox" name="rules[]" class="custom-control-input checkbox-parent" id="roleid-{{$row.ID}}" dataid="id-{{$row.ID}}" value="{{$row.ID}}">
+                          <label class="custom-control-label" for="roleid-{{$row.ID}}">{{$row.Name}}</label>
+                        </div>
+                      </td>
+                    </tr>
+                    {{if len $row.Children}}
+                      {{range $value := $row.Children}}
+                      <tr>
+                        <td class="p-l-20">
+                          <div class="custom-control custom-checkbox">
+                            <input {{if $value.Checked}}checked="true"{{end}} type="checkbox" name="rules[]" class="custom-control-input checkbox-parent checkbox-child" id="roleid-{{$row.ID}}-{{$value.ID}}" dataid="id-{{$row.ID}}-{{$value.ID}}" value="{{$value.ID}}">
+                            <label class="custom-control-label" for="roleid-{{$row.ID}}-{{$value.ID}}">{{$value.Name}}</label>
+                          </div>
+                        </td>
+                      </tr>
+                        {{if len $value.Children}}
+                        <tr>
+                          <td class="p-l-40">
+                              <div class="custom-control custom-checkbox custom-control-inline">
+                                <input {{if $value.Checked}}checked="true"{{end}} type="checkbox" class="custom-control-input checkbox-child" id="roleid-{{$row.ID}}-{{$value.ID}}-{{$value.ID}}" dataid="id-{{$row.ID}}-{{$value.ID}}-{{$value.ID}}" value="{{$value.ID}}">
+                                <label class="custom-control-label" for="roleid-{{$row.ID}}-{{$value.ID}}-{{$value.ID}}">{{$value.Name}}</label>
+                              </div>
+                              {{range $item:= $value.Children}}
+                              <div class="custom-control custom-checkbox custom-control-inline">
+                                <input {{if $item.Checked}}checked="true"{{end}} type="checkbox" name="rules[]" class="custom-control-input checkbox-child" id="roleid-{{$row.ID}}-{{$value.ID}}-{{$item.ID}}" dataid="id-{{$row.ID}}-{{$value.ID}}-{{$item.ID}}" value="{{$item.ID}}">
+                                <label class="custom-control-label" for="roleid-{{$row.ID}}-{{$value.ID}}-{{$item.ID}}">{{$item.Name}}</label>
+                              </div>
+                              {{end}}
+                            </td>
+                          </tr>
+                        {{end}}
+                      {{end}}
+                    {{end}}
+                  {{end}}
+                </tbody>
+              </table>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary m-r-5 ajax-post" target-form="frm1">确 定</button>
+              <button type="button" class="btn btn-default" onclick="javascript:history.back(-1);return false;">返 回</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+        
+  </div>
+  
+</div>
+
+{{template "common/footer"}}
+<script type="text/javascript">
+$(function(){
+    //动态选择框，上下级选中状态变化
+    $('input.checkbox-parent').on('change', function(){
+        var dataid = $(this).attr("dataid");
+        $('input[dataid^=' + dataid + '-]').prop('checked', $(this).is(':checked'));
+    });
+    $('input.checkbox-child').on('change', function(){
+        var dataid = $(this).attr("dataid");
+            dataid = dataid.substring(0, dataid.lastIndexOf("-"));
+        var parent = $('input[dataid=' + dataid + ']');
+        if($(this).is(':checked')){
+            parent.prop('checked', true);
+            //循环到顶级
+            while(dataid.lastIndexOf("-") != 2){
+                dataid = dataid.substring(0, dataid.lastIndexOf("-"));
+                parent = $('input[dataid=' + dataid + ']');
+                parent.prop('checked', true);
+            }
+        }else{
+            //父级
+            if($('input[dataid^=' + dataid + '-]:checked').length == 0){
+                parent.prop('checked', false);
+                //循环到顶级
+                while(dataid.lastIndexOf("-") != 2){
+                    dataid = dataid.substring(0, dataid.lastIndexOf("-"));
+                    parent = $('input[dataid=' + dataid + ']');
+                    if($('input[dataid^=' + dataid + '-]:checked').length == 0){
+                        parent.prop('checked', false);
+                    }
+                }
+            }
+        }
+    });
+});
+</script>
+</body>
+</html>
+{{end}}

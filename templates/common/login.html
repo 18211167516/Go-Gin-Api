@@ -1,0 +1,151 @@
+{{ define "common/login.html" }}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>{{.title|default "后台"}}</title>
+<link rel="icon" href="favicon.ico" type="image/ico">
+<meta name="keywords" content="LightYear,LightYearAdmin,光年,后台模板,后台管理系统,光年HTML模板">
+<meta name="description" content="Light Year Admin V4是一个后台管理系统的HTML模板，基于Bootstrap v4.4.1。">
+<meta name="author" content="yinqi">
+<link href="/public/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/public/static/css/materialdesignicons.min.css" rel="stylesheet">
+<link href="/public/static/css/style.min.css" rel="stylesheet">
+<link href="/public/static/css/animate.min.css" rel="stylesheet" >
+<link href="/public/static/js/bootstrap-multitabs/multitabs.min.css" rel="stylesheet" >
+<link href="/public/static/js/jquery-confirm/jquery-confirm.min.css" rel="stylesheet">
+<style>
+.login-box {
+    background-color: rgba(255, 255, 255, .25);
+}
+.login-box p:last-child {
+    margin-bottom: 0px;
+}
+.login-form .form-control {
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+}
+.login-form .has-feedback {
+    position: relative;
+}
+.login-form .has-feedback .form-control {
+    padding-left: 36px;
+}
+.login-form .has-feedback .mdi {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: auto;
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    z-index: 4;
+    color: #dcdcdc;
+    display: block;
+    text-align: center;
+    pointer-events: none;
+}
+.login-form .has-feedback.row .mdi {
+    left: 15px;
+}
+.login-form .form-control::-webkit-input-placeholder{ 
+    color: rgba(255, 255, 255, .8);
+} 
+.login-form .form-control:-moz-placeholder{ 
+    color: rgba(255, 255, 255, .8);
+} 
+.login-form .form-control::-moz-placeholder{ 
+    color: rgba(255, 255, 255, .8);
+} 
+.login-form .form-control:-ms-input-placeholder{ 
+    color: rgba(255, 255, 255, .8);
+}
+.login-form .custom-control-label::before {
+    background: rgba(0, 0, 0, 0.3);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+</style>
+</head>
+  
+<body class="center-vh" style="background-image: url(/public/static/images/login-bg-4.jpg); background-size: cover;">
+<div class="login-box p-5 w-420 mb-0 mr-2 ml-2">
+  <form action="/admin/login" method="post" class=" login-form needs-validation ajax-form" novalidate>
+    <div class="form-group has-feedback">
+      <span class="mdi mdi-account" aria-hidden="true"></span>
+      <input type="text" class="form-control" name="name" placeholder="用户名" required>
+      <div class="invalid-feedback">
+        用户名不能为空
+      </div>
+    </div>
+
+    <div class="form-group has-feedback">
+      <span class="mdi mdi-lock" aria-hidden="true"></span>
+      <input type="password" class="form-control" name="password" placeholder="密码" required>
+      <div class="invalid-feedback">
+        密码不能为空
+      </div>
+    </div>
+    
+    <div class="form-group has-feedback row">
+      <div class="col-7">
+        <span class="mdi mdi-check-all form-control-feedback" aria-hidden="true"></span>
+        <input type="text" name="captcha" class="form-control" placeholder="验证码" required>
+        
+        <div class="invalid-feedback">
+          图片验证码不能为空
+        </div>
+      </div>
+      <div class="col-5 text-right">
+        <input type="hidden" name="captcha_id" value=""/>
+        <img style="background-color: #fff;" src="/public/static/images/captcha.png" class="pull-right" id="captcha" style="cursor: pointer;" onclick="getCaptchaImg()" title="点击刷新" alt="captcha">
+      </div>
+    </div>
+
+    <!-- <div class="form-group">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="rememberme">
+        <label class="custom-control-label not-user-select text-white" for="rememberme">5天内自动登录</label>
+      </div>
+    </div> -->
+
+    <div class="form-group">
+      <button class="btn btn-block btn-primary" type="submit">立即登录</button>
+    </div>
+  </form>
+  
+  <p class="text-center text-white">Copyright © 2020 <a href="http://lyear.itshubao.com">IT书包</a>. All right reserved</p>
+</div>
+{{template "common/footer" .}}
+<script>
+  function errCallback(res){
+    if (res.error_code >40000){
+      getCaptchaImg()
+    }
+  }
+  function getCaptchaImg(){
+    ajax_url = "{{.captchaUrl}}"
+    jQuery.get(ajax_url).done(function(res) {
+                //var res = eval('(' + res + ')');
+                var msg = res.msg;
+                ids = res.data.id
+                base64 = res.data.base64
+                if (0 == res.error_code) {
+                  $('input[name="captcha_id"]').val(ids)
+                  $('#captcha').attr('src',base64)
+                } else {
+                  showNotify(msg, 'info');
+                }
+      }).fail(function () {
+          showNotify("验证码获取失败", 'info');
+      });
+  }
+
+  (function() {
+    getCaptchaImg()
+  })();
+
+</script>
+</body>
+</html>
+{{end}}

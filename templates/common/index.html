@@ -1,0 +1,70 @@
+{{define "common/index.html"}}
+{{template "common/header" .}}
+</head>
+<body>
+<div class="lyear-layout-web">
+  <div class="lyear-layout-container">
+    <!--左侧导航-->
+    {{template "common/left" .}}
+    <!--End 左侧导航-->
+    <!--头部信息-->
+    {{template "common/top" .}}
+    <!--End 头部信息-->
+    <!--页面主要内容-->
+    <main class="lyear-layout-content">
+      <div class="modal fade" tabindex="-1" role="dialog" id="changeOwnPassword">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h6 class="modal-title" id="exampleModalCenterTitle">修改密码</h6>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form class="form-horizontal needs-validation ajax-form"  novalidate action="{{.changeOwnPasswordUrl}}">
+              <div class="modal-body">
+                <div class="form-group row">
+                  <label for="role_name" class="control-label col-sm-3">原密码</label>
+                  <div class="col-sm-8">
+                    <input type="password" class="form-control" name="old_password" required>
+                    <div class="invalid-feedback">
+                     原密码不能为空
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="role_name" class="control-label col-sm-3">新密码</label>
+                  <div class="col-sm-8">
+                    <input type="password" class="form-control" name="new_password" required>
+                    <div class="invalid-feedback">
+                      新密码不能为空
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="role_name" class="control-label col-sm-3">确认密码</label>
+                  <div class="col-sm-8">
+                    <input type="password" class="form-control" name="confirm_password" required>
+                    <div class="invalid-feedback">
+                      确认密码不能为空
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" class="btn btn-primary">确定</button>
+              </div>
+            </form>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div>
+      <div id="iframe-content" url="/admin/main"></div>
+    </main>
+    <!--End 页面主要内容-->
+  </div>
+</div>
+{{template "common/footer" .}}
+</body>
+</html>
+{{end}}

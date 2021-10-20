@@ -1,0 +1,36 @@
+{{define "error/404.html"}}
+{{template "common/header" .}}
+<style>
+.error-page {
+    height: 100%;
+    position: fixed;
+    width: 100%;
+}
+.error-body {
+    padding-top: 5%;
+}
+.error-body h1 {
+    font-size: 210px;
+    font-weight: 700;
+    text-shadow: 4px 4px 0 #f5f6fa, 6px 6px 0 #868e96;
+    line-height: 210px;
+    color: #868e96;
+}
+</style>
+</head>
+  
+<body>
+<section class="error-page">
+  <div class="error-box">
+    <div class="error-body text-center">
+      <h1>{{.code}}</h1>
+      <h5 class="mb-5 mt-3 text-gray">{{.message}}</h5>
+      <a href="index.html" class="btn btn-primary">返回首页</a>
+    </div>
+  </div>
+</section>
+<script type="text/javascript" src="/public/static/js/jquery.min.js"></script>
+<script type="text/javascript" src="/public/static/js/bootstrap.min.js"></script>
+</body>
+</html>
+{{end}}

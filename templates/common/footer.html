@@ -1,0 +1,364 @@
+{{define "common/footer"}}
+<script type="text/javascript" src="/public/static/js/jquery.min.js"></script>
+<script type="text/javascript" src="/public/static/js/popper.min.js"></script>
+<script type="text/javascript" src="/public/static/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/public/static/js/lyear-loading.js"></script>
+<script type="text/javascript" src="/public/static/js/bootstrap-notify.min.js"></script>
+<script type="text/javascript" src="/public/static/js/jquery-confirm/jquery-confirm.min.js"></script>
+<script type="text/javascript" src="/public/static/js/bootstrap-table/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="/public/static/js/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script type="text/javascript" src="/public/static/js/main.min.js"></script>
+<script type="text/javascript" src="/public/static/js/perfect-scrollbar.min.js"></script>
+<script type="text/javascript" src="/public/static/js/bootstrap-multitabs/multitabs.min.js"></script>
+<script type="text/javascript" src="/public/static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="/public/static/js/index.min.js"></script>
+<script type="text/javascript">
+
+    $(function(){
+        // 通用ajax post请求
+        jQuery(document).delegate('.ajax-post', 'click', function(event){
+            var self        = jQuery(this), tips = self.data('tips'), ajax_url = self.attr("href") || self.data("url");
+            var target_form = self.attr('target-form');
+            var text        = self.data('tips');
+            var form        = jQuery('form[name="'+ target_form +'"]');
+            
+            if (form.length == 0) {
+                form = jQuery('.' + target_form);
+            }
+            
+            var form_data = form.serialize();
+            if ('submit' == self.attr('type') || ajax_url) {
+                if (void 0 == form.get(0)) {
+                    if (self.hasClass('confirm')) {
+                        $.confirm({
+                            title: '',
+                            content: tips || '确认要执行该操作吗？',
+                            type: 'orange',
+                            typeAnimated: true,
+                            buttons: {
+                                confirm: {
+                                    text: '确认',
+                                    btnClass: 'btn-blue',
+                                    action: function() {
+                                        var loader = $('body').lyearloading({
+                                            opacity: 0.2,
+                                            spinnerSize: 'lg'
+                                        });
+                                        self.attr('autocomplete', 'off').prop('disabled', true);
+                                        
+                                        ajaxPostFun(self, ajax_url, form_data, loader);
+                                    }
+                                },
+                                cancel: {
+                                    text: '取消',
+                                    action: function() {}
+                                }
+                            }
+                        });
+                        return false;
+                    } else {
+                        self.attr("autocomplete", "off").prop("disabled", true);
+                    }
+                }else if ('FORM' == form.get(0).nodeName) {
+                    // 如果节点是FORM表单
+                    ajax_url = ajax_url || form.get(0).action;
+                    
+                    // 确认提交
+                    if (self.hasClass('confirm')) {
+                        $.confirm({
+                            title: '',
+                            content: tips || '确认要执行该操作吗？',
+                            type: 'orange',
+                            typeAnimated: true,
+                            buttons: {
+                                confirm: {
+                                    text: '确认',
+                                    btnClass: 'btn-blue',
+                                    action: function() {
+                                        var loader = $('body').lyearloading({
+                                            opacity: 0.2,
+                                            spinnerSize: 'lg'
+                                        });
+                                        self.attr('autocomplete', 'off').prop('disabled', true);
+                                        ajaxPostFun(self, ajax_url, form_data, loader);
+                                    }
+                                },
+                                cancel: {
+                                    text: '取消',
+                                    action: function() {}
+                                }
+                            }
+                        });
+                        return false;
+                    } else {
+                        self.attr("autocomplete", "off").prop("disabled", true);
+                    }
+                } else if ('INPUT' == form.get(0).nodeName || 'SELECT' == form.get(0).nodeName || 'TEXTAREA' == form.get(0).nodeName) {
+                    // 复选框判断是否有选择项
+                    if (form.get(0).type == 'checkbox' && form_data == '') {
+                        showNotify('请选择您要操作的数据', 'danger');
+                        return false;
+                    }
+                    
+                    if (self.hasClass('confirm')) {
+                        $.confirm({
+                            title: '',
+                            content: tips || '确认要执行该操作吗？',
+                            type: 'orange',
+                            typeAnimated: true,
+                            buttons: {
+                                confirm: {
+                                    text: '确认',
+                                    btnClass: 'btn-blue',
+                                    action: function() {
+                                        var loader = $('body').lyearloading({
+                                            opacity: 0.2,
+                                            spinnerSize: 'lg'
+                                        });
+                                        self.attr('autocomplete', 'off').prop('disabled', true);
+                                        
+                                        ajaxPostFun(self, ajax_url, form_data, loader);
+                                    }
+                                },
+                                cancel: {
+                                    text: '取消',
+                                    action: function() {}
+                                }
+                            }
+                        });
+                        return false;
+                    } else {
+                        self.attr("autocomplete", "off").prop("disabled", true);
+                    }
+                } else {
+                    if (self.hasClass('confirm')) {
+                        $.confirm({
+                            title: '',
+                            content: tips || '确认要执行该操作吗？',
+                            type: 'orange',
+                            typeAnimated: true,
+                            buttons: {
+                                confirm: {
+                                    text: '确认',
+                                    btnClass: 'btn-blue',
+                                    action: function() {
+                                        var loader = $('body').lyearloading({
+                                            opacity: 0.2,
+                                            spinnerSize: 'lg'
+                                        });
+                                        self.attr('autocomplete', 'off').prop('disabled', true);
+                                        
+                                        ajaxPostFun(self, ajax_url, form_data, loader);
+                                    }
+                                },
+                                cancel: {
+                                    text: '取消',
+                                    action: function() {}
+                                }
+                            }
+                        });
+                        return false;
+                    } else {
+                        form_data = form.find("input,select,textarea").serialize();
+                        self.attr("autocomplete", "off").prop("disabled", true);
+                    }
+                }
+                
+                var loader = $('body').lyearloading({
+                    opacity: 0.2,
+                    spinnerSize: 'lg'
+                });
+                ajaxPostFun(self, ajax_url, form_data, loader);
+                
+                return false;
+            }
+        });
+        
+        // 通用ajax get请求
+        jQuery(document).delegate('.ajax-get', 'click', function(){
+            var self = $(this), tips = self.data('tips'), ajax_url = self.attr("href") || self.data("url");
+            
+            if (self.hasClass('confirm')) {
+                $.confirm({
+                    title: '',
+                    content: tips || '确认要执行该操作吗？',
+                    type: 'orange',
+                    typeAnimated: true,
+                    buttons: {
+                        confirm: {
+                            text: '确认',
+                            btnClass: 'btn-blue',
+                            action: function() {
+                                var loader = $('body').lyearloading({
+                                    opacity: 0.2,
+                                    spinnerSize: 'lg'
+                                });
+                                self.attr('autocomplete', 'off').prop('disabled', true);
+                                
+                                ajaxGetFun(self, ajax_url, loader);
+                            }
+                        },
+                        cancel: {
+                            text: '取消',
+                            action: function() {}
+                        }
+                    }
+                });
+                return false;
+            } else {
+                var loader = $('body').lyearloading({
+                    opacity: 0.2,
+                    spinnerSize: 'lg'
+                });
+                self.attr('autocomplete', 'off').prop('disabled', true);
+                
+                ajaxGetFun(self, ajax_url, loader);
+            }
+            return false;
+        });
+        
+        // POST提交处理
+        function ajaxPostFun(selfObj, ajax_url, form_data, loader) {
+            console.log('url==>'+ajax_url);
+            console.log('form_data==>'+form_data);
+            jQuery.post(ajax_url, form_data).done(function(res) {
+                loader.destroy();
+                //var res = eval('(' + res + ')');
+                var msg = res.msg;
+                if (res.data == null){
+                    url = '';
+                }else{
+                    url = res.data.url;
+                }
+                if (0 == res.error_code) {
+                    showNotify(msg, 'info');
+                    setTimeout(function () {
+                        selfObj.attr("autocomplete", "on").prop("disabled", false);
+                        return selfObj.hasClass("no-refresh") ? false : (url ? location.href = url : location.reload());
+                    }, 1500);
+                } else {
+                    showNotify(msg, 'danger');
+                    if (typeof errCallback === 'function') {
+                        errCallback(res)
+                    }
+                    selfObj.attr("autocomplete", "on").prop("disabled", false);
+                }
+            }).fail(function () {
+                loader.destroy();
+                showNotify('服务器发生错误，请稍后再试', 'danger');
+                selfObj.attr("autocomplete", "on").prop("disabled", false);
+            });
+        }
+        
+        // GET提交处理
+        function ajaxGetFun(selfObj, ajax_url, loader) {
+            console.log(ajax_url);
+            
+            jQuery.get(ajax_url).done(function(res) {
+                loader.destroy();
+                //var res = eval('(' + res + ')');
+                var msg = res.msg;
+                if (res.data == null){
+                    url = '';
+                }else{
+                    url = res.data.url;
+                }
+                if (0 == res.error_code) {
+                    showNotify(msg, 'info');
+                    setTimeout(function () {
+                        selfObj.attr("autocomplete", "on").prop("disabled", false);
+                        return selfObj.hasClass("no-refresh") ? false : (url ? location.href = url : location.reload());
+                    }, 1500);
+                } else {
+                    showNotify(msg, 'danger');
+                    if (typeof errCallback === 'function') {
+                        errCallback(res)
+                    }
+                    selfObj.attr("autocomplete", "on").prop("disabled", false);
+                }
+            }).fail(function () {
+                loader.destroy();
+                showNotify('服务器发生错误，请稍后再试', 'danger');
+                selfObj.attr("autocomplete", "on").prop("disabled", false);
+            });
+        }
+      
+        $('.ajax-form').submit(function (event){
+            form = $(this)[0]
+            if (form.checkValidity() == false) {
+                event.preventDefault();
+                event.stopPropagation();
+            }else{
+                event.preventDefault();
+                form.classList.add('was-validated');
+                var self =  $(this).find("button[type=submit]")
+                var ajax_url =  $(this).attr('action');
+                var form_data =  $(this).serialize();
+                var loader = $('body').lyearloading({opacity: 0.2,spinnerSize: 'lg'});
+                ajaxPostFun(self, ajax_url, form_data, loader);
+            }
+        })
+        /*
+         * 提取通用的通知消息方法
+         * 这里只采用简单的用法，如果想要使用回调或者更多的用法，请查看lyear_js_notify.html页面
+         * @param $msg 提示信息
+         * @param $type 提示类型:'info', 'success', 'warning', 'danger'
+         * @param $delay 毫秒数，例如：1000
+         * @param $icon 图标，例如：'fa fa-user' 或 'glyphicon glyphicon-warning-sign'
+         * @param $from 'top' 或 'bottom' 消息出现的位置
+         * @param $align 'left', 'right', 'center' 消息出现的位置
+         */
+        function showNotify($msg, $type, $delay, $icon, $from, $align) {
+            $type  = $type || 'info';
+            $delay = $delay || 1000;
+            $from  = $from || 'top';
+            $align = $align || 'right';
+            $enter = $type == 'danger' ? 'animated shake' : 'animated fadeInUp';
+    
+            jQuery.notify({
+                icon: $icon,
+                message: $msg
+            },
+            {
+                element: 'body',
+                type: $type,
+                allow_dismiss: true,
+                newest_on_top: true,
+                showProgressbar: false,
+                placement: {
+                    from: $from,
+                    align: $align
+                },
+                offset: 20,
+                spacing: 10,
+                z_index: 10800,
+                delay: $delay,
+                animate: {
+                    enter: $enter,
+                    exit: 'animated fadeOutDown'
+                }
+            });
+        }
+    });
+</script>
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function() {
+      'use strict';
+      window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+          form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+</script>
+{{end}}

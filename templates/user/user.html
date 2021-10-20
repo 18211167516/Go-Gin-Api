@@ -1,0 +1,54 @@
+{{define "user/user.html"}}
+{{template "common/header" .}}
+</head>
+  
+<body>
+<div class="container-fluid p-t-15">
+  
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <!-- <div class="media">
+            <img src="images/users/avatar.jpg" alt="..." class="img-avatar mr-3">
+            <div class="media-body">
+              <button class="btn btn-default">修改头像</button>
+              <p class="mt-1 mb-0">选择一张你喜欢的图片，裁剪后会自动生成264x264大小，上传图片大小不能超过2M。</p>
+            </div>
+          </div> -->
+          <form method="POST" action="{{.UpdateUrl}}" class="ajax-form form-horizontal needs-validation" novalidate>
+            <div class="form-group row">
+              <label for="username" class="control-label col-sm-1">用户名</label>
+              <div class="col-sm-8">
+                  <input type="text" class="form-control" name="name" id="username" value="{{.data.Name}}" >
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="nickname" class="control-label col-sm-1">真实姓名</label>
+              <div class="col-sm-8">
+                  <input type="text" class="form-control" name="real_name" id="nickname" value="{{.data.RealName}}">
+              </div>
+            </div>
+            <div class="form-group row" >
+              <label for="email" class="control-label col-sm-1">身份</label>
+              <div class="col-sm-8">
+                  <select name="type" class="form-control" id="type" disabled="disabled">
+                    <option value="1" {{if eq .data.Type 1}} checked="true" {{end}}>超级管理员</option>
+                    <option value="2" {{if eq .data.Type 2}} checked="true" {{end}}>管理员</option>
+                  </select>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">保存</button>
+          </form>
+ 
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  
+</div>
+{{template "common/footer"}}
+</body>
+</html>
+{{end}}

@@ -1,0 +1,43 @@
+{{define "common/left"}}
+<aside class="lyear-layout-sidebar">
+<div id="logo" class="sidebar-header">
+    <a href="index.html"><img src="/public/static/images/logo-sidebar.png" title="LightYear" alt="LightYear" /></a>
+  </div>
+  <div class="lyear-layout-sidebar-info lyear-scroll"> 
+    
+    <nav class="sidebar-main">
+      <ul class="nav-drawer">
+        {{range $index,$row := .list}}
+          {{if len $row.Children}}
+          <li class="nav-item {{if eq $index 0}}active{{end}} nav-item-has-subnav">
+            <a href="{{$row.Path}}"><i class="mdi mdi-format-align-justify"></i> <span>{{$row.Name}}</span></a>
+            <ul class="nav nav-subnav">
+              {{range $value := $row.Children}}
+                  {{if len $value.Children}}
+                  <li class="nav-item nav-item-has-subnav">
+                    <a href="javascript:void(0)"><i class="mdi mdi-format-align-justify"></i> <span>{{$value.Name}}</span></a>
+                    <ul class="nav nav-subnav">
+                      {{range $item := $value.Children}}
+                        <li> <a class="multitabs" href="{{$item.Path}}">{{$item.Name}}</a> </li>
+                      {{end}}
+                    </ul>
+                  </li>
+                  {{else}}
+                    <li> <a class="multitabs" href="{{$value.Path}}">{{$value.Name}}</a> </li>
+                  {{end}}
+              {{end}}
+            </ul>
+          </li>
+          {{else}}
+          <li class="nav-item {{if eq $index 0}}active{{end}}"> <a class="multitabs" href="{{$row.Path}}"><i class="mdi mdi-home"></i> <span>{{$row.Name}}</span></a> </li>
+          {{end}}
+        {{end}}
+      </ul>
+    </nav>
+    
+    <div class="sidebar-footer">
+      <p class="copyright">Copyright &copy; 2019. <a target="_blank" href="http://lyear.itshubao.com">IT书包</a> All rights reserved.</p>
+    </div>
+  </div>
+</aside>
+{{end}}
