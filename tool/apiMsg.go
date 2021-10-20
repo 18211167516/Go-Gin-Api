@@ -9,8 +9,11 @@ const (
 	ERROR = 500
 	// INVALID_PARAMS code
 	INVALID_PARAMS = 400
+	NOROUTE        = 404
+	NOMETHOD       = 405
 	// CUSTOM_ERROR code
 	CUSTOM_ERROR = 40001
+	CAPTCHA_ERROR = 40401
 
 	ERROR_AUTH_CHECK_TOKEN_FAIL    = 20001
 	ERROR_AUTH_CHECK_TOKEN_TIMEOUT = 20002
@@ -22,7 +25,9 @@ const (
 var MsgFlags = map[int]string{
 	SUCCESS:                        "%s",
 	ERROR:                          "%s",
-	INVALID_PARAMS:                 "参数%s",
+	INVALID_PARAMS:                 "%s",
+	NOROUTE:                        "%s",
+	NOMETHOD:                       "%s",
 	CUSTOM_ERROR:                   "%s",
 	ERROR_AUTH_CHECK_TOKEN_FAIL:    "Token鉴权失败",
 	ERROR_AUTH_CHECK_TOKEN_TIMEOUT: "Token已超时",
@@ -37,5 +42,5 @@ func GetMsg(code int, Msg ...interface{}) string {
 		return fmt.Sprintf(msg, Msg...)
 	}
 
-	return MsgFlags[ERROR]
+	return fmt.Sprintf("%s", Msg...)
 }

@@ -13,8 +13,7 @@ func Xorm() *xorm.EngineGroup {
 }
 
 func XormMysql() *xorm.EngineGroup {
-	m := global.CF.Mysql
-	dsn := m.MysqlUser + ":" + m.MysqlPassword + "@tcp(" + m.MysqlHost + ")/" + m.MysqlName + "?" + m.Config
+	dsn := getMasterDsn()
 	conns := []string{
 		dsn, // 第一个默认是master
 		dsn,
@@ -25,12 +24,12 @@ func XormMysql() *xorm.EngineGroup {
 		os.Exit(0)
 		return nil
 	} else {
-		engine.SetMaxIdleConns(10)
-		engine.SetMaxOpenConns(100)
-		engine.SetConnMaxLifetime(m.MaxLifetime)
+		engine.SetMaxIdleConns(global.VP.GetInt("mysql.global.MaxIdleConns"))
+		engine.SetMaxOpenConns(global.VP.GetInt("mysql.global.MaxOpenConns"))
+		engine.SetConnMaxLifetime(global.VP.GetDuration("mysql.global.MaxLifetime"))
 
-		engine.ShowSQL(global.CF.Mysql.LogMode)
-		engine.ShowExecTime(global.CF.Mysql.LogMode)
+		engine.ShowSQL(global.VP.GetBool("mysql.global.LogMode"))
+		engine.ShowExecTime(global.VP.GetBool("mysql.global.LogMode"))
 		logger := xorm.NewSimpleLogger(global.LOG.Out)
 		engine.SetLogger(logger)
 	}

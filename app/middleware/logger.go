@@ -10,6 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type Option func(*LogParams, *gin.Context)
 type LogParams struct {
 	Request *http.Request
 	Start   time.Time
@@ -31,6 +32,12 @@ type LogParams struct {
 	Response string
 	// request
 	request string
+
+	FormatFunc LogFormatFunc
+}
+
+func (Log *LogParams) Run() {
+	Log.FormatFunc(Log)
 }
 
 type LogWriter struct {
@@ -46,69 +53,68 @@ func (w LogWriter) Write(p []byte) (int, error) {
 	return w.ResponseWriter.Write(p)
 }
 
-type LogFormatter func(params LogParams) string
+type LogFormatFunc func(params *LogParams)
 
-type LogFunc func(params LogParams, f LogFormatter)
-
-var defaultLogFormatter = func(param LogParams) string {
-
-	if param.Latency > time.Minute {
-		// Truncate in a golang < 1.8 safe way
-		param.Latency = param.Latency - param.Latency%time.Second
-	}
-	return fmt.Sprintf("%3d| %13v | %15s | %s | %v  | %s",
-		//param.TimeStamp.Format("2006/01/02 - 15:04:05"),
-		param.StatusCode,
-		param.Latency,
-		param.ClientIP,
-		param.Method,
-		param.Path,
-		param.ErrorMessage,
-	)
-}
-
-var defaultLog = func(params LogParams, f LogFormatter) {
+//默认格式化方式
+var defaultLogFormatter = func(param *LogParams) {
 	global.LOG.WithFields(global.LOGF{
-		"topic": "[GO-GIN]",
-	}).Info(f(params))
+		"topic":     "[Admin]",
+		"http_code": param.StatusCode,
+		"exec_time": fmt.Sprintf("%13v", param.Latency),
+		"ip":        param.ClientIP,
+		"method":    param.Method,
+		"url":       param.Path,
+		"Error":     param.ErrorMessage,
+	}).Info()
 }
 
-var apiLog = func(params LogParams, f LogFormatter) {
-
+/*api格式化输出*/
+var apiLogFormatter = func(param *LogParams) {
 	global.LOG.WithFields(global.LOGF{
 		"topic":      "[API]",
-		"start_time": params.Start.Format("2006/01/02-15:04:05"),
-		"exec_time":  fmt.Sprintf("%13v", params.Latency),
-		"http_code":  params.StatusCode,
-		"ip":         params.ClientIP,
-		"method":     params.Method,
-		"url":        params.Path,
-		"request":    params.request,
-		"Response":   params.Response,
-	}).Info(f(params))
+		"start_time": param.Start.Format("2006/01/02-15:04:05"),
+		"exec_time":  fmt.Sprintf("%13v", param.Latency),
+		"http_code":  param.StatusCode,
+		"ip":         param.ClientIP,
+		"method":     param.Method,
+		"url":        param.Path,
+		"request":    param.request,
+		"Response":   param.Response,
+	}).Info(param.ErrorMessage)
+}
+
+/*默认log兼容*/
+func DefaultLog() gin.HandlerFunc {
+	opt := func(L *LogParams, c *gin.Context) {
+		ContentType := c.ContentType()
+		if c.Request.Method == "GET" && (ContentType == "" || ContentType == "application/html") {
+			L.FormatFunc = defaultLogFormatter
+		} else {
+			L.FormatFunc = apiLogFormatter
+		}
+
+	}
+	return LoggerWith(opt)
 }
 
 func Logger() gin.HandlerFunc {
-	return LoggerWithFormatter(defaultLogFormatter)
+	return LoggerWithFormatterLogFunc(defaultLogFormatter)
 }
 
 func ApiLogger() gin.HandlerFunc {
-	f := func(param LogParams) string {
+	return LoggerWithFormatterLogFunc(apiLogFormatter)
+}
 
-		return fmt.Sprintf("%s", param.ErrorMessage)
+/**/
+func LoggerWithFormatterLogFunc(f LogFormatFunc) gin.HandlerFunc {
+	opt := func(L *LogParams, c *gin.Context) {
+		L.FormatFunc = f
 	}
-	return LoggerWithFormatterLogFunc(f, apiLog)
+	return LoggerWith(opt)
 }
 
-func LoggerWithFormatterLogFunc(f LogFormatter, l LogFunc) gin.HandlerFunc {
-	return LoggerWith(f, l)
-}
-
-func LoggerWithFormatter(f LogFormatter) gin.HandlerFunc {
-	return LoggerWith(f, defaultLog)
-}
-
-func LoggerWith(f LogFormatter, l LogFunc) gin.HandlerFunc {
+/*日志记录*/
+func LoggerWith(opts ...Option) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// Start timer
 		logWirter := &LogWriter{ResponseWriter: c.Writer, NewWirter: bytes.NewBufferString("")}
@@ -118,8 +124,11 @@ func LoggerWith(f LogFormatter, l LogFunc) gin.HandlerFunc {
 		// Process request
 		c.Next()
 
-		param := LogParams{
+		param := &LogParams{
 			Request: c.Request,
+		}
+		for _, opt := range opts {
+			opt(param, c)
 		}
 		// Stop timer
 		param.Start = start
@@ -131,8 +140,8 @@ func LoggerWith(f LogFormatter, l LogFunc) gin.HandlerFunc {
 		param.ErrorMessage = c.Errors.ByType(gin.ErrorTypePrivate).String()
 		param.Response = logWirter.NewWirter.String()
 		param.request = c.Request.PostForm.Encode()
-
 		param.Path = path
-		l(param, f)
+
+		param.Run()
 	}
 }

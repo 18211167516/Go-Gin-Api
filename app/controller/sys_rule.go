@@ -9,20 +9,36 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetRules(c *gin.Context) {
-	maps := make(map[string]interface{})
-
-	ret := services.GetRoleList(maps, tool.DefaultGetOffset(c), 10)
-	if !ret.GetStatus() {
-		tool.JSONP(c, 40001, ret.GetMsg(), ret["data"])
-		return
+// @Summary 角色列表视图
+// @Description  角色列表视图
+// @Router /admin/rulesView [get]
+func RuleListView(c *gin.Context) {
+	data := tool.M{
+		"dataUrl":    "/admin/getRules",
+		"dataMethod": "POST",
+		"addUrl":     "/admin/createRule",
+		"editUrl":    "/admin/updateRule/:id",
+		"delUrl":     "/admin/deleteRule/:id",
+		"rbacUrl":    "/admin/ruleRbacViwe/:id",
 	}
-	tool.JSONP(c, 0, "查询成功", ret["data"])
+	tool.HTML(c, "rule/rule_list.html", data)
 }
 
+// @Summary 角色列表
+// @Description  角色列表
+// @Router /admin/getRules [post]
+func GetRules(c *gin.Context) {
+	maps := make(map[string]interface{})
+	ret := services.GetRoleList(maps, tool.DefaultGetOffset(c), 10)
+	tool.JSONP(c, 0, ret.GetMsg(), ret["data"])
+}
+
+// @Summary 新建角色
+// @Description  新建角色
+// @Router /admin/createRule [post]
 func CreateRule(c *gin.Context) {
 
-	var rule models.AdminRule
+	var rule models.SysRule
 	c.ShouldBind(&rule)
 	if err := request.Verify(rule, request.RuleAddVerify); err != nil {
 		tool.JSONP(c, 400, err.Error(), nil)
@@ -38,15 +54,23 @@ func CreateRule(c *gin.Context) {
 
 }
 
+// @Summary 更新角色信息
+// @Description  更新角色信息
+// @Router /admin/updateRule/:id [post]
 func UpdateRule(c *gin.Context) {
-	var rule models.AdminRule
+	var rule models.SysRule
+
 	c.ShouldBind(&rule)
+
+	id := c.Param("id")
+	rule.ID = tool.StringToInt(id)
+
 	if err := request.Verify(rule, request.RuleUpVerify); err != nil {
 		tool.JSONP(c, 400, err.Error(), nil)
 		return
 	}
 
-	if ret := services.UpdateRule(rule); !ret.GetStatus() {
+	if ret := services.UpdateRule(id, rule); !ret.GetStatus() {
 		tool.JSONP(c, 40001, ret.GetMsg(), ret["data"])
 		return
 	} else {
@@ -55,8 +79,11 @@ func UpdateRule(c *gin.Context) {
 
 }
 
+// @Summary 删除角色
+// @Description  删除角色
+// @Router /admin/deleteRule/:id [post]
 func DeleteRule(c *gin.Context) {
-	var rule models.AdminRule
+	var rule models.SysRule
 	c.ShouldBindUri(&rule)
 	if err := request.Verify(rule, request.RuleDelVerify); err != nil {
 		tool.JSONP(c, 400, err.Error(), nil)

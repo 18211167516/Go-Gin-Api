@@ -1,6 +1,9 @@
 package routes
 
 import (
+	"go-api/app/middleware"
+	"go-api/app/services/core"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -11,18 +14,24 @@ type root struct {
 }
 
 func testRoute(r *gin.Engine) {
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
+
+	test := r.Group("/test", middleware.DefaultLog(), middleware.Recovery())
+	{
+		test.GET("/ping", func(c *gin.Context) {
+			ret := core.Captcha()
+			c.JSON(200, gin.H{
+				"message": ret,
+			})
 		})
-	})
 
-	r.GET("/panic", func(c *gin.Context) {
-		panic("panic")
-	})
+		test.GET("/panic", func(c *gin.Context) {
+			panic("panic")
+		})
 
-	r.GET("/someXML", func(c *gin.Context) {
-		c.Writer.Write([]byte(`<?xml version="1.0" encoding="UTF-8"?>`))
-		c.XML(200, root{ID: 1, Name: "baibai", Age: 16})
-	})
+		test.GET("/someXML", func(c *gin.Context) {
+			c.Writer.Write([]byte(`<?xml version="1.0" encoding="UTF-8"?>`))
+			c.XML(200, root{ID: 1, Name: "baibai", Age: 16})
+		})
+	}
+
 }

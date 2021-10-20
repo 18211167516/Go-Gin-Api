@@ -11,9 +11,9 @@ import (
 
 func TestJwt(t *testing.T) {
 	claims := tool.Claims{
-		ID:       1,
-		Username: "白葱花",
-		RuleID:   "888",
+		ID:       "1",
+		Name:     "白葱花",
+		Type:     1,
 		RuleName: "超级管理员",
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Unix() + 60*60*24*7, //过期时间

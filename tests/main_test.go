@@ -5,14 +5,14 @@ import (
 	"os"
 	"testing"
 
-	"go-api/core"
-	"go-api/global"
+	//"go-api/core"
+	//"go-api/global"
 
 	"github.com/gin-gonic/gin"
 )
 
 func setup() {
-	global.VP = core.Viper("../app.toml")
+	//global.VP = core.Viper("../static/config/app.toml")
 	//初始化日志
 	//初始化DB
 	//global.DB = initialize.Gorm()

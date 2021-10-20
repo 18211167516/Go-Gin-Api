@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"go-api/global"
-	. "go-api/tool"
+	"go-api/tool"
 )
 
 // print stack trace for debug
@@ -30,13 +30,19 @@ func Recovery() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		defer func() {
 			if err := recover(); err != nil {
-				message := fmt.Sprintf("%s", err)
-				global.LOG.Error(trace(message))
-				c.JSONP(500, JSONRET{
-					Error_code: 500,
-					Msg:        "Internal Server Error",
-					Data:       nil,
-				})
+				message := trace(fmt.Sprintf("%s", err))
+				//string(debug.Stack())
+				global.LOG.Error(message)
+
+				if global.CF.RunMode == "release" {
+					message = "Internal Server Error"
+				}
+				ContentType := c.ContentType()
+				if c.Request.Method == "GET" && (ContentType == "" || ContentType == "application/html") {
+					tool.HTML(c, "error_404.html", tool.M{"code": 500, "message": message})
+				} else {
+					tool.JSONP(c, 500, message, nil)
+				}
 			}
 		}()
 		c.Next()

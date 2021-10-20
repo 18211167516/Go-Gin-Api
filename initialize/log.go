@@ -11,9 +11,15 @@ import (
 var (
 	// Formatter...
 	Formatter = map[string]log.Formatter{
-		"json": &log.JSONFormatter{TimestampFormat: "2006-01-02 15:04:05"},
-		"text": &log.TextFormatter{TimestampFormat: "2006-01-02 15:04:05"},
-		"test": &inLog.TestFormatter{TimestampFormat: "2006-01-02 15:04:05"},
+		"json": &log.JSONFormatter{
+			TimestampFormat: "2006-01-02 15:04:05",
+		},
+		"text": &log.TextFormatter{
+			TimestampFormat: "2006-01-02 15:04:05",
+		},
+		"test": &inLog.TestFormatter{
+			TimestampFormat: "2006-01-02 15:04:05",
+		},
 	}
 )
 

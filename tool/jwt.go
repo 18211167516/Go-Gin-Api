@@ -9,9 +9,9 @@ import (
 var JwtSecret = []byte(global.CF.App.JwtSecret)
 
 type Claims struct {
-	ID             uint   //用户ID
-	Username       string //用户名称
-	RuleID         string //角色ID 可能存在多个角色
+	ID             string //用户ID
+	Name           string //用户名称
+	Type           int    //类型
 	RuleName       string //角色名称 可能存在多个角色名
 	StandardClaims jwt.StandardClaims
 }
@@ -22,18 +22,13 @@ func (c Claims) Valid() error {
 }
 
 /*获取自定义载荷用户ID*/
-func (c Claims) GetID() uint {
+func (c Claims) GetID() string {
 	return c.ID
 }
 
 /*获取自定义载荷用户名称*/
-func (c Claims) GetUsername() string {
-	return c.Username
-}
-
-/*获取自定义载荷用户角色ID*/
-func (c Claims) GetRuleID() string {
-	return c.RuleID
+func (c Claims) GetName() string {
+	return c.Name
 }
 
 /*获取自定义载荷用户角色名称*/

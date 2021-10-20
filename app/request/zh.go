@@ -4,6 +4,7 @@ import (
 	"errors"
 	"go-api/global"
 	"reflect"
+	"regexp"
 	"strings"
 
 	"github.com/gin-gonic/gin/binding"
@@ -34,6 +35,14 @@ func init() {
 			return t
 		})
 		// 自定义验证方法
+		global.Verify.RegisterValidation("checkpassword", checkPassword)
+
+		global.Verify.RegisterTranslation("checkpassword", trans, func(ut ut.Translator) error {
+			return ut.Add("checkpassword", "规则错误", true) // see universal-translator for details
+		}, func(ut ut.Translator, fe validator.FieldError) string {
+			t, _ := ut.T("checkpassword", fe.Field())
+			return t
+		})
 		global.Verify.RegisterValidation("checkMobile", checkMobile)
 
 		global.Verify.RegisterTranslation("checkMobile", trans, func(ut ut.Translator) error {
@@ -56,16 +65,36 @@ func Translate(errs validator.ValidationErrors) string {
 }
 
 func GetError(err error) string {
-	switch err.(type) {
+	switch errs := err.(type) {
 	case validator.ValidationErrors:
-		return Translate(err.(validator.ValidationErrors))
+		return Translate(errs)
 	default:
-		return err.Error()
+		return errs.Error()
 	}
 
 }
 
-func Verify(st interface{}, r Rules) error {
+func VerifyMap(st map[string]interface{}, r Rules) error {
+	va := global.Verify
+	for k, v := range st {
+		// 查看规则是否有该字段无则忽略
+		verify, ok := r[k]
+
+		if !ok {
+			continue
+		}
+
+		if err := va.Var(v, verify); err != nil {
+			var b strings.Builder
+			b.WriteString(k)
+			b.WriteString(GetError(err))
+			return errors.New(b.String())
+		}
+	}
+	return nil
+}
+
+func Verify(st interface{}, r Rules) (err error) {
 	va := global.Verify
 	typ := reflect.TypeOf(st)
 	val := reflect.ValueOf(st)
@@ -77,6 +106,14 @@ func Verify(st interface{}, r Rules) error {
 	for i := 0; i < num; i++ {
 		// 取每个字段
 		typVal := typ.Field(i)
+		valVal := val.Field(i)
+
+		if val.Field(i).Kind() == reflect.Struct {
+			err = Verify(valVal.Interface(), r)
+			if err != nil {
+				return err
+			}
+		}
 		// 获取tag
 		tag := typVal.Tag.Get("desc")
 		// 查看规则是否有该字段无则忽略
@@ -85,9 +122,7 @@ func Verify(st interface{}, r Rules) error {
 			continue
 		}
 		// 获取字段的值信息
-		v := val.Field(i).Interface()
-
-		if err := va.Var(v, verify); err != nil {
+		if err = va.Var(valVal.Interface(), verify); err != nil {
 			var b strings.Builder
 			if tag != "" {
 				b.WriteString(tag)
@@ -98,13 +133,21 @@ func Verify(st interface{}, r Rules) error {
 			return errors.New(b.String())
 		}
 	}
-	return nil
+	return err
+}
+
+//用于俩变量判断值
+func VerifyValue(field, other interface{}, tag string) error {
+	return global.Verify.VarWithValue(field, other, tag)
 }
 
 func checkMobile(fl validator.FieldLevel) bool {
 	mobile := fl.Field().String()
-	if len(mobile) != 11 {
-		return false
-	}
-	return true
+	return len(mobile) != 11
+}
+
+func checkPassword(f1 validator.FieldLevel) bool {
+	password := f1.Field().String()
+	reg, _ := regexp.MatchString(`^[A-Z]+[a-z0-9]{7,17}$`, password)
+	return reg
 }

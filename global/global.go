@@ -17,7 +17,7 @@ var (
 	LOG    *logrus.Logger
 	SER    Server
 	Verify *validator.Validate
-	FS    embed.FS
+	FS     embed.FS
 )
 
 type LOGF = logrus.Fields

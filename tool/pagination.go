@@ -14,7 +14,7 @@ func GetOffset(c *gin.Context, limit int) int {
 
 //get Offset limit default
 func DefaultGetOffset(c *gin.Context) int {
-	page := StringToInt(c.DefaultQuery("page", "0"))
+	page := StringToInt(c.DefaultQuery("page", c.DefaultPostForm("page", "0")))
 	return getOffset(page, global.CF.App.PageSize)
 }
 

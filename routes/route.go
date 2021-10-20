@@ -19,7 +19,9 @@ func initGin() *gin.Engine {
 	//设置gin模式
 	gin.SetMode(global.CF.RunMode)
 	engine := gin.New()
-	engine.Use(middleware.ApiLogger(), middleware.Recovery())
+	engine.Use()
+	//定义404中间件
+	engine.NoRoute(middleware.NoRoute())
 	return engine
 }
 
@@ -29,4 +31,5 @@ func loadRoute(r *gin.Engine) {
 	apiRoute(r)
 	swagRoute(r)
 	fileRoute(r)
+	adminRoute(r)
 }

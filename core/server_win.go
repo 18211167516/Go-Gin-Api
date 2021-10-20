@@ -13,7 +13,7 @@ import (
 
 type WinServer struct {
 	*http.Server
-	shutdownChan chan bool
+	//shutdownChan chan bool
 }
 
 func NewHotServer(server *http.Server) (srv *WinServer) {

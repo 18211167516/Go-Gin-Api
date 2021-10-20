@@ -3,7 +3,12 @@ RUN_MODE = "debug"
 
 [casbin]
     ModelPath = 'static/config/rbac_model.conf'
-    
+[captcha]
+    KeyLen = 4
+    ImgWidth = 200
+    imgHeight = 80
+    MaxSkew = 0.7
+    DotCount = 80
 [app]
     Template = "view/**/*"
     PageSize = 10
@@ -21,13 +26,28 @@ RUN_MODE = "debug"
     HttpPort = 8080
     ReadTimeout = 2
     WriteTimeout = 6
-
-[mysql]
+[mysql.global]
     LogMode = true
-    MysqlUser = "root"
-    Config = "charset=utf8mb4&parseTime=True&loc=Local"
-    MysqlPassword = "123456"
-    MysqlHost = "192.168.99.100:3306"
-    MysqlName = "test"
-    MysqlPrefix = "test_"
     MaxLifetime = 30
+    MaxIdleTime = 10
+    MaxOpenConns = 10
+    MaxIdleConns = 2
+    slave = 2
+[mysql.master]
+    User = "root"
+    Config = "charset=utf8mb4&parseTime=True&loc=Local"
+    Password = "123456"
+    Host = "192.168.99.100:3306"
+    DBName = "test"
+[mysql.slave.0]
+    User = "root"
+    Config = "charset=utf8mb4&parseTime=True&loc=Local"
+    Password = "123456"
+    Host = "192.168.99.100:3306"
+    DBName = "test"
+[mysql.slave.1]
+    User = "root"
+    Config = "charset=utf8mb4&parseTime=True&loc=Local"
+    Password = "123456"
+    Host = "192.168.99.100:3306"
+    DBName = "test"

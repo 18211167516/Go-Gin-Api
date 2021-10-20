@@ -2,12 +2,12 @@ package models
 
 type SysMenu struct {
 	Model
-	MenuLevel uint      `json:"-"`
-	ParentId  string    `json:"parentId" form:"parentId" gorm:"comment:父菜单ID"`
-	Path      string    `json:"path" form:"path" gorm:"comment:路由path"`
-	Name      string    `json:"name" form:"name" gorm:"comment:路由name"`
-	Hidden    bool      `json:"hidden" form:"hidden" gorm:"comment:是否在列表隐藏"`
-	Component string    `json:"component" form:"component" gorm:"comment:对应前端文件路径"`
-	Sort      int       `json:"sort" form:"sort" gorm:"comment:排序标记"`
-	Children  []SysMenu `json:"children" gorm:"-"`
+	ParentId int       `desc:"父菜单ID" json:"parent_id" form:"parent_id" gorm:"default:0"`
+	Path     string    `desc:"菜单path" json:"path" form:"path" `
+	Name     string    `desc:"菜单name" json:"name" form:"name" `
+	Hidden   *string   `desc:"是否隐藏" json:"hidden" form:"hidden" gorm:"default:0"`
+	Sort     *int      `desc:"菜单排序值" json:"sort" form:"sort"`
+	Is_view  string    `desc:"是否为视图" json:"is_view" form:"is_view"`
+	Children []SysMenu `json:"children" gorm:"-"`
+	Checked  bool      `json:"checked" gorm:"-"`
 }

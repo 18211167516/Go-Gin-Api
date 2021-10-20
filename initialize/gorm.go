@@ -2,6 +2,7 @@ package initialize
 
 //https://gorm.io/docs/gorm_config.html
 import (
+	"fmt"
 	"go-api/global"
 	"os"
 	"time"
@@ -17,8 +18,7 @@ func Gorm() *gorm.DB {
 }
 
 func GormMysql() *gorm.DB {
-	m := global.CF.Mysql
-	dsn := m.MysqlUser + ":" + m.MysqlPassword + "@tcp(" + m.MysqlHost + ")/" + m.MysqlName + "?" + m.Config
+	dsn := getMasterDsn()
 	mysqlConfig := mysql.Config{
 		DSN:                       dsn,   // DSN data source name
 		DefaultStringSize:         191,   // string 类型字段的默认长度
@@ -27,39 +27,68 @@ func GormMysql() *gorm.DB {
 		DontSupportRenameColumn:   true,  // 用 `change` 重命名列，MySQL 8 之前的数据库和 MariaDB 不支持重命名列
 		SkipInitializeWithVersion: false, // 根据版本自动配置
 	}
+	global.LOG.Infoln("slave", global.VP.GetString("mysql.slave.0.DBName"))
 	if db, err := gorm.Open(mysql.New(mysqlConfig), GromConfig()); err != nil {
 		global.LOG.Error("Mysql启动异常", dsn, err)
 		os.Exit(0)
 		return nil
 	} else {
-		db.Use(dbresolver.Register(dbresolver.Config{
-			Sources: []gorm.Dialector{
-				mysql.Open("root:123456@tcp(192.168.99.100:3306)/test"),
-			},
-			Replicas: []gorm.Dialector{
-				mysql.Open("root:123456@tcp(192.168.99.100:3306)/test2"),
-				mysql.Open("root:123456@tcp(192.168.99.100:3306)/test3"),
-			},
-			// sources/replicas 负载均衡策略
-			Policy: dbresolver.RandomPolicy{},
-		}).SetConnMaxIdleTime(10).
-			SetConnMaxLifetime(m.MaxLifetime).
-			SetMaxOpenConns(10).
-			SetMaxIdleConns(2),
-		)
+		if len := global.VP.GetInt("mysql.global.slave"); len > 0 {
+			Replicas := make([]gorm.Dialector, len)
+			for i := 0; i < len; i++ {
+				Replicas = append(Replicas, mysql.Open(getSlaveDsn(i)))
+			}
+			db.Use(dbresolver.Register(dbresolver.Config{
+				Sources: []gorm.Dialector{
+					mysql.Open(dsn),
+				},
+				Replicas: Replicas,
+				// sources/replicas 负载均衡策略
+				Policy: dbresolver.RandomPolicy{},
+			}).SetConnMaxIdleTime(global.VP.GetDuration("mysql.global.MaxIdleTime")).
+				SetConnMaxLifetime(global.VP.GetDuration("mysql.global.MaxLifetime")).
+				SetMaxOpenConns(global.VP.GetInt("mysql.global.MaxOpenConns")).
+				SetMaxIdleConns(global.VP.GetInt("mysql.global.MaxIdleConns")),
+			)
+		} else {
+			sqlDB, _ := db.DB()
+			sqlDB.SetConnMaxIdleTime(global.VP.GetDuration("mysql.global.MaxIdleTime")) //数据库连接最大空闲时间
+			sqlDB.SetConnMaxLifetime(global.VP.GetDuration("mysql.global.MaxLifetime")) //数据库连接可复用的最大时间
+			sqlDB.SetMaxOpenConns(global.VP.GetInt("mysql.global.MaxOpenConns"))        //最大数据库链接数
+			sqlDB.SetMaxIdleConns(global.VP.GetInt("mysql.global.MaxIdleConns"))        //最大空闲连接数
+		}
 
-		db.Clauses(dbresolver.Read)
-		//sqlDB, _ := db.DB()
-		//sqlDB.SetMaxIdleConns(10)               //最大空闲连接数
-		//sqlDB.SetMaxOpenConns(100)              //最大数据库链接数
-		//sqlDB.SetConnMaxLifetime(m.MaxLifetime) //数据库链接最大生存时间             //true  打印Log
+		//db.Clauses(dbresolver.Read) 使用读链接 从库
+		//db.Clauses(dbresolver.Write) 使用写链接 主库
+
 		return db
 	}
 
 }
 
+//获取主库dsn
+func getMasterDsn() string {
+	return fmt.Sprintf("%s:%s@tcp(%s)/%s?%s",
+		global.VP.GetString("mysql.master.User"),
+		global.VP.GetString("mysql.master.Password"),
+		global.VP.GetString("mysql.master.Host"),
+		global.VP.GetString("mysql.master.DBName"),
+		global.VP.GetString("mysql.master.Config"),
+	)
+}
+
+//获取从库DSN
+func getSlaveDsn(i int) string {
+	return fmt.Sprintf("%s:%s@tcp(%s)/%s?%s",
+		global.VP.GetString(fmt.Sprintf("mysql.Slave.%d.User", i)),
+		global.VP.GetString(fmt.Sprintf("mysql.Slave.%d.Password", i)),
+		global.VP.GetString(fmt.Sprintf("mysql.Slave.%d.Host", i)),
+		global.VP.GetString(fmt.Sprintf("mysql.Slave.%d.DBName", i)),
+		global.VP.GetString(fmt.Sprintf("mysql.Slave.%d.Config", i)),
+	)
+}
+
 func GromConfig() *gorm.Config {
-	//m := global.CF.Mysql
 	c := &gorm.Config{
 		DisableForeignKeyConstraintWhenMigrating: true,
 		Logger:                                   getGromLogger(),
@@ -73,7 +102,7 @@ func GromConfig() *gorm.Config {
 
 func getGromLogger() logger.Interface {
 	LogLevel := logger.Silent
-	if global.CF.Mysql.LogMode {
+	if global.VP.GetBool("mysql.global.LogMode") {
 		LogLevel = logger.Info
 	}
 
