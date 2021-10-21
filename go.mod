@@ -8,7 +8,6 @@ require (
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
 	github.com/casbin/casbin/v2 v2.25.5
 	github.com/casbin/gorm-adapter/v3 v3.2.5
-	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/fsnotify/fsnotify v1.5.1
 	github.com/gin-gonic/gin v1.7.0
 	github.com/go-openapi/spec v0.19.9 // indirect
@@ -18,6 +17,7 @@ require (
 	github.com/go-playground/validator/v10 v10.4.1
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/go-xorm/xorm v0.7.9
+	github.com/golang-jwt/jwt v3.2.1+incompatible
 	github.com/golang/protobuf v1.4.2 // indirect
 	github.com/google/go-cmp v0.5.5 // indirect
 	github.com/gookit/color v1.3.5
