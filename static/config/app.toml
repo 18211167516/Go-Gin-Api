@@ -17,17 +17,19 @@ RUN_MODE = "debug"
     JwtExpiresAt = "6h"
     PidPath = "./pid.lock"
 [log]
-    Level = "trace"
-    ReportCaller = false
+    Level = "info"
     Formatter = "json"
-
+    ShowLine = false
+    OutFile = false
+    LogInConsole = true
+    LogDir = "log"
 [server]
     HttpAddress="0.0.0.0"
     HttpPort = 8080
     ReadTimeout = 2
     WriteTimeout = 6
 [mysql.global]
-    LogMode = true
+    LogMode = "Info"
     MaxLifetime = 30
     MaxIdleTime = 10
     MaxOpenConns = 10

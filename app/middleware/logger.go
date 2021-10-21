@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 )
 
 type Option func(*LogParams, *gin.Context)
@@ -57,30 +58,29 @@ type LogFormatFunc func(params *LogParams)
 
 //默认格式化方式
 var defaultLogFormatter = func(param *LogParams) {
-	global.LOG.WithFields(global.LOGF{
-		"topic":     "[Admin]",
-		"http_code": param.StatusCode,
-		"exec_time": fmt.Sprintf("%13v", param.Latency),
-		"ip":        param.ClientIP,
-		"method":    param.Method,
-		"url":       param.Path,
-		"Error":     param.ErrorMessage,
-	}).Info()
+	Fields := []zap.Field{
+		zap.Int("http_code", param.StatusCode),
+		zap.String("exec_time", fmt.Sprintf("%13v", param.Latency)),
+		zap.String("ip", param.ClientIP),
+		zap.String("method", param.Method),
+		zap.String("url", param.Path),
+		zap.String("Error", param.ErrorMessage),
+	}
+	global.LOG.Info("[ADMIN]", Fields...)
 }
 
 /*api格式化输出*/
 var apiLogFormatter = func(param *LogParams) {
-	global.LOG.WithFields(global.LOGF{
-		"topic":      "[API]",
-		"start_time": param.Start.Format("2006/01/02-15:04:05"),
-		"exec_time":  fmt.Sprintf("%13v", param.Latency),
-		"http_code":  param.StatusCode,
-		"ip":         param.ClientIP,
-		"method":     param.Method,
-		"url":        param.Path,
-		"request":    param.request,
-		"Response":   param.Response,
-	}).Info(param.ErrorMessage)
+	Fields := []zap.Field{
+		zap.Int("http_code", param.StatusCode),
+		zap.String("exec_time", fmt.Sprintf("%13v", param.Latency)),
+		zap.String("ip", param.ClientIP),
+		zap.String("method", param.Method),
+		zap.String("url", param.Path),
+		zap.String("request", param.request),
+		zap.String("Response", param.Response),
+	}
+	global.LOG.Info("[API]", Fields...)
 }
 
 /*默认log兼容*/

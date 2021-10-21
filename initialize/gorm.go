@@ -4,9 +4,11 @@ package initialize
 import (
 	"fmt"
 	"go-api/global"
+	"log"
 	"os"
 	"time"
 
+	"go.uber.org/zap"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -27,9 +29,8 @@ func GormMysql() *gorm.DB {
 		DontSupportRenameColumn:   true,  // 用 `change` 重命名列，MySQL 8 之前的数据库和 MariaDB 不支持重命名列
 		SkipInitializeWithVersion: false, // 根据版本自动配置
 	}
-	global.LOG.Infoln("slave", global.VP.GetString("mysql.slave.0.DBName"))
 	if db, err := gorm.Open(mysql.New(mysqlConfig), GromConfig()); err != nil {
-		global.LOG.Error("Mysql启动异常", dsn, err)
+		global.LOG.Error("Mysql启动异常", zap.Any("err", err))
 		os.Exit(0)
 		return nil
 	} else {
@@ -101,18 +102,26 @@ func GromConfig() *gorm.Config {
 }
 
 func getGromLogger() logger.Interface {
-	LogLevel := logger.Silent
-	if global.VP.GetBool("mysql.global.LogMode") {
+	var LogLevel logger.LogLevel
+	switch global.VP.GetString("mysql.global.LogMode") {
+	case "Silent":
+		LogLevel = logger.Silent
+	case "Error":
+		LogLevel = logger.Error
+	case "Warn":
+		LogLevel = logger.Warn
+	case "Info":
 		LogLevel = logger.Info
+	default:
+		LogLevel = logger.Silent
 	}
-
-	//log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer
+	//, // io writer
 	newLogger := logger.New(
-		global.LOG,
+		log.New(os.Stdout, "\r\n", log.LstdFlags),
 		logger.Config{
 			SlowThreshold: time.Second, // Slow SQL threshold
 			LogLevel:      LogLevel,    // Log level
-			Colorful:      false,       // Disable color
+			Colorful:      true,        // Disable color
 		},
 	)
 

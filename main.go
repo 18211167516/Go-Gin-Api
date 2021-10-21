@@ -18,7 +18,7 @@ func main() {
 
 	initEmbed()                      //初始化Embed
 	global.VP = core.Viper()         //初始化配置
-	global.LOG = initialize.Logrus() //初始化日志
+	global.LOG = initialize.Zap() //初始化日志
 	global.DB = initialize.Gorm()    //初始化DB
 	//主进程结束前关闭数据库链接
 	sqlDB, _ := global.DB.DB()

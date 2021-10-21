@@ -120,7 +120,7 @@ func getDsn() string {
 func Casbin() *casbin.Enforcer {
 	//a, _ := gormadapter.NewAdapterByDB(global.DB)
 	a, _ := gormadapter.NewAdapter("mysql", getDsn(), true)
-	e, _ := casbin.NewEnforcer(global.CF.Casbin.ModelPath, a)
+	e, _ := casbin.NewEnforcer(global.VP.GetString("casbin.ModelPath"), a)
 	e.LoadPolicy()
 	return e
 }

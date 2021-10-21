@@ -34,7 +34,7 @@ func Recovery() gin.HandlerFunc {
 				//string(debug.Stack())
 				global.LOG.Error(message)
 
-				if global.CF.RunMode == "release" {
+				if global.VP.GetString("RunMode") == "release" {
 					message = "Internal Server Error"
 				}
 				ContentType := c.ContentType()

@@ -17,7 +17,7 @@ func InitRouter() *gin.Engine {
 // init Gin
 func initGin() *gin.Engine {
 	//设置gin模式
-	gin.SetMode(global.CF.RunMode)
+	gin.SetMode(global.VP.GetString("RunMode"))
 	engine := gin.New()
 	engine.Use()
 	//定义404中间件

@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 )
 
 type WinServer struct {
@@ -24,7 +25,7 @@ func NewHotServer(server *http.Server) (srv *WinServer) {
 
 func (srv *WinServer) Shutdown() {
 	if err := srv.Server.Shutdown(context.Background()); err != nil {
-		global.LOG.Errorf("HTTP server shutdown error: %v", err)
+		global.LOG.Error("HTTP server shutdown error: %v", zap.Any("err", err))
 	} else {
 		global.LOG.Info("HTTP server shutdown success.")
 	}
@@ -32,7 +33,7 @@ func (srv *WinServer) Shutdown() {
 
 // start new process to handle HTTP Connection
 func (srv *WinServer) Restart() (err error) {
-	global.LOG.Infoln("windows 下不支持restart")
+	global.LOG.Error("windows 下不支持restart")
 	return nil
 }
 

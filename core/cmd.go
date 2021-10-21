@@ -65,7 +65,7 @@ func KillProcess() error {
 	kill := exec.Command("taskkill", "/T", "/F", "/PID", ReadPid(global.CF.App.PidPath))
 	err := kill.Run()
 	if err != nil {
-		global.LOG.WithError(err).Error("Error killing chromium process")
+		global.LOG.Error("Error killing chromium process")
 	}
 	global.LOG.Info("Browser process was killed")
 	DelPid(global.CF.App.PidPath)
