@@ -5,7 +5,7 @@ import (
 	"go-api/global"
 )
 
-//go:embed *.toml static templates
+//go:embed static templates
 var f embed.FS
 
 func initEmbed() {
