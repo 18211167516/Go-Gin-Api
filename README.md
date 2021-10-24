@@ -2,9 +2,11 @@
 # Go-Gin-Api
 基于golang开源框架 gin封装的api框架
 
-# 项目文档
+# 项目文档 
 
+[在线文档](https://18211167516.github.io/Go-Gin-Api/)
 [在线文章](https://juejin.cn/user/2313028196368445/posts)
+
 ## 1 项目简介
 
 ### 1.1 项目介绍
@@ -111,12 +113,12 @@ fresh
 
 1. 支持[Swagger](https://github.com/swaggo/gin-swagger)接口文档生成
 2. 支持[jwt](https://github.com/golang-jwt/jwt)鉴权
-3. 支持[logrus](https://github.com/sirupsen/logrus)(准备替换成zap)
+3. 支持[zap](https://go.uber.org/zap) 日志
 4. 支持[viper](https://github.com/spf13/viper) 配置文件解析
 5. 支持go1.6.0 go:embed特性,打包包含静态文件
 6. 支持[gorm](https://gorm.io/gorm) 数据库组件、支持读写分离，数据库主从
 7. 支持web界面 使用[ Light Year Admin 模板](https://gitee.com/yinqi/Light-Year-Admin-Using-Iframe)
-8. 支持支持多角色的RBAC权限控制，使用[casbin](https://github.com/casbin/casbin/v2)
+8. 支持多角色的RBAC权限控制，使用[casbin](https://github.com/casbin/casbin/v2)
 9. 后续支持工具生成项目
 10. 支持热编译[fresh](https://github.com/gravityblast/fresh)
 
