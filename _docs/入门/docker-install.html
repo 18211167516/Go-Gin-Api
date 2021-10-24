@@ -1,0 +1,671 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-hans" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>docker环境安装 · Go-Gin-Api开源项目</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="18211167516@163.com">
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search-pro/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-ancre-navigation/style/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-expandable-chapters/expandable-chapters.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-chapter-fold/chapter-fold.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-tbfed-pagefooter/footer.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-code/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-flexible-alerts/style.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-anchor-navigation-ex/style/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="git.html" />
+    
+    
+    <link rel="prev" href="./" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="输入并搜索" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+    
+        
+        <li>
+            <a href="https://github.com/18211167516/Go-Gin-Api" target="_blank" class="custom-link">github连接</a>
+        </li>
+    
+    
+
+    
+    <li class="divider"></li>
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                        <b>1.1.</b>
+                    
+                    基本介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="./">
+            
+                <a href="./">
+            
+                    
+                        <b>1.2.</b>
+                    
+                    入门指南
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="1.2.1" data-path="docker-install.html">
+            
+                <a href="docker-install.html">
+            
+                    
+                        <b>1.2.1.</b>
+                    
+                    docker环境安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="git.html">
+            
+                <a href="git.html">
+            
+                    
+                        <b>1.2.2.</b>
+                    
+                    项目配置以及启动
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../技术选型/">
+            
+                <a href="../技术选型/">
+            
+                    
+                        <b>1.3.</b>
+                    
+                    技术选型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../核心架构/">
+            
+                <a href="../核心架构/">
+            
+                    
+                        <b>1.4.</b>
+                    
+                    项目架构
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../功能/">
+            
+                <a href="../功能/">
+            
+                    
+                        <b>1.5.</b>
+                    
+                    基础功能
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../功能/配置.md">
+            
+                <span>
+            
+                    
+                        <b>1.5.1.</b>
+                    
+                    配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../功能/路由.md">
+            
+                <span>
+            
+                    
+                        <b>1.5.2.</b>
+                    
+                    路由
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../功能/中间件.md">
+            
+                <span>
+            
+                    
+                        <b>1.5.3.</b>
+                    
+                    中间件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../功能/控制器.md">
+            
+                <span>
+            
+                    
+                        <b>1.5.4.</b>
+                    
+                    控制器
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" data-path="../功能/视图.md">
+            
+                <span>
+            
+                    
+                        <b>1.5.5.</b>
+                    
+                    模板视图
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6" data-path="../功能/表单验证.md">
+            
+                <span>
+            
+                    
+                        <b>1.5.6.</b>
+                    
+                    表单验证
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.7" data-path="../功能/错误.md">
+            
+                <span>
+            
+                    
+                        <b>1.5.7.</b>
+                    
+                    错误
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.8" data-path="../功能/统一返回.md">
+            
+                <span>
+            
+                    
+                        <b>1.5.8.</b>
+                    
+                    统一返回
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.9" data-path="../功能/日志.md">
+            
+                <span>
+            
+                    
+                        <b>1.5.9.</b>
+                    
+                    日志
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.10" data-path="../功能/gorm.md">
+            
+                <span>
+            
+                    
+                        <b>1.5.10.</b>
+                    
+                    gorm
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.11" data-path="../功能/热重启.md">
+            
+                <span>
+            
+                    
+                        <b>1.5.11.</b>
+                    
+                    热重启
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.12" data-path="../功能/命令行.md">
+            
+                <span>
+            
+                    
+                        <b>1.5.12.</b>
+                    
+                    命令行
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../联系方式/">
+            
+                <a href="../联系方式/">
+            
+                    
+                        <b>1.6.</b>
+                    
+                    联系方式
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../捐献者/README.md">
+            
+                <span>
+            
+                    
+                        <b>1.7.</b>
+                    
+                    捐献者
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../捐赠/README.md">
+            
+                <span>
+            
+                    
+                        <b>1.8.</b>
+                    
+                    捐赠
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本书使用 GitBook 发布
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >docker环境安装</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <div id="anchor-navigation-ex-navbar"><i class="fa fa-navicon"></i><ul><ul><li><span class="title-icon "></span><a href="#1&#x3001;docker&#x66F4;&#x6362;&#x963F;&#x91CC;&#x4E91;&#x955C;&#x50CF;&#x6E90;"><b></b>1&#x3001;docker&#x66F4;&#x6362;&#x963F;&#x91CC;&#x4E91;&#x955C;&#x50CF;&#x6E90;</a></li><li><span class="title-icon "></span><a href="#2&#x3001;&#x57FA;&#x4E8E;docker"><b></b>2&#x3001;&#x57FA;&#x4E8E;docker</a></li><li><span class="title-icon "></span><a href="#3&#x3001;docker-compose"><b></b>3&#x3001;docker-compose</a></li></ul></ul></div><a href="#" id="anchorNavigationExGoTop"><i class="fa fa-arrow-up"></i></a><p>php&#x73AF;&#x5883;&#x5B89;&#x88C5;</p>
+<h2 id="1&#x3001;docker&#x66F4;&#x6362;&#x963F;&#x91CC;&#x4E91;&#x955C;&#x50CF;&#x6E90;"><a name="1&#x3001;docker&#x66F4;&#x6362;&#x963F;&#x91CC;&#x4E91;&#x955C;&#x50CF;&#x6E90;" class="anchor-navigation-ex-anchor" href="#1&#x3001;docker&#x66F4;&#x6362;&#x963F;&#x91CC;&#x4E91;&#x955C;&#x50CF;&#x6E90;"><i class="fa fa-link" aria-hidden="true"></i></a><a name="1&#x3001;docker&#x66F4;&#x6362;&#x963F;&#x91CC;&#x4E91;&#x955C;&#x50CF;&#x6E90;" class="anchor-navigation-ex-anchor" href="#1&#x3001;docker&#x66F4;&#x6362;&#x963F;&#x91CC;&#x4E91;&#x955C;&#x50CF;&#x6E90;"><i class="fa fa-link" aria-hidden="true"></i></a>1&#x3001;docker&#x66F4;&#x6362;&#x963F;&#x91CC;&#x4E91;&#x955C;&#x50CF;&#x6E90;</h2>
+<pre><code>1.&#x5728;windows&#x547D;&#x4EE4;&#x884C;&#x6267;&#x884C;docker-machine ssh [machine-name]&#x8FDB;&#x5165;VM bash
+
+2.sudo vi /var/lib/boot2docker/profile
+
+3.&#x5728;--label provider=virtualbox&#x7684;&#x4E0B;&#x4E00;&#x884C;&#x6DFB;&#x52A0;
+--registry-mirror=https://k5paawyp.mirror.aliyuncs.com
+
+4.&#x91CD;&#x542F;docker&#x670D;&#x52A1;&#xFF1A;
+sudo /etc/init.d/docker restart&#x6216;&#x8005;&#x91CD;&#x542F;VM&#xFF1A;exit&#x9000;&#x51FA;VM bash&#xFF0C;
+&#x5728;windows&#x547D;&#x4EE4;&#x884C;&#x4E2D;&#x6267;&#x884C;docker-machine restart
+5.&#x76F4;&#x63A5;&#x6267;&#x884C;&#x547D;&#x4EE4;&#xFF1A;ggdocker-machine ssh default &quot;echo &apos;EXTRA_ARGS=\&quot;--registry-mirror=https://k5paawyp.mirror.aliyuncs.com\&quot;&apos;  sudo tee -a /var/lib/boot2dock
+er/profile&quot; docker-machine restart default
+</code></pre><h2 id="2&#x3001;&#x57FA;&#x4E8E;docker"><a name="2&#x3001;&#x57FA;&#x4E8E;docker" class="anchor-navigation-ex-anchor" href="#2&#x3001;&#x57FA;&#x4E8E;docker"><i class="fa fa-link" aria-hidden="true"></i></a><a name="2&#x3001;&#x57FA;&#x4E8E;docker" class="anchor-navigation-ex-anchor" href="#2&#x3001;&#x57FA;&#x4E8E;docker"><i class="fa fa-link" aria-hidden="true"></i></a>2&#x3001;&#x57FA;&#x4E8E;docker</h2>
+<blockquote>
+<p>[!NOTE]
+&#x76EE;&#x5F55;&#x7ED3;&#x6784;</p>
+</blockquote>
+<pre><code>    &#x251C;&#x2500;config            &#xFF08;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x76EE;&#x5F55;&#xFF09;
+    |  &#x251C;&#x2500;conf.d      &#xFF08;nginx&#x7684;conf.d&#xFF09;
+    |  &#x251C;&#x2500;mysql.cnf   &#xFF08;mysql&#x914D;&#x7F6E;&#xFF09;
+    |  &#x251C;&#x2500;redis.conf  &#xFF08;redis&#x914D;&#x7F6E;&#xFF09;
+    &#x251C;&#x2500;log              &#xFF08;&#x65E5;&#x5FD7;&#x76EE;&#x5F55;&#xFF09;
+    |  &#x251C;&#x2500;mysql       &#xFF08;mysql&#x65E5;&#x5FD7;&#xFF09;
+    &#x251C;&#x2500;mysql             &#xFF08;mysql&#x6570;&#x636E;&#x76EE;&#x5F55;&#xFF09;
+    &#x251C;&#x2500;docker-compose.yaml  &#xFF08;docker-composer&#xFF09;
+</code></pre><blockquote>
+<p>[!NOTE]
+docker-composer.yaml</p>
+</blockquote>
+<pre><code>version: &quot;3&quot;
+services:
+  mysql:
+    image: mysql:5.6
+    ports:
+      - &quot;3306:3306&quot;
+    volumes:
+      - ./conf/mysql.cnf:/etc/mysql/conf.d/mysql.cnf:ro
+      - ./mysql:/var/lib/mysql/new/:rw
+      - ./log/mysql/:/var/log/mysql/:rw
+    restart: always
+    networks:
+      - default
+    environment:
+      MYSQL_ROOT_PASSWORD: &quot;123456&quot;
+      TZ: &quot;$TZ&quot;
+
+  redis:
+    image: redis:5.0.3-alpine
+    ports:
+      - &quot;6379:6379&quot;
+    volumes:
+      - ./conf/redis.conf:/etc/redis.conf:ro
+    restart: always
+    entrypoint: [&quot;redis-server&quot;, &quot;/etc/redis.conf&quot;]
+    environment:
+      TZ: &quot;TZ=Asia/Shanghai&quot;
+    networks:
+      - default
+  memcached:
+    image: memcached:latest
+    ports:
+      - &quot;11211:11211&quot;
+</code></pre><h2 id="3&#x3001;docker-compose"><a name="3&#x3001;docker-compose" class="anchor-navigation-ex-anchor" href="#3&#x3001;docker-compose"><i class="fa fa-link" aria-hidden="true"></i></a><a name="3&#x3001;docker-compose" class="anchor-navigation-ex-anchor" href="#3&#x3001;docker-compose"><i class="fa fa-link" aria-hidden="true"></i></a>3&#x3001;docker-compose</h2>
+<pre><code>docker-compose up  &#x7F16;&#x8BD1;&#x5E76;&#x542F;&#x52A8;
+docker-compose restart &#x91CD;&#x542F;&#x5BB9;&#x5668;
+</code></pre><footer class="page-footer"><span class="copyright">powered by Gitbook</span><span class="footer-modification">&#x8BE5;&#x6587;&#x4EF6;&#x6700;&#x540E;&#x4FEE;&#x6539;&#x65F6;&#x95F4;&#xFF1A;
+2021-10-24 17:38:56
+</span></footer>
+<script>console.log("plugin-popup....");document.onclick = function(e){ e.target.tagName === "IMG" && window.open(e.target.src,e.target.src)}</script><style>img{cursor:pointer}</style>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="./" class="navigation navigation-prev " aria-label="Previous page: 入门指南">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="git.html" class="navigation navigation-next " aria-label="Next page: 项目配置以及启动">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"docker环境安装","level":"1.2.1","depth":2,"next":{"title":"项目配置以及启动","level":"1.2.2","depth":2,"path":"入门/git.md","ref":"入门/git.md","articles":[]},"previous":{"title":"入门指南","level":"1.2","depth":1,"path":"入门/README.md","ref":"入门/README.md","articles":[{"title":"docker环境安装","level":"1.2.1","depth":2,"path":"入门/docker-install.md","ref":"入门/docker-install.md","articles":[]},{"title":"项目配置以及启动","level":"1.2.2","depth":2,"path":"入门/git.md","ref":"入门/git.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-lunr","-search","search-pro","ancre-navigation","expandable-chapters","chapter-fold","highlight","tbfed-pagefooter","code","flexible-alerts","popup","localized-footer","anchor-navigation-ex"],"styles":{"website":"styles/website.css","ebook":"styles/ebook.css","pdf":"styles/pdf.css","mobi":"styles/mobi.css","epub":"styles/epub.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"","modify_label":"该文件最后修改时间：","modify_format":"YYYY-MM-DD HH:mm:ss"},"chapter-fold":{},"search-pro":{},"popup":{},"localized-footer":{"filename":"./FOOTER.md","hline":true},"code":{"copyButtons":true},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"anchor-navigation-ex":{"associatedWithSummary":true,"float":{"floatIcon":"fa fa-navicon","level1Icon":"","level2Icon":"","level3Icon":"","showLevelIcon":false},"mode":"float","multipleH1":true,"pageTop":{"level1Icon":"","level2Icon":"","level3Icon":"","showLevelIcon":false},"printLog":false,"showGoTop":true,"showLevel":false},"ancre-navigation":{"associatedWithSummary":true,"float":{"level1Icon":"","level2Icon":"","level3Icon":"","showLevelIcon":false},"mode":"float","multipleH1":true,"pageTop":{"level1Icon":"","level2Icon":"","level3Icon":"","showLevelIcon":false},"printLog":false,"showLevel":true},"flexible-alerts":{"danger":{"className":"danger","icon":"fa fa-ban","label":"Attention"},"note":{"className":"info","icon":"fa fa-info-circle","label":"Note"},"style":"callout","tip":{"className":"tip","icon":"fa fa-lightbulb-o","label":"Tip"},"warning":{"className":"warning","icon":"fa fa-exclamation-triangle","label":"Warning"}},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"expandable-chapters":{}},"theme":"default","keywords":"开源[https://github.com/18211167516/Go-Gin-Api]使用手册,markdown,gitbook,","author":"18211167516@163.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Go-Gin-Api开源项目","language":"zh-hans","links":{"sidebar":{"github连接":"https://github.com/18211167516/Go-Gin-Api"}},"gitbook":"*","description":"go开源项目开发"},"file":{"path":"入门/docker-install.md","mtime":"2021-10-24T09:38:56.196Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-10-24T10:29:31.178Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search-pro/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-expandable-chapters/expandable-chapters.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-chapter-fold/chapter-fold.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-code/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-flexible-alerts/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
