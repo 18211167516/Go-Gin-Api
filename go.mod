@@ -27,12 +27,11 @@ require (
 	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/mojocn/base64Captcha v1.3.5
 	github.com/pelletier/go-toml v1.9.4 // indirect
-	github.com/sirupsen/logrus v1.6.0
 	github.com/spf13/viper v1.7.1
 	github.com/stretchr/testify v1.7.0
 	github.com/swaggo/gin-swagger v1.3.2
 	github.com/swaggo/swag v1.6.7
-	go.uber.org/zap v1.19.1 // indirect
+	go.uber.org/zap v1.19.1
 	golang.org/x/sys v0.0.0-20211013075003-97ac67df715c // indirect
 	google.golang.org/protobuf v1.25.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15 // indirect

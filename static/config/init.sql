@@ -177,7 +177,7 @@ CREATE TABLE `sys_users` (
 -- ----------------------------
 -- Records of sys_users
 -- ----------------------------
-INSERT INTO `sys_users` VALUES ('1', '0000-00-00 00:00:00', '2021-10-19 16:28:34', null, 'admin', '管理员', 'e64b78fc3bc91bcbc7dc232ba8ec59e0', '1', '1');
+INSERT INTO `sys_users` VALUES ('1', '2021-10-19 16:28:34', '2021-10-19 16:28:34', null, 'admin', '管理员', 'e64b78fc3bc91bcbc7dc232ba8ec59e0', '1', '1');
 INSERT INTO `sys_users` VALUES ('2', '2021-10-14 11:57:38', '2021-10-14 11:57:38', '2021-10-14 18:53:58', '白翀', '', 'e10adc3949ba59abbe56e057f20f883e', '1', '2');
 INSERT INTO `sys_users` VALUES ('3', '2021-10-14 18:36:56', '2021-10-14 18:36:56', '2021-10-14 18:54:04', 'chonghua', '白', '1692fcfff3e01e7ba8cffc2baadef5f5', '1', '2');
 INSERT INTO `sys_users` VALUES ('4', '2021-10-14 18:46:01', '2021-10-19 16:32:39', null, 'tester', '测试专用', '6aca4053faeb36da0cf94aca1bd89d77', '1', '2');
