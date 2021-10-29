@@ -2,7 +2,7 @@ package routes
 
 import (
 	"go-api/app/middleware"
-	"go-api/app/services/core"
+	"go-api/tool"
 
 	"github.com/gin-gonic/gin"
 )
@@ -17,10 +17,11 @@ func testRoute(r *gin.Engine) {
 
 	test := r.Group("/test", middleware.DefaultLog(), middleware.Recovery())
 	{
+
 		test.GET("/ping", func(c *gin.Context) {
-			ret := core.Captcha()
+			tool.NewSecureCookie(c).SetCookie("aaa", "12321323", 86400, "/", "", false, true)
 			c.JSON(200, gin.H{
-				"message": ret,
+				"message": "",
 			})
 		})
 

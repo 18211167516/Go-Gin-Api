@@ -6,3 +6,4 @@ go-api_unix
 gga
 pid.lock
 log
+tmp/*

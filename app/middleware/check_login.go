@@ -9,8 +9,7 @@ import (
 
 func CheckLogin() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		//
-		if uid, _ := c.Cookie("uid"); uid != "" {
+		if uid, _ := tool.NewSecureCookie(c).GetCookie("uid"); uid != "" {
 			waitUse := &response.SysLoginUserResponse{}
 			tool.JsonToStruct([]byte(uid), &waitUse)
 			c.Set("waitUse", waitUse)

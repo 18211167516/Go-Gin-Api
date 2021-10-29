@@ -3,6 +3,11 @@ RUN_MODE = "debug"
 
 [casbin]
     ModelPath = 'static/config/rbac_model.conf'
+[cookie]
+    Mode = "AES_CBC"
+    key = "zx4d646d80884bfe"
+    iv  = "M/a92281101737a6"
+    padding = "PKCS7"
 [captcha]
     KeyLen = 4
     ImgWidth = 200
