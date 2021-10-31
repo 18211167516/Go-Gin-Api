@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>基础功能 · Go-Gin-Api开源项目</title>
+        <title>配置 · Go-Gin-Api开源项目</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -83,10 +83,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="配置.html" />
+    <link rel="next" href="路由.html" />
     
     
-    <link rel="prev" href="../核心架构/" />
+    <link rel="prev" href="./" />
     
 
     </head>
@@ -220,7 +220,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.5" data-path="./">
+        <li class="chapter " data-level="1.5" data-path="./">
             
                 <a href="./">
             
@@ -236,7 +236,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.5.1" data-path="配置.html">
+        <li class="chapter active" data-level="1.5.1" data-path="配置.html">
             
                 <a href="配置.html">
             
@@ -496,7 +496,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >基础功能</a>
+        <a href=".." >配置</a>
     </h1>
 </div>
 
@@ -511,12 +511,30 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <blockquote>
+                                <div id="anchor-navigation-ex-navbar"><i class="fa fa-navicon"></i><ul><ul><li><span class="title-icon "></span><a href="#&#x901A;&#x8FC7;&#x7ED3;&#x6784;&#x4F53;&#x83B7;&#x53D6;"><b></b>&#x901A;&#x8FC7;&#x7ED3;&#x6784;&#x4F53;&#x83B7;&#x53D6;</a></li><li><span class="title-icon "></span><a href="#&#x901A;&#x8FC7;viper&#x7684;get&#x7CFB;&#x5217;&#x65B9;&#x6CD5;"><b></b>&#x901A;&#x8FC7;viper&#x7684;Get&#x7CFB;&#x5217;&#x65B9;&#x6CD5;</a></li></ul></ul></div><a href="#" id="anchorNavigationExGoTop"><i class="fa fa-arrow-up"></i></a><blockquote>
 <p>[!NOTE]
-&#x4E3B;&#x8981;&#x770B;&#x81EA;&#x5B9E;&#x73B0;&#x7684;&#x4E00;&#x4E9B;&#x6838;&#x5FC3;&#x529F;&#x80FD; </p>
+&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x7684;&#x89E3;&#x6790;&#x4E3B;&#x8981;&#x91C7;&#x7528;&#x4E86;<code>viper</code></p>
 </blockquote>
-<footer class="page-footer"><span class="copyright">powered by Gitbook</span><span class="footer-modification">&#x8BE5;&#x6587;&#x4EF6;&#x6700;&#x540E;&#x4FEE;&#x6539;&#x65F6;&#x95F4;&#xFF1A;
-2021-10-24 18:08:53
+<ul>
+<li>&#x9879;&#x76EE;&#x5185;&#x4E3B;&#x8981;&#x91C7;&#x7528;&#x4E86;2&#x79CD;&#x65B9;&#x5F0F;&#x83B7;&#x53D6;&#x914D;&#x7F6E;&#x503C;</li>
+<li>&#x652F;&#x6301;&#x9ED8;&#x8BA4;&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4EE5;&#x53CA;&#x547D;&#x4EE4;&#x8BBE;&#x7F6E;&#x914D;&#x7F6E;&#x6587;&#x4EF6;</li>
+<li>&#x9879;&#x76EE;&#x652F;&#x6301;go1.16embed&#x7279;&#x6027;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x4F1A;&#x628A;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x6253;&#x5305;&#x5230;&#x9879;&#x76EE;&#x91CC;</li>
+<li>&#x540C;&#x65F6;&#x652F;&#x6301;&#x76D1;&#x542C;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x7684;&#x4FEE;&#x6539;&#xFF0C;&#x4FEE;&#x6539;&#x65F6;&#x81EA;&#x52A8;&#x52A0;&#x8F7D;&#x65B0;&#x7684;&#x914D;&#x7F6E;</li>
+<li>&#x5173;&#x4E8E;&#x914D;&#x7F6E;&#x521D;&#x59CB;&#x5316;&#x4EE3;&#x7801;&#xFF1A;core.Viper()</li>
+<li>&#x6211;&#x4EEC;&#x4EE5;&#x83B7;&#x53D6;log&#x7684;&#x914D;&#x7F6E;&#x4E3A;&#x4F8B;&#xFF1A;</li>
+</ul>
+<h2 id="&#x901A;&#x8FC7;&#x7ED3;&#x6784;&#x4F53;&#x83B7;&#x53D6;"><a name="&#x901A;&#x8FC7;&#x7ED3;&#x6784;&#x4F53;&#x83B7;&#x53D6;" class="anchor-navigation-ex-anchor" href="#&#x901A;&#x8FC7;&#x7ED3;&#x6784;&#x4F53;&#x83B7;&#x53D6;"><i class="fa fa-link" aria-hidden="true"></i></a><a name="&#x901A;&#x8FC7;&#x7ED3;&#x6784;&#x4F53;&#x83B7;&#x53D6;" class="anchor-navigation-ex-anchor" href="#&#x901A;&#x8FC7;&#x7ED3;&#x6784;&#x4F53;&#x83B7;&#x53D6;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x901A;&#x8FC7;&#x7ED3;&#x6784;&#x4F53;&#x83B7;&#x53D6;</h2>
+<blockquote>
+<p>&#x7ED3;&#x6784;&#x4F53;&#x4E3B;&#x8981;&#x5B9A;&#x4E49;&#x5728;config&#x76EE;&#x5F55;&#x4E0B;&#xFF0C;&#x6838;&#x5FC3;&#x662F;config.go</p>
+</blockquote>
+<pre><code>import (&quot;go-api/global&quot;)
+
+global.CF.Log.LogInConsole
+</code></pre><h2 id="&#x901A;&#x8FC7;viper&#x7684;get&#x7CFB;&#x5217;&#x65B9;&#x6CD5;"><a name="&#x901A;&#x8FC7;viper&#x7684;get&#x7CFB;&#x5217;&#x65B9;&#x6CD5;" class="anchor-navigation-ex-anchor" href="#&#x901A;&#x8FC7;viper&#x7684;get&#x7CFB;&#x5217;&#x65B9;&#x6CD5;"><i class="fa fa-link" aria-hidden="true"></i></a><a name="&#x901A;&#x8FC7;viper&#x7684;get&#x7CFB;&#x5217;&#x65B9;&#x6CD5;" class="anchor-navigation-ex-anchor" href="#&#x901A;&#x8FC7;viper&#x7684;get&#x7CFB;&#x5217;&#x65B9;&#x6CD5;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x901A;&#x8FC7;<code>viper</code>&#x7684;<code>Get</code>&#x7CFB;&#x5217;&#x65B9;&#x6CD5;</h2>
+<pre><code>import (&quot;go-api/global&quot;)
+global.VP.GetBool(&quot;log.LogInConsole&quot;)
+</code></pre><footer class="page-footer"><span class="copyright">powered by Gitbook</span><span class="footer-modification">&#x8BE5;&#x6587;&#x4EF6;&#x6700;&#x540E;&#x4FEE;&#x6539;&#x65F6;&#x95F4;&#xFF1A;
+2021-10-31 16:40:37
 </span></footer>
 <script>console.log("plugin-popup....");document.onclick = function(e){ e.target.tagName === "IMG" && window.open(e.target.src,e.target.src)}</script><style>img{cursor:pointer}</style>
                                 
@@ -545,12 +563,12 @@
 
             
                 
-                <a href="../核心架构/" class="navigation navigation-prev " aria-label="Previous page: 项目架构">
+                <a href="./" class="navigation navigation-prev " aria-label="Previous page: 基础功能">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="配置.html" class="navigation navigation-next " aria-label="Next page: 配置">
+                <a href="路由.html" class="navigation navigation-next " aria-label="Next page: 路由">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -561,7 +579,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"基础功能","level":"1.5","depth":1,"next":{"title":"配置","level":"1.5.1","depth":2,"path":"功能/配置.md","ref":"功能/配置.md","articles":[]},"previous":{"title":"项目架构","level":"1.4","depth":1,"path":"核心架构/README.md","ref":"核心架构/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-lunr","-search","search-pro","ancre-navigation","expandable-chapters","chapter-fold","highlight","tbfed-pagefooter","code","flexible-alerts","popup","localized-footer","anchor-navigation-ex"],"styles":{"website":"styles/website.css","ebook":"styles/ebook.css","pdf":"styles/pdf.css","mobi":"styles/mobi.css","epub":"styles/epub.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"","modify_label":"该文件最后修改时间：","modify_format":"YYYY-MM-DD HH:mm:ss"},"chapter-fold":{},"search-pro":{},"popup":{},"localized-footer":{"filename":"./FOOTER.md","hline":true},"code":{"copyButtons":true},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"anchor-navigation-ex":{"associatedWithSummary":true,"float":{"floatIcon":"fa fa-navicon","level1Icon":"","level2Icon":"","level3Icon":"","showLevelIcon":false},"mode":"float","multipleH1":true,"pageTop":{"level1Icon":"","level2Icon":"","level3Icon":"","showLevelIcon":false},"printLog":false,"showGoTop":true,"showLevel":false},"ancre-navigation":{"associatedWithSummary":true,"float":{"level1Icon":"","level2Icon":"","level3Icon":"","showLevelIcon":false},"mode":"float","multipleH1":true,"pageTop":{"level1Icon":"","level2Icon":"","level3Icon":"","showLevelIcon":false},"printLog":false,"showLevel":true},"flexible-alerts":{"danger":{"className":"danger","icon":"fa fa-ban","label":"Attention"},"note":{"className":"info","icon":"fa fa-info-circle","label":"Note"},"style":"callout","tip":{"className":"tip","icon":"fa fa-lightbulb-o","label":"Tip"},"warning":{"className":"warning","icon":"fa fa-exclamation-triangle","label":"Warning"}},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"expandable-chapters":{}},"theme":"default","keywords":"开源[https://github.com/18211167516/Go-Gin-Api]使用手册,markdown,gitbook,","author":"18211167516@163.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Go-Gin-Api开源项目","language":"zh-hans","links":{"sidebar":{"github连接":"https://github.com/18211167516/Go-Gin-Api"}},"gitbook":"*","description":"go开源项目开发"},"file":{"path":"功能/README.md","mtime":"2021-10-24T10:08:53.291Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-10-31T10:43:00.411Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"配置","level":"1.5.1","depth":2,"next":{"title":"路由","level":"1.5.2","depth":2,"path":"功能/路由.md","ref":"功能/路由.md","articles":[]},"previous":{"title":"基础功能","level":"1.5","depth":1,"path":"功能/README.md","ref":"功能/README.md","articles":[{"title":"配置","level":"1.5.1","depth":2,"path":"功能/配置.md","ref":"功能/配置.md","articles":[]},{"title":"路由","level":"1.5.2","depth":2,"path":"功能/路由.md","ref":"功能/路由.md","articles":[]},{"title":"中间件","level":"1.5.3","depth":2,"path":"功能/中间件.md","ref":"功能/中间件.md","articles":[]},{"title":"控制器","level":"1.5.4","depth":2,"path":"功能/控制器.md","ref":"功能/控制器.md","articles":[]},{"title":"模板视图","level":"1.5.5","depth":2,"path":"功能/视图.md","ref":"功能/视图.md","articles":[]},{"title":"表单验证","level":"1.5.6","depth":2,"path":"功能/表单验证.md","ref":"功能/表单验证.md","articles":[]},{"title":"错误","level":"1.5.7","depth":2,"path":"功能/错误.md","ref":"功能/错误.md","articles":[]},{"title":"统一返回","level":"1.5.8","depth":2,"path":"功能/统一返回.md","ref":"功能/统一返回.md","articles":[]},{"title":"日志","level":"1.5.9","depth":2,"path":"功能/日志.md","ref":"功能/日志.md","articles":[]},{"title":"gorm","level":"1.5.10","depth":2,"path":"功能/gorm.md","ref":"功能/gorm.md","articles":[]},{"title":"热重启","level":"1.5.11","depth":2,"path":"功能/热重启.md","ref":"功能/热重启.md","articles":[]},{"title":"命令行","level":"1.5.12","depth":2,"path":"功能/命令行.md","ref":"功能/命令行.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-lunr","-search","search-pro","ancre-navigation","expandable-chapters","chapter-fold","highlight","tbfed-pagefooter","code","flexible-alerts","popup","localized-footer","anchor-navigation-ex"],"styles":{"website":"styles/website.css","ebook":"styles/ebook.css","pdf":"styles/pdf.css","mobi":"styles/mobi.css","epub":"styles/epub.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"","modify_label":"该文件最后修改时间：","modify_format":"YYYY-MM-DD HH:mm:ss"},"chapter-fold":{},"search-pro":{},"popup":{},"localized-footer":{"filename":"./FOOTER.md","hline":true},"code":{"copyButtons":true},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"anchor-navigation-ex":{"associatedWithSummary":true,"float":{"floatIcon":"fa fa-navicon","level1Icon":"","level2Icon":"","level3Icon":"","showLevelIcon":false},"mode":"float","multipleH1":true,"pageTop":{"level1Icon":"","level2Icon":"","level3Icon":"","showLevelIcon":false},"printLog":false,"showGoTop":true,"showLevel":false},"ancre-navigation":{"associatedWithSummary":true,"float":{"level1Icon":"","level2Icon":"","level3Icon":"","showLevelIcon":false},"mode":"float","multipleH1":true,"pageTop":{"level1Icon":"","level2Icon":"","level3Icon":"","showLevelIcon":false},"printLog":false,"showLevel":true},"flexible-alerts":{"danger":{"className":"danger","icon":"fa fa-ban","label":"Attention"},"note":{"className":"info","icon":"fa fa-info-circle","label":"Note"},"style":"callout","tip":{"className":"tip","icon":"fa fa-lightbulb-o","label":"Tip"},"warning":{"className":"warning","icon":"fa fa-exclamation-triangle","label":"Warning"}},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"expandable-chapters":{}},"theme":"default","keywords":"开源[https://github.com/18211167516/Go-Gin-Api]使用手册,markdown,gitbook,","author":"18211167516@163.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Go-Gin-Api开源项目","language":"zh-hans","links":{"sidebar":{"github连接":"https://github.com/18211167516/Go-Gin-Api"}},"gitbook":"*","description":"go开源项目开发"},"file":{"path":"功能/配置.md","mtime":"2021-10-31T08:40:37.183Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-10-31T10:43:00.411Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
