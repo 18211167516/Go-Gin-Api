@@ -20,7 +20,7 @@ func Gorm() *gorm.DB {
 }
 
 func GormMysql() *gorm.DB {
-	dsn := getMasterDsn()
+	dsn := GetMasterDsn()
 	mysqlConfig := mysql.Config{
 		DSN:                       dsn,   // DSN data source name
 		DefaultStringSize:         191,   // string 类型字段的默认长度
@@ -68,7 +68,7 @@ func GormMysql() *gorm.DB {
 }
 
 //获取主库dsn
-func getMasterDsn() string {
+func GetMasterDsn() string {
 	return fmt.Sprintf("%s:%s@tcp(%s)/%s?%s",
 		global.VP.GetString("mysql.master.User"),
 		global.VP.GetString("mysql.master.Password"),

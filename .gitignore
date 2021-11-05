@@ -7,3 +7,4 @@ gga
 pid.lock
 log
 tmp/*
+.vscode/launch.json
