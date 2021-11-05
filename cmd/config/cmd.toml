@@ -1,0 +1,6 @@
+## 默认去除表名尾部s字符串
+StructNameRtrims = true
+## 字段首字母大写的同时, 是否要把其他字母转换为小写,默认false不转换
+UcFirstOnly = false
+## 保存目录名
+SavePath = "../app/models"
