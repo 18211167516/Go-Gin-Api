@@ -63,14 +63,13 @@ var typeForMysqlToGo = map[string]string{
 }
 
 type Table2Struct struct {
-	dsn            string
-	db             *sql.DB
-	table          string
-	prefix         string
-	config         *T2tConfig
-	realNameMethod string
-	packageName    string // 生成struct的包名(默认为空的话, 则取名为: package model)
-	tagKey         string // tag字段的key值,默认是orm
+	dsn         string
+	db          *sql.DB
+	table       string
+	prefix      string
+	config      *T2tConfig
+	packageName string // 生成struct的包名(默认为空的话, 则取名为: package model)
+	tagKey      string // tag字段的key值,默认是orm
 }
 
 type T2tConfig struct {
@@ -95,6 +94,7 @@ type count struct {
 }
 
 var packageName = `package %s 
+
 `
 
 func NewTable2Struct(c *T2tConfig) *Table2Struct {
@@ -113,11 +113,6 @@ func (t *Table2Struct) TagKey(r string) *Table2Struct {
 	if r != "" {
 		t.tagKey = r
 	}
-	return t
-}
-
-func (t *Table2Struct) RealNameMethod(r string) *Table2Struct {
-	t.realNameMethod = r
 	return t
 }
 
@@ -170,13 +165,14 @@ func (t *Table2Struct) single_run(tmp string, tableRealName string, item []colum
 	structContent += tab(depth-1) + "}\n\n"
 
 	// 添加 method 获取真实表名
-	if t.realNameMethod != "" {
-		structContent += fmt.Sprintf("func (%s) %s() string {\n",
-			structName, t.realNameMethod)
-		structContent += fmt.Sprintf("%sreturn \"%s\"\n",
-			tab(depth), tableRealName)
-		structContent += "}\n\n"
-	}
+	//structContent += fmt.Sprintf(funcTmp1, structName, tableRealName)
+	//if t.realNameMethod != "" {
+	/* structContent += fmt.Sprintf("func (%s) %s() string {\n",
+		structName, t.realNameMethod)
+	structContent += fmt.Sprintf("%sreturn \"%s\"\n",
+		tab(depth), tableRealName)
+	structContent += "}\n\n" */
+	//}
 
 	var importContent string
 	if strings.Contains(structContent, "gorm.DeletedAt") {
@@ -259,6 +255,8 @@ func (t *Table2Struct) Run() {
 	} else {
 		t.packageName = fmt.Sprintf(packageName, base)
 	}
+
+	log.Printf("生成目录%s", t.config.SavePath)
 
 	// 获取表和字段的shcema
 	tableColumns, tableCount, err := t.getColumns()

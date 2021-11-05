@@ -35,24 +35,6 @@ var structCmd = &cmd.Command{
 			SavePath(file).
 			Dsn(dsn).
 			Run()
-		// 指定某个表,如果不指定,则默认全部表都迁移
-		/* Table(*table).
-		// 表前缀
-		Prefix(*prefix).
-		// 是否添加json tag
-		EnableJsonTag(*enableJsonTag).
-		// 生成struct的包名(默认为空的话, 则取名为: package model)
-		PackageName(*packageName).
-		// tag字段的key值,默认是gorm
-		TagKey(*tagKey).
-		// 是否添加结构体方法获取表名
-		RealNameMethod(*realNameMethod).
-		// 生成的结构体保存路径
-		SavePath(*file).
-		// 数据库dsn
-		Dsn(*dsn). */
-		// 执行
-		//Run()
 	},
 }
 
