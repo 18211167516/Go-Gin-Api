@@ -23,11 +23,7 @@
 ```git
     git clone https://github.com/18211167516/Go-Gin-Api.git
 ```
-2.  执行sql文件
-
-```
-static/config/init.sql
-```
+2.  cd到cmd目录，编译 然后执行cmd.exe initdb 当然了你要先创建数据库
 
 3. 登录后台
 
@@ -76,6 +72,32 @@ fresh
 
 配置文件 是runner.conf
 ```
+
+## 2.3 工具
+
+### 2.3.1 mysql转model
+
+```
+cd cmd
+go build . 
+
+./cmd.exe struct 
+
+详细命令
+./cmd.exe struct -h
+
+```
+
+### 2.3.2 初始化数据
+
+> 生成基础表和数据
+
+```
+cd cmd
+go build . 
+
+./cmd.exe initdb 
+```
 ## 3 技术选型
 
 - 用`Gin`快速搭建基础restful风格API，`Gin`是一个go语言编写的Web框架
@@ -119,7 +141,7 @@ fresh
 6. 支持[gorm](https://gorm.io/gorm) 数据库组件、支持读写分离，数据库主从
 7. 支持web界面 使用[ Light Year Admin 模板](https://gitee.com/yinqi/Light-Year-Admin-Using-Iframe)
 8. 支持多角色的RBAC权限控制，使用[casbin](https://github.com/casbin/casbin/v2)
-9. 后续支持工具生成项目
+9. cmd目录下支持生成model、支持数据库初始化
 10. 支持热编译[fresh](https://github.com/gravityblast/fresh)
 
 ### 联系作者
