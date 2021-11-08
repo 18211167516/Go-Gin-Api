@@ -19,7 +19,7 @@ var structCmd = &cmd.Command{
 		table, _ := Command.Flags().GetString("table")
 		prefix, _ := Command.Flags().GetString("prefix")
 		file, _ := Command.Flags().GetString("file")
-
+		global.VP = core.Viper("../static/config/app.toml") //初始化配置
 		dsn := initialize.GetMasterDsn()
 
 		vip := core.Viper("./config/cmd.toml")
@@ -40,7 +40,6 @@ var structCmd = &cmd.Command{
 
 func init() {
 	cmd.RootCmd.AddCommand(structCmd)
-	global.VP = core.Viper("../static/config/app.toml") //初始化配置
 	structCmd.Flags().StringP("table", "t", "", "指定的表名，如果未指定则全部导出")
 	structCmd.Flags().StringP("prefix", "p", "", "表前缀")
 	structCmd.Flags().StringP("file", "f", "", "生成的目录")

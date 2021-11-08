@@ -53,6 +53,7 @@ func Loginin(c *gin.Context) {
 		tool.JSONP(c, 40001, ret.GetMsg(), ret["data"])
 		return
 	} else {
+		//c.SetCookie("uid", tool.StructToJson(ret["data"]), 86400, "/", "", false, true)
 		tool.NewSecureCookie(c).SetCookie("uid", tool.StructToJson(ret["data"]), 86400, "/", "", false, true)
 		tool.JSONP(c, 0, ret.GetMsg(), tool.M{"url": "/admin/index"})
 	}
@@ -62,6 +63,6 @@ func Loginin(c *gin.Context) {
 // @Description  退出登录
 // @Router /admin/Loginout [post]
 func Loginout(c *gin.Context) {
-	c.SetCookie("uid", "", -1, "/", "", false, true)
+	tool.NewSecureCookie(c).SetCookie("uid", "", -1, "/", "", false, true)
 	tool.JSONP(c, 0, "退出成功", tool.M{"url": "/admin/login"})
 }

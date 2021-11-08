@@ -43,7 +43,7 @@ type Model struct {
 	ID        int            `gorm:"primary_key" json:"id" uri:"id"`
 	CreatedAt XTime          `json:"created_at" gorm:"autoCreateTime"`
 	UpdatedAt XTime          `json:"updated_at" gorm:"autoUpdateTime" `
-	DeletedAt gorm.DeletedAt `json:"deleted_at"`
+	DeletedAt gorm.DeletedAt `json:"deleted_at" gorm:"index"`
 }
 
 type DynamicTableName interface {

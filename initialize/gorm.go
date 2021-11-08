@@ -121,7 +121,7 @@ func getGromLogger() logger.Interface {
 		logger.Config{
 			SlowThreshold: time.Second, // Slow SQL threshold
 			LogLevel:      LogLevel,    // Log level
-			Colorful:      true,        // Disable color
+			Colorful:      false,       // Disable color
 		},
 	)
 
