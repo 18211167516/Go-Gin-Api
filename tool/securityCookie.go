@@ -17,19 +17,20 @@ type SecureCookie struct {
 }
 
 func NewSecureCookie(c *gin.Context) *SecureCookie {
-	//once.Do(func() {
-	var (
-		encryptMode = global.VP.GetString("cookie.Mode")
-		key         = global.VP.GetString("cookie.key")
-		iv          = global.VP.GetString("cookie.iv")
-		padding     = global.VP.GetString("cookie.padding")
-	)
-	crypt := encrypt.NewEncrypt(encryptMode, []byte(key), []byte(iv), padding)
-	SecurityCookie = &SecureCookie{
-		encrypt: crypt,
-		c:       c,
-	}
-	//})
+	once.Do(func() {
+		var (
+			encryptMode = global.VP.GetString("cookie.Mode")
+			key         = global.VP.GetString("cookie.key")
+			iv          = global.VP.GetString("cookie.iv")
+			padding     = global.VP.GetString("cookie.padding")
+		)
+		crypt := encrypt.NewEncrypt(encryptMode, []byte(key), []byte(iv), padding)
+		SecurityCookie = &SecureCookie{
+			encrypt: crypt,
+		}
+	})
+
+	SecurityCookie.c = c
 	return SecurityCookie
 }
 
