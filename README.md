@@ -1,6 +1,6 @@
 
 # Go-Gin-Api
-基于golang开源框架 gin封装的api框架
+基于 Gin 进行模块化设计的 API 框架，封装了常用功能，操作简单，致力于进行快速的业务研发。比如，jwt 签名验证、zap 日志收集、panic 异常捕获、swagger 文档生成、viper 配置文件解析、gorm 数据库组件、v2.0支持后台管理，使用Light Year Admin 模板、支持命令工具生成Model、初始化数据库 等等
 
 # 项目文档 
 
