@@ -19,7 +19,7 @@ var menu = []models.SysMenu{
 	{Model: models.Model{ID: 20, CreatedAt: models.XTime{time.Now()}, UpdatedAt: models.XTime{time.Now()}}, Name: "更新角色", Path: "/admin/updateRule/:id", ParentId: 16, Hidden: &astring, Sort: 0, Is_view: "0"},
 	{Model: models.Model{ID: 21, CreatedAt: models.XTime{time.Now()}, UpdatedAt: models.XTime{time.Now()}}, Name: "创建子菜单", Path: "/admin/createChildMenu/:parent_id", ParentId: 14, Hidden: &astring, Sort: 2, Is_view: "0"},
 	{Model: models.Model{ID: 24, CreatedAt: models.XTime{time.Now()}, UpdatedAt: models.XTime{time.Now()}}, Name: "更新菜单", Path: "/admin/updateMenu/:id", ParentId: 14, Hidden: &astring, Sort: 8, Is_view: "0"},
-	{Model: models.Model{ID: 25, CreatedAt: models.XTime{time.Now()}, UpdatedAt: models.XTime{time.Now()}}, Name: "删除菜单", Path: "/deleteMenu/:id", ParentId: 14, Hidden: &astring, Sort: 0, Is_view: "0"},
+	{Model: models.Model{ID: 25, CreatedAt: models.XTime{time.Now()}, UpdatedAt: models.XTime{time.Now()}}, Name: "删除菜单", Path: "/admin/deleteMenu/:id", ParentId: 14, Hidden: &astring, Sort: 0, Is_view: "0"},
 	{Model: models.Model{ID: 26, CreatedAt: models.XTime{time.Now()}, UpdatedAt: models.XTime{time.Now()}}, Name: "创建角色", Path: "/admin/createRule", ParentId: 16, Hidden: &astring, Sort: 2, Is_view: "0"},
 	{Model: models.Model{ID: 27, CreatedAt: models.XTime{time.Now()}, UpdatedAt: models.XTime{time.Now()}}, Name: "删除角色", Path: "/admin/deleteRule/:id", ParentId: 16, Hidden: &astring, Sort: 0, Is_view: "0"},
 	{Model: models.Model{ID: 28, CreatedAt: models.XTime{time.Now()}, UpdatedAt: models.XTime{time.Now()}}, Name: "权限管理", Path: "/admin/ruleRbacViwe/:id", ParentId: 16, Hidden: &astring, Sort: 0, Is_view: "0"},

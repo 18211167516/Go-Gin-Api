@@ -13,13 +13,15 @@ import (
 // @Description  角色列表视图
 // @Router /admin/rulesView [get]
 func RuleListView(c *gin.Context) {
+	uid := c.GetString("uid")
+	view_route := c.Request.URL.RequestURI()
 	data := tool.M{
 		"dataUrl":    "/admin/getRules",
 		"dataMethod": "POST",
-		"addUrl":     "/admin/createRule",
-		"editUrl":    "/admin/updateRule/:id",
-		"delUrl":     "/admin/deleteRule/:id",
-		"rbacUrl":    "/admin/ruleRbacViwe/:id",
+		"addUrl":     services.GetButtonPermission(uid, view_route, "/admin/createRule"),
+		"editUrl":    services.GetButtonPermission(uid, view_route, "/admin/updateRule/:id"),
+		"delUrl":     services.GetButtonPermission(uid, view_route, "/admin/deleteRule/:id"),
+		"rbacUrl":    services.GetButtonPermission(uid, view_route, "/admin/ruleRbacViwe/:id"),
 	}
 	tool.HTML(c, "rule/rule_list.html", data)
 }

@@ -3,6 +3,7 @@ package services
 import (
 	"errors"
 	"go-api/app/models"
+	"go-api/app/response"
 	"go-api/global"
 	"go-api/tool"
 
@@ -88,7 +89,7 @@ func formatAllMenus(allMenus []models.SysMenu, rule_id ...string) (newallMenus [
 	return newallMenus
 }
 
-//查询角色信息
+//查询菜单信息
 func GetMenuInfo(id string, field ...string) tool.M {
 	var menu models.SysMenu
 
@@ -96,6 +97,54 @@ func GetMenuInfo(id string, field ...string) tool.M {
 		return tool.DataReturn(false, "查无数据", err)
 	}
 	return tool.DataReturn(true, "查询成功", menu)
+}
+
+//获取菜单信息根据map条件
+func GetMenuByMap(where map[string]interface{}, field ...string) (menu models.SysMenu, err error) {
+	if err = global.DB.Select(field).Where(where).First(&menu).Error; err != nil {
+		return menu, err
+	}
+	return menu, nil
+}
+
+//获取单个button权限
+func GetButtonPermission(user_id, view_route, button_url string) response.Button {
+	rule_id := GetRulesForUser(user_id)
+	button := response.Button{
+		Url:         button_url,
+		Permissions: HasPolicyByRuleIdsPath(rule_id, button_url, "get|post"),
+	}
+	button.Allow = button.Ok()
+	return button
+}
+
+//获取按钮权限
+func GetButtonPermissions(user_id, view_route string) (bool, map[string]bool) {
+	var (
+		allMenus []models.SysMenu
+	)
+	//view_route去获取菜单id
+	menu, err := GetMenuByMap(map[string]interface{}{"path": view_route, "hidden": 0}, "id")
+	if err != nil {
+		return false, nil
+	}
+
+	if err := global.DB.Where("hidden = ? and parent_id = ?", 0, menu.ID).Order("sort desc").Find(&allMenus).Error; err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+		return false, nil
+	} else {
+		rule_id := GetRulesForUser(user_id)
+		buttonMenus := formatButton(allMenus, rule_id...)
+		return true, buttonMenus
+	}
+
+}
+
+func formatButton(allMenus []models.SysMenu, rule_id ...string) (newallMenus map[string]bool) {
+	newallMenus = make(map[string]bool, len(allMenus))
+	for _, v := range allMenus {
+		newallMenus[v.Path] = HasPolicyByRuleIdsPath(rule_id, v.Path, "get|post")
+	}
+	return newallMenus
 }
 
 //获取基础菜单列表

@@ -1,6 +1,6 @@
 
 # Go-Gin-Api
-基于 Gin 进行模块化设计的 API 框架，封装了常用功能，操作简单，致力于进行快速的业务研发。比如，jwt 签名验证、zap 日志收集、panic 异常捕获、swagger 文档生成、viper 配置文件解析、gorm 数据库组件、v2.0支持后台管理，使用Light Year Admin 模板、支持命令工具生成Model、初始化数据库 等等
+基于 Gin 进行模块化设计的 API 框架，封装了常用功能，操作简单，致力于进行快速的业务研发。比如，jwt 签名验证、zap 日志收集、panic 异常捕获、swagger 文档生成、viper 配置文件解析、gorm 数据库组件、v2.0支持后台管理、casbin权限管理可支持按钮级权限，使用Light Year Admin 模板、支持命令工具生成Model、初始化数据库 等等
 
 # 项目文档 
 
@@ -107,6 +107,8 @@ go build .
 - 热重启`HotStart`,我自己写的一个
 - 配置文件 使用`viper`解析
 - 日志：使用`logrus`实现日志记录。
+- 权限：使用`casbin`实现按钮级权限。
+- 命令行工具：自建命令行支持`mysql`转`Model`、生成初始化数据。
 
 ## 4. 项目架构
 ### 4.1 目录结构
@@ -140,7 +142,7 @@ go build .
 5. 支持go1.6.0 go:embed特性,打包包含静态文件
 6. 支持[gorm](https://gorm.io/gorm) 数据库组件、支持读写分离，数据库主从
 7. 支持web界面 使用[ Light Year Admin 模板](https://gitee.com/yinqi/Light-Year-Admin-Using-Iframe)
-8. 支持多角色的RBAC权限控制，使用[casbin](https://github.com/casbin/casbin/v2)
+8. 支持多角色的RBAC权限控制（支持到按钮级），使用[casbin](https://github.com/casbin/casbin/v2)
 9. cmd目录下支持生成model、支持数据库初始化
 10. 支持热编译[fresh](https://github.com/gravityblast/fresh)
 
