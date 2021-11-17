@@ -10,12 +10,11 @@ import (
 )
 
 // versionCmd represents the version command
-var structCmd = &cmd.Command{
-	Use:   "struct",
-	Short: "mysql转struct",
+var makeCmd = &cmd.Command{
+	Use:   "make:model",
+	Short: "读取表结构生成Model文件",
 	Long:  `读取mysql的表结构转成Model文件`,
 	Run: func(Command *cmd.Command, args []string) {
-
 		table, _ := Command.Flags().GetString("table")
 		prefix, _ := Command.Flags().GetString("prefix")
 		file, _ := Command.Flags().GetString("file")
@@ -39,8 +38,8 @@ var structCmd = &cmd.Command{
 }
 
 func init() {
-	cmd.RootCmd.AddCommand(structCmd)
-	structCmd.Flags().StringP("table", "t", "", "指定的表名，如果未指定则全部导出")
-	structCmd.Flags().StringP("prefix", "p", "", "表前缀")
-	structCmd.Flags().StringP("file", "f", "", "生成的目录")
+	cmd.RootCmd.AddCommand(makeCmd)
+	makeCmd.Flags().StringP("table", "t", "", "指定的表名，如果未指定则全部导出")
+	makeCmd.Flags().StringP("prefix", "p", "", "表前缀")
+	makeCmd.Flags().StringP("file", "f", "", "生成的目录")
 }
