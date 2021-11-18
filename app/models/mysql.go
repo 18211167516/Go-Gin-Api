@@ -14,6 +14,8 @@ type XTime struct {
 	time.Time
 }
 
+var AutoMigratFunc = make(map[string]func() interface{})
+
 // 2. 为 Xtime 重写 MarshaJSON 方法，在此方法中实现自定义格式的转换；
 func (t XTime) MarshalJSON() ([]byte, error) {
 	output := fmt.Sprintf("\"%s\"", t.Format("2006-01-02 15:04:05"))
