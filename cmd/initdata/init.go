@@ -5,7 +5,6 @@ import (
 	"go-api/global"
 	"log"
 	"os"
-	"strings"
 
 	gormadapter "github.com/casbin/gorm-adapter/v3"
 	"gorm.io/gorm"
@@ -17,29 +16,6 @@ func InitMysqlData(db *gorm.DB) {
 	InitSysMenus(db)
 	InitCasbin(db)
 	log.Println("[Mysql]-->初始化数据成功")
-}
-
-func rtrim(str string) string {
-	if str[len(str)-1] == 's' {
-		str = str[0 : len(str)-1]
-	}
-	return str
-}
-
-//字符串转双驼峰写法
-func camelCase(str string) string {
-	var text string
-	for _, p := range strings.Split(str, "_") {
-		switch length := len(p); length {
-		case 0:
-		case 1:
-			text += strings.ToUpper(p[0:1])
-		default:
-			text += strings.ToUpper(p[0:1]) + p[1:]
-		}
-	}
-
-	return text
 }
 
 //通过model生成mysql
@@ -60,7 +36,7 @@ func AutoMigrate(db *gorm.DB, table string) {
 		}
 	}
 
-	log.Println("[make:mysql]-->生成数据表【%s】成功", table)
+	log.Println("[make:mysql]-->生成数据表【", table, "】成功")
 
 }
 
