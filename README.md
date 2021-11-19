@@ -81,10 +81,10 @@ fresh
 cd cmd
 go build . 
 
-./cmd.exe struct 
+./cmd.exe make:model 
 
 详细命令
-./cmd.exe struct -h
+./cmd.exe make:model -h
 
 ```
 
@@ -97,6 +97,42 @@ cd cmd
 go build . 
 
 ./cmd.exe initdb 
+```
+
+### 2.3.3 make:mysql
+
+> 根据model生成数据表
+
+```
+./cmd.exe make:model -t=Test
+```
+
+### 2.3.4 make:command
+
+> 生成command命令
+
+```
+生成make-service命令：同时会将-转成:
+./cmd.exe make:command -n=make-service
+```
+
+### 2.3.5 make:service
+
+> 生成service
+
+```
+根据app/models/test Test
+生成默认文件 TestService.go
+./cmd.exe make:service -m=test/Test 
+生成自定义文件 testSerive.go
+./cmd.exe make:service -m=test/Test -f=testService
+生成到自定义目录
+./cmd.exe make:service -m=test/Test -p=test
+```
+
+```
+会把-转成：
+./cmd.exe make:command -n=make-service
 ```
 ## 3 技术选型
 

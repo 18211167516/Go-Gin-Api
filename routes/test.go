@@ -3,6 +3,7 @@ package routes
 import (
 	"go-api/app/middleware"
 	"go-api/app/services"
+	"go-api/tool"
 
 	"github.com/gin-gonic/gin"
 )
@@ -19,10 +20,9 @@ func testRoute(r *gin.Engine) {
 	{
 
 		test.GET("/ping", func(c *gin.Context) {
-			_, ret := services.GetButtonPermissions("1", "/admin/rulesView")
-			//tool.NewSecureCookie(c).SetCookie("aaa", "12321323", 86400, "/", "", false, true)
-
-			c.JSON(200, ret)
+			maps := make(map[string]interface{})
+			ret := services.GetRoleList(maps, tool.DefaultGetOffset(c), 10)
+			tool.JSONP(c, 0, ret.GetMsg(), ret["data"])
 		})
 
 		test.GET("/panic", func(c *gin.Context) {

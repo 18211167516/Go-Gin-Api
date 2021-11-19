@@ -1,7 +1,7 @@
 package main
 
 import (
-	"go-api/cmd/initdata"
+	"go-api/cmd/util"
 	"go-api/core"
 	"go-api/global"
 	"go-api/initialize"
@@ -12,14 +12,21 @@ import (
 // versionCmd represents the version command
 var makeMysqlCmd = &cmd.Command{
 	Use:   "make:mysql",
-	Short: "读取表结构生成Model文件",
-	Long:  `读取mysql的表结构转成Model文件`,
+	Short: "读取model生成表",
+	Long:  `读取model生成数据库表结构`,
+	Example: `
+读取 Test要看init方法的key
+默认生成到app/models下
+./cmd.exe make:model -t=Test
+生成到app/models/test下
+./cmd.exe make:model -t=Test -f=test
+`,
 	Run: func(Command *cmd.Command, args []string) {
 		table, _ := Command.Flags().GetString("table")
 		global.VP = core.Viper("../static/config/app.toml") //初始化配置
 		global.VP.Set("mysql.global.LogMode", "Warn")
 		global.DB = initialize.Gorm() //初始化DB
-		initdata.AutoMigrate(global.DB, table)
+		util.AutoMigrate(global.DB, table)
 	},
 }
 

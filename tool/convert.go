@@ -57,10 +57,7 @@ func StructToMap(obj interface{}) map[string]interface{} {
 }
 
 func Rtrim(str string) string {
-	if str[len(str)-1] == 's' {
-		str = str[0 : len(str)-1]
-	}
-	return str
+	return strings.TrimSuffix(str, "s")
 }
 
 //字符串转双驼峰写法
