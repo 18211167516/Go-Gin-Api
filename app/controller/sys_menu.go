@@ -13,13 +13,14 @@ import (
 // @Description  菜单列表视图
 // @Router /admin/menusView  [get]
 func MenusView(c *gin.Context) {
-
+	uid := c.GetString("uid")
+	view_route := c.Request.URL.RequestURI()
 	list := services.GetMenu()
 	data := tool.M{
-		"addBaseUrl":  "/admin/createBaseMenu",
-		"addChildUrl": "/admin/createChildMenu/:parent_id",
-		"editUrl":     "/admin/updateMenu/:id",
-		"delUrl":      "/admin/deleteMenu/:id",
+		"addBaseUrl":  services.GetButtonPermission(uid, view_route, "/admin/createBaseMenu"),
+		"addChildUrl": services.GetButtonPermission(uid, view_route, "/admin/createChildMenu/:parent_id"),
+		"editUrl":     services.GetButtonPermission(uid, view_route, "/admin/updateMenu/:id"),
+		"delUrl":      services.GetButtonPermission(uid, view_route, "/admin/deleteMenu/:id"),
 		"list":        tool.StructToJson(list["data"]),
 	}
 

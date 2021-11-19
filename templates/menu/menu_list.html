@@ -10,7 +10,7 @@
         <div class="card">
           <header class="card-header"><div class="card-title">菜单管理</div></header>
           <div class="card-body">
-            <button id="btn_add" type="button" class="btn btn-primary m-r-5" onclick="addBase()">
+            <button id="btn_add" type="button" class="btn btn-primary m-r-5 {{call .addBaseUrl.Allow}}" onclick="addBase()">
                 <span class="mdi mdi-plus" aria-hidden="true"></span>新增
             </button>
             <table class="tree-table"></table>
@@ -161,21 +161,21 @@ $treeTable.bootstrapTable({
     
     treeShowField: 'name',
     parentIdField: 'parent_id',
-    pagination: true,                    // 是否显示分页
+    pagination: false,                    // 是否显示分页
     sidePagination: "client",            // 分页方式：client客户端分页，server服务端分页
     pageNumber: 1,                       // 初始化加载第一页，默认第一页
     pageSize: 20,                        // 每页的记录行数
     pageList: [10, 25, 50, 100],  
     onResetView: function(data) {
         $treeTable.treegrid({
-            initialState: 'collapsed', // 所有节点都折叠
+            initialState: 'expand', // 所有节点都折叠
             treeColumn: 1,
             //expanderExpandedClass: 'mdi mdi-folder-open',  // 可自定义图标样式
             //expanderCollapsedClass: 'mdi mdi-folder',
         });
         
         // 只展开树形的第一集节点
-        $treeTable.treegrid('getRootNodes').treegrid('expand');
+        //$treeTable.treegrid('getRootNodes').treegrid('expand');
     },
     onCheck: function(row) {
         var datas = $treeTable.bootstrapTable('getData');
@@ -196,12 +196,12 @@ $treeTable.bootstrapTable({
   
 // 操作按钮
 function operateFormatter(value, row, index) {
-    delUrl = "{{.delUrl}}";
+    delUrl = "{{.delUrl.Url}}";
     delUrl = delUrl.replace(/(:\w+)/,row.id)
     return [
-        '<a type="button" class="role-add btn btn-xs btn-default m-r-5" title="添加子菜单" data-toggle="tooltip"><i class="mdi mdi-plus"></i></a>',
-        '<a type="button" class="role-edit btn btn-xs btn-default m-r-5" title="修改菜单" data-toggle="tooltip"><i class="mdi mdi-pencil"></i></a>',
-        '<a href="'+delUrl+'" class="role-delete btn btn-xs btn-default ajax-post confirm" data-tips="确认删除吗" title="删除菜单"><i class="mdi mdi-delete"></i></a>'
+        '<a type="button" class="role-add btn btn-xs btn-default m-r-5 {{call .addChildUrl.Allow}}" title="添加子菜单" data-toggle="tooltip"><i class="mdi mdi-plus"></i></a>',
+        '<a type="button" class="role-edit btn btn-xs btn-default m-r-5 {{call .editUrl.Allow}}"" title="修改菜单" data-toggle="tooltip"><i class="mdi mdi-pencil"></i></a>',
+        '<a href="'+delUrl+'" class="role-delete btn btn-xs btn-default ajax-post confirm {{call .delUrl.Allow}}"" data-tips="确认删除吗" title="删除菜单"><i class="mdi mdi-delete"></i></a>'
     ].join('');
 }
 
@@ -233,7 +233,7 @@ function selectParentChecked(datas,row,id,pid){
 }
 
 function addBase() { 
-    url = "{{.addBaseUrl}}";
+    url = "{{.addBaseUrl.Url}}";
     console.log(url)
     $("#model").find('#modal-title').text("创建菜单")
     $('#model').find('input[type="reset"]').trigger("click")
@@ -243,7 +243,7 @@ function addBase() {
 
 //添加子菜单
 function add(row) {
-    url = "{{.addChildUrl}}";
+    url = "{{.addChildUrl.Url}}";
     url = url.replace(/(:\w+)/,row.id)
     console.log(url)
     $("#model").find('#modal-title').text("创建子菜单")
@@ -254,7 +254,7 @@ function add(row) {
 
 //编辑菜单
 function update(row) {
-    url = "{{.editUrl}}";
+    url = "{{.editUrl.Url}}";
     url = url.replace(/(:\w+)/,row.id)
     console.log(url)
     name = row.name;
@@ -274,7 +274,7 @@ function update(row) {
 //更新隐藏状态
 function updateStatus(id, state) {
     var newstate = (state == 1) ? 0 : 1; // 发送参数值跟当前参数值相反
-    url = "{{.editUrl}}";
+    url = "{{.editUrl.Url}}";
     url = url.replace(/(:\w+)/,id)
     console.log(url)
     $.ajax({

@@ -12,10 +12,11 @@
           <div id="toolbar" class="toolbar-btn-action">
             <form method="POST" action="javasctip:void(0)" id="Filter" class="form-inline">
               <div class="form-group">
-                <button id="btn_add" type="button" class="btn btn-primary m-r-5" data-toggle="modal" data-target="#add">
+                <button id="btn_add" type="button" class="btn btn-primary m-r-5 {{call .addUrl.Allow}}" data-toggle="modal" data-target="#add">
                   <span class="mdi mdi-plus" aria-hidden="true"></span>新增
                 </button>
               </div>
+              
               <div class="form-group">
                 <label class="sr-only" for="filter">Filter</label>
                 <div class="input-group">
@@ -43,7 +44,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form class="form-horizontal needs-validation ajax-form" name="addForm" id="addForm" novalidate action="{{.addUrl}}">
+        <form class="form-horizontal needs-validation ajax-form" name="addForm" id="addForm" novalidate action="{{.addUrl.Url}}">
           <div class="modal-body">
             <div class="form-group row">
               <label for="role_name" class="control-label col-sm-3">角色名称</label>
@@ -240,22 +241,22 @@ $('#Filter').submit(function(e){
 // 操作按钮
 function btnGroup (value, row, index)
 {
-    delUrl = "{{.delUrl}}";
+    delUrl = "{{.delUrl.Url}}";
     delUrl = delUrl.replace(/(:\w+)/,row.id)
-    rbacUrl = "{{.rbacUrl}}";
+    rbacUrl = "{{.rbacUrl.Url}}";
     rbacUrl = rbacUrl.replace(/(:\w+)/,row.id)
     console.log(delUrl,rbacUrl)
     let html =
-        '<a href="#edit" class="btn btn-xs btn-default m-r-5 edit-btn" title="编辑" data-toggle="tooltip"><i class="mdi mdi-pencil"></i></a>' +
-        '<a href="'+delUrl+'" class="btn btn-xs btn-default del-btn ajax-post confirm" data-tips="确认删除吗" title="删除"><i class="mdi mdi-window-close"></i></a>'+
-        '<a href="'+rbacUrl+'" class="btn btn-xs btn-default del-btn" title="设置权限"><i class="mdi mdi-seed-outline"></i></a>';
+        '<a href="#edit" class="btn btn-xs btn-default m-r-5 edit-btn {{call .editUrl.Allow}}" title="编辑" data-toggle="tooltip"><i class="mdi mdi-pencil"></i></a>' +
+        '<a href="'+delUrl+'" class="btn btn-xs btn-default del-btn ajax-post confirm {{call .delUrl.Allow}}" data-tips="确认删除吗" title="删除"><i class="mdi mdi-window-close"></i></a>'+
+        '<a href="'+rbacUrl+'" class="btn btn-xs btn-default {{call .rbacUrl.Allow}}" title="设置权限"><i class="mdi mdi-seed-outline"></i></a>';
     return html;
 }
 
 // 操作方法 - 编辑
 function editUser(row)
 {
-    url = "{{.editUrl}}";
+    url = "{{.editUrl.Url}}";
     url = url.replace(/(:\w+)/,row.id)
     console.log(url)
     name = row.role_name;

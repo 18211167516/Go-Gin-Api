@@ -13,14 +13,16 @@ import (
 // @Description  用户列表
 // @Router /admin/usersView [get]
 func UsersView(c *gin.Context) {
+	uid := c.GetString("uid")
+	view_route := c.Request.URL.RequestURI()
 	data := tool.M{
 		"dataUrl":    "/admin/getUsers",
 		"dataMethod": "POST",
-		"addUrl":     "/admin/createUser",
-		"editUrl":    "/admin/updateUser/:id",
-		"delUrl":     "/admin/deleteUser/:id",
-		"changeUrl":  "/admin/changePassword/:id",
-		"ruleUrl":    "/admin/userRuleView/:id",
+		"addUrl":     services.GetButtonPermission(uid, view_route, "/admin/createUser"),
+		"editUrl":    services.GetButtonPermission(uid, view_route, "/admin/updateUser/:id"),
+		"delUrl":     services.GetButtonPermission(uid, view_route, "/admin/deleteUser/:id"),
+		"ruleUrl":    services.GetButtonPermission(uid, view_route, "/admin/userRuleView/:id"),
+		"changeUrl":  services.GetButtonPermission(uid, view_route, "/admin/changePassword/:id"),
 	}
 
 	tool.HTML(c, "user/user_list.html", data)

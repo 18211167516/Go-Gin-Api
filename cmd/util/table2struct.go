@@ -1,4 +1,4 @@
-package tool
+package util
 
 import (
 	"database/sql"
@@ -20,6 +20,24 @@ var (
 `
 	tmpModel3 = `type %s struct {
 	models.Model
+`
+	funcTmp1 = `
+/*
+func init() {
+	AutoMigratFunc["%s"] = func() interface{} {
+		return %s{}
+	}
+}
+*/
+`
+	funcTmp2 = `
+/*
+func init() {
+	models.AutoMigratFunc["%s"] = func() interface{} {
+		return %s{}
+	}
+}
+*/
 `
 )
 
@@ -118,7 +136,7 @@ func (t *Table2Struct) TagKey(r string) *Table2Struct {
 
 func (t *Table2Struct) SavePath(p string) *Table2Struct {
 	if p != "" {
-		t.config.SavePath = p
+		t.config.SavePath = t.config.SavePath + p
 	}
 	return t
 }
@@ -179,10 +197,15 @@ func (t *Table2Struct) single_run(tmp string, tableRealName string, item []colum
 		importContent = "import \"gorm.io/gorm\"\n\n"
 	}
 
+	fucTmp := ""
 	if strings.Contains(structContent, "models") {
 		importContent = "import \"go-api/app/models\"\n\n"
+		fucTmp = funcTmp2
+	} else {
+		fucTmp = funcTmp1
 	}
 
+	structContent += fmt.Sprintf(fucTmp, structName, structName)
 	t.saveFile(tableName, importContent, structContent)
 }
 
@@ -190,7 +213,7 @@ func createDir(path string) error {
 	return os.MkdirAll(path, os.ModePerm)
 }
 
-func dirExists(path string) error {
+func DirExists(path string) error {
 	_, err := os.Stat(path)
 	if err == nil {
 		return nil
@@ -243,7 +266,7 @@ func (t *Table2Struct) Run() {
 	t.dialMysql()
 
 	// 校验并且生成目录
-	if err := dirExists(t.config.SavePath); err != nil {
+	if err := DirExists(t.config.SavePath); err != nil {
 		log.Printf("目录%s 错误 %s", t.config.SavePath, err)
 		return
 	}

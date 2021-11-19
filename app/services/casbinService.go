@@ -5,11 +5,15 @@ import (
 	"go-api/app/request"
 	"go-api/global"
 	"go-api/tool"
+	"sync"
 
 	"github.com/casbin/casbin/v2"
 	gormadapter "github.com/casbin/gorm-adapter/v3"
 	_ "github.com/go-sql-driver/mysql"
 )
+
+var once sync.Once
+var cas *casbin.Enforcer
 
 /*获取某个角色的权限*/
 func GetPolicyPathByRuleId(ruleID string) (pathMaps []request.CasbinInfo) {
@@ -118,9 +122,10 @@ func getDsn() string {
 
 /*获取Casbin*/
 func Casbin() *casbin.Enforcer {
-	//a, _ := gormadapter.NewAdapterByDB(global.DB)
-	a, _ := gormadapter.NewAdapter("mysql", getDsn(), true)
-	e, _ := casbin.NewEnforcer(global.VP.GetString("casbin.ModelPath"), a)
-	e.LoadPolicy()
-	return e
+	once.Do(func() {
+		a, _ := gormadapter.NewAdapter("mysql", getDsn(), true)
+		cas, _ = casbin.NewEnforcer(global.VP.GetString("casbin.ModelPath"), a, true)
+		cas.LoadPolicy()
+	})
+	return cas
 }

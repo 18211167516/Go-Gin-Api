@@ -17,11 +17,11 @@ func adminRoute(r *gin.Engine) {
 	r.POST("/admin/login", controller.Loginin)
 	//退出登录
 	r.POST("/admin/loginout", controller.Loginout)
+	//首页
+	r.GET("/admin/index", middleware.CheckLogin(), controller.Index)
 
 	admin := r.Group("/admin", middleware.DefaultLog(), middleware.Recovery(), middleware.CheckLogin(), middleware.Casbin_rbac())
 	{
-		//首页
-		admin.GET("/index", controller.Index)
 		//main页
 		admin.GET("/main", controller.Main)
 		//---用户管理---

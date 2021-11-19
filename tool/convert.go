@@ -55,3 +55,23 @@ func StructToMap(obj interface{}) map[string]interface{} {
 	}
 	return data
 }
+
+func Rtrim(str string) string {
+	return strings.TrimSuffix(str, "s")
+}
+
+//字符串转双驼峰写法
+func CamelCase(str string, separator string) string {
+	var text string
+	for _, p := range strings.Split(str, separator) {
+		switch length := len(p); length {
+		case 0:
+		case 1:
+			text += strings.ToUpper(p[0:1])
+		default:
+			text += strings.ToUpper(p[0:1]) + p[1:]
+		}
+	}
+
+	return text
+}
