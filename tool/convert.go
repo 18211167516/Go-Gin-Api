@@ -75,3 +75,40 @@ func CamelCase(str string, separator string) string {
 
 	return text
 }
+
+//字符串转单驼峰写法
+func SingleCamelCase(str string, separator string) string {
+	temp := strings.Split(str, separator)
+	var upperStr string
+	for y := 0; y < len(temp); y++ {
+		vv := []rune(temp[y])
+		if y != 0 {
+			for i := 0; i < len(vv); i++ {
+				if i == 0 {
+					vv[i] -= 32
+					upperStr += string(vv[i]) // + string(vv[i+1])
+				} else {
+					upperStr += string(vv[i])
+				}
+			}
+		}
+	}
+	return temp[0] + upperStr
+}
+
+//首字母大写
+func FirstUpper(s string) string {
+    if s == "" {
+        return ""
+    }
+    return strings.ToUpper(s[:1]) + s[1:]
+}
+
+// FirstLower 字符串首字母小写
+func FirstLower(s string) string {
+  if s == "" {
+      return ""
+  }
+  return strings.ToLower(s[:1]) + s[1:]
+}
+
