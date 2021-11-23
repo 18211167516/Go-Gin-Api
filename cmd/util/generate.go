@@ -156,9 +156,9 @@ func ControllerCreate(path, name, model, service string) (string, error) {
 	//视图名称取最后一位
 	ViewName := consqite[len(consqite)-1]
 	//控制器名称
-	ControllerName := tool.FirstUpper(ViewName)
+	ControllerName := tool.CamelCase(ViewName, "_")
 	//默认从path匹配 例如 path传 test,那么model默认匹配到 app/models 下的Test
-	ModelName := tool.FirstUpper(ViewName)
+	ModelName := tool.CamelCase(ViewName, "_")
 	ModelImport := "app/models"
 	ModelStruct := "models." + ModelName
 
@@ -207,7 +207,7 @@ func ControllerCreate(path, name, model, service string) (string, error) {
 		}
 	}
 
-	fileName := fmt.Sprintf("%sController.go", controller)
+	fileName := fmt.Sprintf("%s.go", controller)
 
 	path = strings.Join(consqite[:len(consqite)-2], "/")
 	// 校验并且生成目录

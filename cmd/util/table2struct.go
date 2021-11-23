@@ -97,12 +97,13 @@ type T2tConfig struct {
 }
 
 type column struct {
-	ColumnName    string
-	Type          string
-	Nullable      string
-	TableName     string
-	ColumnComment string
-	Tag           string
+	ColumnName     string
+	Type           string
+	Nullable       string
+	TableName      string
+	Column_default string
+	ColumnComment  string
+	Tag            string
 }
 
 type count struct {
@@ -365,7 +366,7 @@ func (t *Table2Struct) getColumns(table ...string) (tableColumns map[string][]co
 	}
 
 	// sql
-	var sqlStr = `SELECT COLUMN_NAME,DATA_TYPE,IS_NULLABLE,TABLE_NAME,COLUMN_COMMENT
+	var sqlStr = `SELECT COLUMN_NAME,DATA_TYPE,IS_NULLABLE,TABLE_NAME,IFNUll(COLUMN_DEFAULT,""),COLUMN_COMMENT
 		FROM information_schema.COLUMNS 
 		WHERE table_schema = DATABASE()`
 	// 是否指定了具体的table
@@ -384,7 +385,7 @@ func (t *Table2Struct) getColumns(table ...string) (tableColumns map[string][]co
 	defer rows.Close()
 	for rows.Next() {
 		col := column{}
-		err = rows.Scan(&col.ColumnName, &col.Type, &col.Nullable, &col.TableName, &col.ColumnComment)
+		err = rows.Scan(&col.ColumnName, &col.Type, &col.Nullable, &col.TableName, &col.Column_default, &col.ColumnComment)
 
 		if err != nil {
 			log.Println(err.Error())
@@ -412,6 +413,10 @@ func (t *Table2Struct) getColumns(table ...string) (tableColumns map[string][]co
 		}
 
 		tag = fmt.Sprintf("column:%s;", col.Tag)
+
+		if col.Column_default != "" {
+			tag += fmt.Sprintf("default:%s;", col.Column_default)
+		}
 
 		if col.ColumnComment != "" {
 			tag += fmt.Sprintf("comment:%s", col.ColumnComment)
