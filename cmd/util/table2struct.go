@@ -97,12 +97,13 @@ type T2tConfig struct {
 }
 
 type column struct {
-	ColumnName    string
-	Type          string
-	Nullable      string
-	TableName     string
-	ColumnComment string
-	Tag           string
+	ColumnName     string
+	Type           string
+	Nullable       string
+	TableName      string
+	Column_default string
+	ColumnComment  string
+	Tag            string
 }
 
 type count struct {
@@ -365,7 +366,7 @@ func (t *Table2Struct) getColumns(table ...string) (tableColumns map[string][]co
 	}
 
 	// sql
-	var sqlStr = `SELECT COLUMN_NAME,DATA_TYPE,IS_NULLABLE,TABLE_NAME,COLUMN_COMMENT
+	var sqlStr = `SELECT COLUMN_NAME,DATA_TYPE,IS_NULLABLE,TABLE_NAME,IFNUll(COLUMN_DEFAULT,""),COLUMN_COMMENT
 		FROM information_schema.COLUMNS 
 		WHERE table_schema = DATABASE()`
 	// 是否指定了具体的table
@@ -384,7 +385,7 @@ func (t *Table2Struct) getColumns(table ...string) (tableColumns map[string][]co
 	defer rows.Close()
 	for rows.Next() {
 		col := column{}
-		err = rows.Scan(&col.ColumnName, &col.Type, &col.Nullable, &col.TableName, &col.ColumnComment)
+		err = rows.Scan(&col.ColumnName, &col.Type, &col.Nullable, &col.TableName, &col.Column_default, &col.ColumnComment)
 
 		if err != nil {
 			log.Println(err.Error())
@@ -394,7 +395,7 @@ func (t *Table2Struct) getColumns(table ...string) (tableColumns map[string][]co
 		if tableCount[col.TableName].Cnt == 4 && (col.ColumnName == "id" || col.ColumnName == "created_at" || col.ColumnName == "updated_at" || col.ColumnName == "deleted_at") {
 			continue
 		}
-		var formTag, jsonTag, tag string
+		var formTag, tag string
 
 		col.Tag = col.ColumnName
 		col.ColumnName = t.camelCase(col.ColumnName)
@@ -404,20 +405,24 @@ func (t *Table2Struct) getColumns(table ...string) (tableColumns map[string][]co
 		}
 		col.Tag = strings.ToLower(col.Tag)
 
-		jsonTag = t.camelCase(col.Tag)
+		//jsonTag = t.camelCase(col.Tag)
 		if col.Tag == "id" {
 			formTag = fmt.Sprintf(" uri:\"%s\"", "id")
 		} else {
-			formTag = fmt.Sprintf(" form:\"%s\"", jsonTag)
+			formTag = fmt.Sprintf(" form:\"%s\"", col.Tag)
 		}
 
 		tag = fmt.Sprintf("column:%s;", col.Tag)
 
+		if col.Column_default != "" {
+			tag += fmt.Sprintf("default:%s;", col.Column_default)
+		}
+
 		if col.ColumnComment != "" {
 			tag += fmt.Sprintf("comment:%s", col.ColumnComment)
-			col.Tag = fmt.Sprintf("`desc:\"%s\" %s:\"%s\" json:\"%s\" %s`", col.ColumnComment, t.tagKey, tag, jsonTag, formTag)
+			col.Tag = fmt.Sprintf("`desc:\"%s\" %s:\"%s\" json:\"%s\" %s`", col.ColumnComment, t.tagKey, tag, col.Tag, formTag)
 		} else {
-			col.Tag = fmt.Sprintf("`%s:\"%s\" json:\"%s\" %s`", t.tagKey, tag, jsonTag, formTag)
+			col.Tag = fmt.Sprintf("`%s:\"%s\" json:\"%s\" %s`", t.tagKey, tag, col.Tag, formTag)
 		}
 
 		if col.ColumnName == "Id" {
