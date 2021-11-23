@@ -18,8 +18,8 @@ import (
 
 // @Summary {{.Name}}列表视图
 // @Description  {{.Name}}列表视图
-// @Router /admin/{{.ControllerName}}View [get] 
-func {{.ControllerName}}View(c *gin.Context) {
+// @Router /admin/{{.ViewName}}View [get] 
+func {{.ControllerName}}Views(c *gin.Context) {
 	uid := c.GetString("uid")
 	view_route := c.Request.URL.RequestURI()
 	data := tool.M{

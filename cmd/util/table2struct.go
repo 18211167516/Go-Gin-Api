@@ -394,7 +394,7 @@ func (t *Table2Struct) getColumns(table ...string) (tableColumns map[string][]co
 		if tableCount[col.TableName].Cnt == 4 && (col.ColumnName == "id" || col.ColumnName == "created_at" || col.ColumnName == "updated_at" || col.ColumnName == "deleted_at") {
 			continue
 		}
-		var formTag, jsonTag, tag string
+		var formTag, tag string
 
 		col.Tag = col.ColumnName
 		col.ColumnName = t.camelCase(col.ColumnName)
@@ -404,20 +404,20 @@ func (t *Table2Struct) getColumns(table ...string) (tableColumns map[string][]co
 		}
 		col.Tag = strings.ToLower(col.Tag)
 
-		jsonTag = t.camelCase(col.Tag)
+		//jsonTag = t.camelCase(col.Tag)
 		if col.Tag == "id" {
 			formTag = fmt.Sprintf(" uri:\"%s\"", "id")
 		} else {
-			formTag = fmt.Sprintf(" form:\"%s\"", jsonTag)
+			formTag = fmt.Sprintf(" form:\"%s\"", col.Tag)
 		}
 
 		tag = fmt.Sprintf("column:%s;", col.Tag)
 
 		if col.ColumnComment != "" {
 			tag += fmt.Sprintf("comment:%s", col.ColumnComment)
-			col.Tag = fmt.Sprintf("`desc:\"%s\" %s:\"%s\" json:\"%s\" %s`", col.ColumnComment, t.tagKey, tag, jsonTag, formTag)
+			col.Tag = fmt.Sprintf("`desc:\"%s\" %s:\"%s\" json:\"%s\" %s`", col.ColumnComment, t.tagKey, tag, col.Tag, formTag)
 		} else {
-			col.Tag = fmt.Sprintf("`%s:\"%s\" json:\"%s\" %s`", t.tagKey, tag, jsonTag, formTag)
+			col.Tag = fmt.Sprintf("`%s:\"%s\" json:\"%s\" %s`", t.tagKey, tag, col.Tag, formTag)
 		}
 
 		if col.ColumnName == "Id" {

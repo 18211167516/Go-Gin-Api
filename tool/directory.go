@@ -1,6 +1,7 @@
 package tool
 
 import (
+	"errors"
 	"go-api/global"
 	"os"
 
@@ -22,6 +23,23 @@ func PathExists(path string) (bool, error) {
 		return false, nil
 	}
 	return false, err
+}
+
+//@author: [18211167516](https://github.com/18211167516)
+//@function: CreateFile
+//@description: 创建文件
+//@param: filename string
+//@return: os.File, error
+func CreateFile(filename string) (*os.File, error) {
+	exist, err := PathExists(filename)
+	if err != nil {
+		return nil, err
+	}
+	if exist {
+		return nil, errors.New("file already exist")
+	} else {
+		return os.Create(filename)
+	}
 }
 
 //@author: [piexlmax](https://github.com/piexlmax)

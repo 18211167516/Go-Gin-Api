@@ -24,7 +24,6 @@ service是app/services/TestService
 		name, _ := Command.Flags().GetString("name")
 		model, _ := Command.Flags().GetString("model")
 		service, _ := Command.Flags().GetString("service")
-		log.Println(os.Args)
 		//
 		if serName, err := util.ControllerCreate(file, name, model, service); err != nil {
 			log.Printf("[make:controller]-->【%s】生成错误 %v\n", serName, err)
@@ -37,7 +36,7 @@ service是app/services/TestService
 
 func init() {
 	cmd.RootCmd.AddCommand(MakeControllerCmd)
-	MakeControllerCmd.Flags().StringP("file", "f", "", "生成的service路径加名称,必须指定")
+	MakeControllerCmd.Flags().StringP("file", "f", "", "生成的控制器路径加名称,必须指定")
 	MakeControllerCmd.Flags().StringP("name", "n", "", "生成控制器的中文注释名")
 	MakeControllerCmd.Flags().StringP("model", "m", "", "指定的Model,未指定会按file匹配")
 	MakeControllerCmd.Flags().StringP("service", "s", "", "指定的service,未指定会按file匹配")

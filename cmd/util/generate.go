@@ -39,7 +39,13 @@ type controllerStruct struct {
 	ServiceName    string //调用的服务名
 }
 
+type viewStruct struct {
+	Default string
+	Desc    string
+}
+
 var defaultAppPath = "../app"
+var defaultTmpPath = "../templates"
 
 //通过model生成mysql
 func AutoMigrate(db *gorm.DB, table string) {
@@ -66,10 +72,7 @@ func AutoMigrate(db *gorm.DB, table string) {
 //创建命令文件
 func CommandCreate(use, fileName, cmdName, cmdParent string) error {
 	cmdFilePath := fmt.Sprintf("%s.go", fileName)
-	if success, _ := tool.PathExists(cmdFilePath); success {
-		return errors.New("文件已存在")
-	}
-	cmdFile, err := os.Create(cmdFilePath)
+	cmdFile, err := tool.CreateFile(cmdFilePath)
 	if err != nil {
 		return err
 	}
@@ -114,16 +117,12 @@ func ServiceCreate(model, fileName, path string) (string, error) {
 		fileName = fmt.Sprintf("%s.go", fileName)
 	}
 
-	if success, _ := tool.PathExists(path + fileName); success {
-		return path + fileName, errors.New("文件已存在")
-	}
-
 	// 校验并且生成目录
 	if err := DirExists(path); err != nil {
 		return path, err
 	}
 
-	File, err := os.Create(path + fileName)
+	File, err := tool.CreateFile(path + fileName)
 	if err != nil {
 		return path + fileName, err
 	}
@@ -209,18 +208,14 @@ func ControllerCreate(path, name, model, service string) (string, error) {
 	}
 
 	fileName := fmt.Sprintf("%sController.go", controller)
-	if success, _ := tool.PathExists(fileName); success {
-		return fileName, errors.New("文件已存在")
-	}
 
 	path = strings.Join(consqite[:len(consqite)-2], "/")
-	fmt.Println(path)
 	// 校验并且生成目录
 	if err := DirExists(path); err != nil {
 		return path, err
 	}
 
-	File, err := os.Create(fileName)
+	File, err := tool.CreateFile(fileName)
 	if err != nil {
 		return fileName, err
 	}
@@ -244,4 +239,39 @@ func ControllerCreate(path, name, model, service string) (string, error) {
 		return fileName, err
 	}
 	return fileName, nil
+}
+
+//创建列表视图
+func ViewCreate(path, desc string) error {
+
+	fileArr := strings.Split(path, "/")
+
+	if len(fileArr) != 2 {
+		return errors.New("只支持二级目录")
+	}
+
+	newpath := defaultTmpPath + "/" + fileArr[0]
+	// 校验并且生成目录
+	if err := DirExists(newpath); err != nil {
+		return err
+	}
+
+	fileName := newpath + "/" + fileArr[1] + ".html"
+	File, err := tool.CreateFile(fileName)
+	if err != nil {
+		return err
+	}
+	defer File.Close()
+
+	v := viewStruct{
+		Default: path,
+		Desc:    desc,
+	}
+
+	controllerTemplate := template.Must(template.New("view").Delims("<!--{", "}-->").Parse(tpl.ViewTemplate()))
+	err = controllerTemplate.Execute(File, v)
+	if err != nil {
+		return err
+	}
+	return nil
 }
