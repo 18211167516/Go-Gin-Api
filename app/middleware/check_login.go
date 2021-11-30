@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"go-api/app/response"
+	"go-api/core/session"
 	"go-api/global"
 	"go-api/tool"
 
@@ -10,14 +11,18 @@ import (
 
 func CheckLogin() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		if uid, err := tool.NewSecureCookie(c).GetCookie("uid"); uid != "" {
+		s := session.Default(c)
+		uid := s.Get("waitUse")
+		//uid, _ := tool.NewSecureCookie(c).GetCookie("uid")
+		if uid != nil {
+			uid := uid.(string)
 			waitUse := &response.SysLoginUserResponse{}
 			tool.JsonToStruct([]byte(uid), &waitUse)
 			c.Set("waitUse", waitUse)
 			c.Set("uid", waitUse.ID)
 			c.Set("uType", waitUse.Type)
 		} else {
-			global.LOG.Error(err.Error())
+			global.LOG.Error("用户未登录")
 			tool.Output(c, 401, "用户未登录", nil)
 			c.Abort()
 		}

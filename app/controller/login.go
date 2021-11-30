@@ -4,6 +4,7 @@ import (
 	"go-api/app/request"
 	"go-api/app/services"
 	"go-api/app/services/core"
+	"go-api/core/session"
 	"go-api/tool"
 
 	"github.com/gin-gonic/gin"
@@ -54,7 +55,10 @@ func Loginin(c *gin.Context) {
 		return
 	} else {
 		//c.SetCookie("uid", tool.StructToJson(ret["data"]), 86400, "/", "", false, true)
-		tool.NewSecureCookie(c).SetCookie("uid", tool.StructToJson(ret["data"]), 86400, "/", "", false, true)
+		//tool.NewSecureCookie(c).SetCookie("uid", tool.StructToJson(ret["data"]), 86400, "/", "", false, true)
+		s := session.Default(c)
+		s.Set("waitUse", tool.StructToJson(ret["data"]))
+		s.Save()
 		tool.JSONP(c, 0, ret.GetMsg(), tool.M{"url": "/admin/index"})
 	}
 }
@@ -63,6 +67,9 @@ func Loginin(c *gin.Context) {
 // @Description  退出登录
 // @Router /admin/Loginout [post]
 func Loginout(c *gin.Context) {
-	tool.NewSecureCookie(c).SetCookie("uid", "", -1, "/", "", false, true)
+	s := session.Default(c)
+	s.Delete("waitUse")
+	s.Save()
+	//tool.NewSecureCookie(c).SetCookie("uid", "", -1, "/", "", false, true)
 	tool.JSONP(c, 0, "退出成功", tool.M{"url": "/admin/login"})
 }

@@ -3,6 +3,7 @@ package routes
 import (
 	"go-api/app/controller"
 	"go-api/app/middleware"
+	coremiddleware "go-api/core/session/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,14 +14,18 @@ func adminRoute(r *gin.Engine) {
 	r.GET("/admin/error/:code/:message", controller.Error)
 	//登录页
 	r.GET("/admin/login", controller.Login)
-	//登录
-	r.POST("/admin/login", controller.Loginin)
-	//退出登录
-	r.POST("/admin/loginout", controller.Loginout)
-	//首页
-	r.GET("/admin/index", middleware.CheckLogin(), controller.Index)
 
-	admin := r.Group("/admin", middleware.DefaultLog(), middleware.Recovery(), middleware.CheckLogin(), middleware.Casbin_rbac())
+	root := r.Group("/", coremiddleware.StartSession())
+	{
+		//登录
+		root.POST("/admin/login", controller.Loginin)
+		//退出登录
+		root.POST("/admin/loginout", controller.Loginout)
+		//首页
+		root.GET("/admin/index", middleware.CheckLogin(), controller.Index)
+	}
+
+	admin := r.Group("/admin", middleware.DefaultLog(), middleware.Recovery(), coremiddleware.StartSession(), middleware.CheckLogin(), middleware.Casbin_rbac())
 	{
 		//main页
 		admin.GET("/main", controller.Main)
