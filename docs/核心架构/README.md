@@ -13,15 +13,15 @@
     |  ├─request        （数据展示层定义结构体）
     |  ├─services       （服务层）
     ├─config            （配置包）
-    ├─core  	        （內核）
+    ├─core  	        （內核、项目核心库）
     ├─docs  	        （swagger文档目录）
     ├─global            （全局变量）
     ├─initialize         (初始化)  
     ├─routes            （路由）
     ├─static            （静态文件包括config目录）
-    ├─templates         （模板）
+    ├─templates         （模板目录）
     ├─tests             （测试）
-    └─tool	            （工具）
+    └─tool	            （工具包）
 
 ```
 
@@ -34,6 +34,6 @@
 5. 支持go1.6.0 go:embed特性,打包包含静态文件
 6. 支持[gorm](https://gorm.io/gorm) 数据库组件、支持读写分离，数据库主从
 7. 支持web界面 使用[ Light Year Admin 模板](https://gitee.com/yinqi/Light-Year-Admin-Using-Iframe)
-8. 支持支持多角色的RBAC权限控制，使用[casbin](https://github.com/casbin/casbin/v2)
-9. 后续支持工具生成项目
+8. 支持支持多角色的RBAC权限控制[支持按钮级权限控制]，使用[casbin](https://github.com/casbin/casbin/v2)
+9. 支持工具快速生成`controller`、`model`、`service`、`view` 
 10. 支持热编译[fresh](https://github.com/gravityblast/fresh)
