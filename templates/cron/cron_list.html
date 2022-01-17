@@ -1,0 +1,110 @@
+{{define "cron/cron_list.html"}}
+{{template "common/header" .}}
+<link href="/public/static/js/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+<link href="/public/static/js/jquery-treegrid/jquery.treegrid.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container-fluid p-t-15">
+  <div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+          <header class="card-header"><div class="card-title">定时任务管理</div></header>
+          <div class="card-body">
+            <table id="tb_departments"></table>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+{{template "common/footer"}}
+
+<script src="/public/static/js/jquery-treegrid/jquery.treegrid.min.js"></script>
+<script src="/public/static/js/bootstrap-table/extensions/treegrid/bootstrap-table-treegrid.min.js"></script>
+<script>
+// tree-grid使用
+$table = $('#tb_departments')
+$table.bootstrapTable({
+    classes: 'table table-bordered table-hover table-striped',
+    url: {{.dataUrl}},
+    method: {{.dataMethod}},
+    contentType:"application/x-www-form-urlencoded",
+    dataType : 'json',        // 因为本示例中是跨域的调用,所以涉及到ajax都采用jsonp,
+    responseHandler: function(res) {//定义返回格式
+        return {
+            "total": res.data.total,//总页数
+            "rows": res.data.lists   //数据
+          };
+    },
+    uniqueId: 'id',
+    idField: 'id',             // 每行的唯一标识字段
+    toolbar: '#toolbar',       // 工具按钮容器
+    //clickToSelect: true,     // 是否启用点击选中行
+    //showColumns: true,         // 是否显示所有的列
+    showRefresh: true,         // 是否显示刷新按钮
+    //showToggle: true,        // 是否显示详细视图和列表视图的切换按钮(clickToSelect同时设置为true时点击会报错)
+    pagination: true,                    // 是否显示分页
+    columns: [
+        {
+            field: 'check',
+            checkbox: true
+        },
+        {
+            field: 'id',
+            title: '任务ID'
+        },
+        {
+            field: 'name',
+            title: '任务名称'
+        },
+        {
+            field: 'spec',
+            title: '跑批规则'
+        },
+        {
+            field: 'prev',
+            title: '上次执行时间'
+        },
+        {
+            field: 'next',
+            title: '下次执行时间'
+        },
+        {
+            field: 'operate',
+            title: '操作',
+            align: 'center',
+            events : {
+                /* 'click .cron-run': function (e, value, row, index) {
+                    run(row);
+                } */
+            },
+            formatter: operateFormatter
+        }
+    ],
+    
+    pagination: true,                    // 是否显示分页
+    sidePagination: "client",            // 分页方式：client客户端分页，server服务端分页
+    pageNumber: 1,                       // 初始化加载第一页，默认第一页
+    pageSize: 20,                        // 每页的记录行数
+    pageList: [10, 25, 50, 100],  
+    onLoadSuccess: function(data){
+        $("[data-toggle='tooltip']").tooltip();
+    }
+});
+  
+// 操作按钮
+function operateFormatter(value, row, index) {
+    url = "{{.runUrl.Url}}";
+    url = url.replace(/(:\w+)/,row.id)
+    delUrl = "{{.delUrl.Url}}";
+    delUrl = delUrl.replace(/(:\w+)/,row.id)
+    return [
+        '<a href="'+url+'" class="cron-run btn btn-xs btn-default ajax-post confirm m-r-5 {{call .runUrl.Allow}}"" data-tips="确认手动执行任务吗" title="手动执行" data-toggle="tooltip"><i class="mdi mdi-pencil"></i></a>',
+        '<a href="'+delUrl+'" class="role-delete btn btn-xs btn-default ajax-post confirm {{call .delUrl.Allow}}"" data-tips="确认删除吗" title="删除任务"><i class="mdi mdi-delete"></i></a>'
+    ].join('');
+}
+
+</script>
+</body>
+</html>
+{{end}}

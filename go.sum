@@ -17,6 +17,8 @@ github.com/18211167516/go-cmd v0.0.1 h1:sXahlLoHOgkK98jPrzCmbUbu197gmXM4PQjcjxJg
 github.com/18211167516/go-cmd v0.0.1/go.mod h1:vl/oSPyaIRCPwTcGu16F6C/hfH0jRAHd3StIpbuzQ7I=
 github.com/18211167516/hotstart v1.7.0 h1:7AW+ICe2Csb5OVp9/tVkDZbHw1Yxccq4NCsRb3vx30U=
 github.com/18211167516/hotstart v1.7.0/go.mod h1:2BHjjagxna4XLlSgDwSjRssBqyeq7NRsbhBcvvVe/bY=
+github.com/18211167516/robfig-cron/v3 v3.0.4 h1:Sz9zW77arlz34O2EJC3owpaSHxQNHnFJ5RYjkR3tKMI=
+github.com/18211167516/robfig-cron/v3 v3.0.4/go.mod h1:zEvo6MJXgi2X9aqZLZ/nFJTzSTeUwsPHXHOWrWOJEY8=
 github.com/18211167516/sessions v1.2.2 h1:J855CkKmjWGVm5MDmAegvw9P03mwSEyEc7FwBhJs9m0=
 github.com/18211167516/sessions v1.2.2/go.mod h1:2MlVi4cAy1w3Y5ntCtwOhw92VZ63qnZ2vJ8zKxs2BEI=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=

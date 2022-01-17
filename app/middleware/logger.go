@@ -64,9 +64,8 @@ var defaultLogFormatter = func(param *LogParams) {
 		zap.String("ip", param.ClientIP),
 		zap.String("method", param.Method),
 		zap.String("url", param.Path),
-		zap.String("Error", param.ErrorMessage),
 	}
-	global.LOG.Info("[ADMIN]", Fields...)
+	global.LOG.Named("Admin").Info(param.ErrorMessage, Fields...)
 }
 
 /*api格式化输出*/
@@ -80,7 +79,7 @@ var apiLogFormatter = func(param *LogParams) {
 		zap.String("request", param.request),
 		zap.String("Response", param.Response),
 	}
-	global.LOG.Info("[API]", Fields...)
+	global.LOG.Named("Api").Info(param.ErrorMessage, Fields...)
 }
 
 /*默认log兼容*/

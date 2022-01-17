@@ -16,10 +16,12 @@ import (
 
 func main() {
 
-	initEmbed()                   //初始化Embed
-	global.VP = core.Viper()      //初始化配置
-	global.LOG = initialize.Zap() //初始化日志
-	global.DB = initialize.Gorm() //初始化DB
+	initEmbed()                                   //初始化Embed
+	global.VP = core.Viper()                      //初始化配置
+	global.LOG = initialize.Zap("gga")            //初始化日志
+	global.CRONLOG = initialize.ZapSugar("cron")  //初始化cron日志
+	global.CRON = initialize.Cron(global.CRONLOG) //初始化cron
+	global.DB = initialize.Gorm()                 //初始化DB
 	//主进程结束前关闭数据库链接
 	sqlDB, _ := global.DB.DB()
 	defer sqlDB.Close()

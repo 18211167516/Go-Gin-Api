@@ -6,6 +6,7 @@ require (
 	github.com/18211167516/encrypt v0.0.0-20211029083938-0942b9fa0477
 	github.com/18211167516/go-cmd v0.0.1
 	github.com/18211167516/hotstart v1.7.0
+	github.com/18211167516/robfig-cron/v3 v3.0.4
 	github.com/18211167516/sessions v1.2.2
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
 	github.com/casbin/casbin/v2 v2.25.5

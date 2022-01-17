@@ -15,7 +15,11 @@ import (
 
 var level zapcore.Level
 
-func Zap() (logger *zap.Logger) {
+func ZapSugar(logName string) *zap.SugaredLogger {
+	return Zap(logName).Sugar().Named("Cron")
+}
+
+func Zap(logName string) (logger *zap.Logger) {
 	if ok, _ := tool.PathExists(global.CF.Log.LogDir); !ok { // 判断是否有LogDir文件夹
 		fmt.Printf("create %v directory\n", global.CF.Log.LogDir)
 		_ = os.Mkdir(global.CF.Log.LogDir, os.ModePerm)
@@ -39,15 +43,18 @@ func Zap() (logger *zap.Logger) {
 		level = zap.InfoLevel
 	}
 
+	if logName == "" {
+		logName = "gga"
+	}
+
 	if level == zap.DebugLevel || level == zap.ErrorLevel {
-		logger = zap.New(getEncoderCore(), zap.AddStacktrace(level))
+		logger = zap.New(getEncoderCore(logName), zap.AddStacktrace(level))
 	} else {
-		logger = zap.New(getEncoderCore())
+		logger = zap.New(getEncoderCore(logName))
 	}
 	if global.CF.Log.ShowLine {
 		logger = logger.WithOptions(zap.AddCaller())
 	}
-	//logger = logger.With(zap.Namespace(global.CF.Log.Prefix))
 
 	return logger
 }
@@ -75,13 +82,14 @@ func getEncoderConfig() (config zapcore.EncoderConfig) {
 func getEncoder() zapcore.Encoder {
 	if global.CF.Log.Formatter == "json" {
 		return zapcore.NewJSONEncoder(getEncoderConfig())
+
 	}
 	return zapcore.NewConsoleEncoder(getEncoderConfig())
 }
 
 // getEncoderCore 获取Encoder的zapcore.Core
-func getEncoderCore() (core zapcore.Core) {
-	writer, err := getWriteSyncer() // 使用file-rotatelogs进行日志分割
+func getEncoderCore(logName string) (core zapcore.Core) {
+	writer, err := getWriteSyncer(logName) // 使用file-rotatelogs进行日志分割
 	if err != nil {
 		fmt.Printf("Get Write Syncer Failed err:%v", err.Error())
 		return
@@ -95,10 +103,10 @@ func CustomTimeEncoder(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
 }
 
 //分割日志文件
-func getWriteSyncer() (zapcore.WriteSyncer, error) {
+func getWriteSyncer(logName string) (zapcore.WriteSyncer, error) {
 	if global.CF.Log.OutFile {
 		fileWriter, err := zaprotatelogs.New(
-			path.Join(global.CF.Log.LogDir, "%Y-%m-%d.log"),
+			path.Join(global.CF.Log.LogDir, "%Y-%m-%d."+logName+".log"),
 			zaprotatelogs.WithMaxAge(7*24*time.Hour),
 			zaprotatelogs.WithRotationTime(24*time.Hour),
 		)
