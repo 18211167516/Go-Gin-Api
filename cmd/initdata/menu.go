@@ -37,6 +37,10 @@ var menu = []models.SysMenu{
 	{Model: models.Model{ID: 44, CreatedAt: models.XTime{time.Now()}, UpdatedAt: models.XTime{time.Now()}}, Name: "更新个人信息", Path: "/admin/changeOwnInfo", ParentId: 33, Hidden: &astring, Sort: 0, Is_view: "0"},
 	{Model: models.Model{ID: 45, CreatedAt: models.XTime{time.Now()}, UpdatedAt: models.XTime{time.Now()}}, Name: "重置个人密码", Path: "/admin/changeOwnPassword/:id", ParentId: 33, Hidden: &astring, Sort: 0, Is_view: "0"},
 	{Model: models.Model{ID: 48, CreatedAt: models.XTime{time.Now()}, UpdatedAt: models.XTime{time.Now()}}, Name: "后台首页", Path: "/admin/main", ParentId: 0, Hidden: &astring, Sort: 10, Is_view: "1"},
+	{Model: models.Model{ID: 54, CreatedAt: models.XTime{time.Now()}, UpdatedAt: models.XTime{time.Now()}}, Name: "任务管理", Path: "/admin/CronListView", ParentId: 29, Hidden: &astring, Sort: 0, Is_view: "1"},
+	{Model: models.Model{ID: 55, CreatedAt: models.XTime{time.Now()}, UpdatedAt: models.XTime{time.Now()}}, Name: "手动执行", Path: "/admin/runCron/:id", ParentId: 54, Hidden: &astring, Sort: 0, Is_view: "0"},
+	{Model: models.Model{ID: 56, CreatedAt: models.XTime{time.Now()}, UpdatedAt: models.XTime{time.Now()}}, Name: "删除任务", Path: "/admin/deleteCron/:id", ParentId: 54, Hidden: &astring, Sort: 0, Is_view: "0"},
+	{Model: models.Model{ID: 57, CreatedAt: models.XTime{time.Now()}, UpdatedAt: models.XTime{time.Now()}}, Name: "获取任务列表", Path: "/admin/getCrons", ParentId: 54, Hidden: &astring, Sort: 0, Is_view: "0"},
 }
 
 func InitSysMenus(db *gorm.DB) {
