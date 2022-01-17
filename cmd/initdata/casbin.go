@@ -46,6 +46,10 @@ var casbin = []gormadapter.CasbinRule{
 	{Ptype: "p", V0: "40", V1: "/admin/changeOwnInfo", V2: "get|post"},
 	{Ptype: "p", V0: "40", V1: "/admin/changeOwnPassword/:id", V2: "get|post"},
 	{Ptype: "p", V0: "40", V1: "javascript:void(0)", V2: "get|post"},
+	{Ptype: "p", V0: "40", V1: "/admin/CronListView", V2: "get|post"},
+	{Ptype: "p", V0: "40", V1: "/admin/runCron/:id", V2: "get|post"},
+	{Ptype: "p", V0: "40", V1: "/admin/deleteCron/:id", V2: "get|post"},
+	{Ptype: "p", V0: "40", V1: "/admin/getCrons", V2: "get|post"},
 }
 
 func InitCasbin(db *gorm.DB) {

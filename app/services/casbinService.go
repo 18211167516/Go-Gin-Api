@@ -124,7 +124,7 @@ func getDsn() string {
 func Casbin() *casbin.Enforcer {
 	once.Do(func() {
 		a, _ := gormadapter.NewAdapter("mysql", getDsn(), true)
-		cas, _ = casbin.NewEnforcer(global.VP.GetString("casbin.ModelPath"), a, true)
+		cas, _ = casbin.NewEnforcer(global.VP.GetString("casbin.ModelPath"), a)
 		cas.LoadPolicy()
 	})
 	return cas

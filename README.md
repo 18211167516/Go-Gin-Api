@@ -158,10 +158,12 @@ go build .
     |  ├─request        （数据展示层定义结构体）
     |  ├─services       （服务层）
     ├─config            （配置包）
+    ├─cron              （定时脚本）
     ├─core  	        （內核）
     ├─docs  	        （swagger文档目录）
     ├─global            （全局变量）
-    ├─initialize         (初始化)  
+    ├─initialize         (初始化)
+    ├─log                (日志文件)
     ├─routes            （路由）
     ├─static            （静态文件包括config目录）
     ├─templates         （模板）

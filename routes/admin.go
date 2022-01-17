@@ -80,6 +80,16 @@ func adminRoute(r *gin.Engine) {
 		admin.POST("/updateMenu/:id", controller.UpdateMenu)
 		//删除菜单
 		admin.POST("/deleteMenu/:id", controller.DeleteMenu)
+
+		//--定时任务管理
+		//菜单列表视图
+		admin.GET("/CronListView", controller.CronListView)
+		//获取列表
+		admin.POST("/getCrons", controller.GetCrons)
+		//执行任务
+		admin.POST("/runCron/:id", controller.RunCron)
+		//删除任务
+		admin.POST("/deleteCron/:id", controller.DeleteCron)
 	}
 
 }

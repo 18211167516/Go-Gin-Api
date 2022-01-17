@@ -35,7 +35,7 @@ RUN_MODE = "debug"
     Level = "info"
     Formatter = "json"
     ShowLine = false
-    OutFile = false
+    OutFile = true
     LogInConsole = true
     LogDir = "log"
 [server]

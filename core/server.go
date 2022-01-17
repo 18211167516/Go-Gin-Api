@@ -2,6 +2,7 @@ package core
 
 import (
 	"fmt"
+	"go-api/cron"
 	"go-api/global"
 	"go-api/initialize"
 	"os"
@@ -14,10 +15,13 @@ import (
 func RunServer() {
 	//初始化路由
 	s := GetServer()
+	//初始化cron脚本
+	cron.Schedule()
+
 	global.VP.Set("Pid", os.Getpid())
 	fmt.Printf(`
 	欢迎使用 Go-Gin-Api
-	当前版本:V1.1.1
+	当前版本:V2.1.1
 	Server run :%d
 	PID :%d
 	`, global.VP.GetInt("server.HttpPort"), global.VP.Get("Pid"))
@@ -25,6 +29,9 @@ func RunServer() {
 	go CreatePid(global.VP.GetString("app.PidPath"), strconv.Itoa(os.Getpid()))
 	go handleSignals()
 	defer DelPid(global.VP.GetString("app.PidPath"))
+	//启动cron服务
+	global.CRON.Start()
+	//启动web服务
 	global.LOG.Error(s.ListenAndServe().Error())
 	//写入lock文件
 }
