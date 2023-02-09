@@ -12,7 +12,7 @@ require (
 	github.com/casbin/casbin/v2 v2.25.5
 	github.com/casbin/gorm-adapter/v3 v3.2.5
 	github.com/fsnotify/fsnotify v1.5.1
-	github.com/gin-gonic/gin v1.7.0
+	github.com/gin-gonic/gin v1.7.7
 	github.com/go-openapi/spec v0.19.9 // indirect
 	github.com/go-openapi/swag v0.19.9 // indirect
 	github.com/go-playground/locales v0.13.0
