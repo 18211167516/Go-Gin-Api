@@ -33,7 +33,7 @@ require (
 	github.com/swaggo/gin-swagger v1.3.2
 	github.com/swaggo/swag v1.6.7
 	go.uber.org/zap v1.19.1
-	golang.org/x/sys v0.0.0-20211013075003-97ac67df715c // indirect
+	golang.org/x/sys v0.1.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15 // indirect
 	gorm.io/driver/mysql v1.0.3
 	gorm.io/gorm v1.20.11
